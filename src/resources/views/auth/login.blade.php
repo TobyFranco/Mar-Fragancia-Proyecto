@@ -1,20 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head><title>Login - Mar Fragancia</title></head>
-<body>
-    <h1>Iniciar sesión</h1>
+@extends('layouts.app')
 
-    @if ($errors->any())
-        <div style="color:red">{{ $errors->first() }}</div>
-    @endif
+@section('title', 'Iniciar sesión')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-        <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required><br>
-        <input type="password" name="password" placeholder="Contraseña" required><br>
-        <button type="submit">Entrar</button>
-    </form>
+@section('content')
+    <div class="card">
+        <h1>Iniciar sesión</h1>
 
-    <p>¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate</a></p>
-</body>
-</html>
+        @if ($errors->any())
+            <div class="alert-error">{{ $errors->first() }}</div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+
+        <p style="margin-top:1rem">¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate</a></p>
+    </div>
+@endsection

@@ -1,2 +1,8 @@
-<h1>Panel Administrador</h1>
-<form method="POST" action="{{ route('logout') }}">@csrf<button>Salir</button></form>
+@extends('layouts.admin')
+
+@section('title', 'Dashboard')
+
+@section('content')
+    <h1>Bienvenido, {{ auth()->user()->nombre }}</h1>
+    <p>Panel de administración de Mar Fragancia.</p>
+@endsection

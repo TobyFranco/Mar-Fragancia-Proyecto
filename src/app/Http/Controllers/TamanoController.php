@@ -7,59 +7,53 @@ use Illuminate\Http\Request;
 
 class TamanoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tamanos = Tamano::orderBy('nombre')->paginate(10);
+        return view('admin.tamanos.index', compact('tamanos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.tamanos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nombre' => ['required', 'string', 'max:20', 'unique:tamanos,nombre'],
+            'descripcion' => ['nullable', 'string', 'max:100'],
+        ]);
+
+        Tamano::create($data);
+
+        return redirect()->route('admin.tamanos.index')->with('success', 'Tamaño creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Tamano $tamano)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Tamano $tamano)
     {
-        //
+        return view('admin.tamanos.edit', compact('tamano'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Tamano $tamano)
     {
-        //
+        $data = $request->validate([
+            'nombre' => ['required', 'string', 'max:20', 'unique:tamanos,nombre,' . $tamano->id],
+            'descripcion' => ['nullable', 'string', 'max:100'],
+        ]);
+
+        $tamano->update($data);
+
+        return redirect()->route('admin.tamanos.index')->with('success', 'Tamaño actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Tamano $tamano)
     {
-        //
+        if ($tamano->presentaciones()->exists()) {
+            return back()->with('error', 'No se puede eliminar: tiene presentaciones asociadas.');
+        }
+
+        $tamano->delete();
+        return redirect()->route('admin.tamanos.index')->with('success', 'Tamaño eliminado.');
     }
 }
