@@ -1,9 +1,13 @@
 @props(['lineas', 'ultimo', 'recomendados', 'subtotal'])
+@php($faltantes = array_diff(array_keys(session('carrito', [])), $lineas->pluck('presentacion.id')->all()))
+@foreach ($faltantes as $idFaltante)
+    <div class="form-errors" role="alert"><p>Quitá el decant que ya no está disponible para continuar.</p><form method="POST" action="{{ route('tienda.carrito.quitar', $idFaltante) }}">@csrf @method('DELETE')<button class="text-link" type="submit">Quitar decant no disponible</button></form></div>
+@endforeach
 @if (session('carrito_confirmacion'))<p class="cart-added" role="status"><x-phosphor-check-circle-light aria-hidden="true" /><span>{{ session('carrito_confirmacion') }}</span></p>@endif
 @if (session('aviso_carrito'))<p class="form-errors" role="status">{{ session('aviso_carrito') }}</p>@endif
 @if ($errors->has('carrito') || $errors->has('cantidad'))<div class="form-errors" role="alert">@foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach</div>@endif
 @if ($lineas->isEmpty())
-    <div class="search-empty"><x-phosphor-handbag-light aria-hidden="true" /><h2>Tu carrito está vacío</h2><p>Empezá por un decant de 5 ml: la forma más fácil de conocer una fragancia nueva.</p><a href="{{ route('tienda.inicio') }}#mas-probados" class="button">Ver los más probados</a></div>
+    <div class="search-empty"><x-phosphor-handbag-light aria-hidden="true" /><h2>Tu carrito está vacío</h2>@if (session('tienda_ultimo_pedido'))<a class="text-link" href="{{ route('tienda.pedido', session('tienda_ultimo_pedido')) }}">Volver a mi pedido {{ session('tienda_ultimo_pedido') }}</a>@endif<p>Empezá por un decant de 5 ml: la forma más fácil de conocer una fragancia nueva.</p><a href="{{ route('tienda.inicio') }}#mas-probados" class="button">Ver los más probados</a></div>
 @else
     <div class="cart-lines">
         @foreach ($lineas as $linea)
@@ -33,5 +37,5 @@
             @endforeach
         </section>
     @endif
-    <div class="cart-totals"><div><span>Subtotal ({{ $lineas->sum('cantidad') }} {{ $lineas->sum('cantidad') === 1 ? 'unidad' : 'unidades' }})</span><strong>{{ \App\Support\Moneda::gs($subtotal) }}</strong></div><p class="muted">El envío se calcula en el siguiente paso.</p><div class="cart-total"><span>Total</span><strong>{{ \App\Support\Moneda::gs($subtotal) }}</strong></div><a class="button" href="{{ url('/checkout') }}">Continuar con mis datos</a><a class="text-link" href="{{ route('tienda.catalogo') }}">Seguir comprando</a></div>
+    <div class="cart-totals"><div><span>Subtotal ({{ $lineas->sum('cantidad') }} {{ $lineas->sum('cantidad') === 1 ? 'unidad' : 'unidades' }})</span><strong>{{ \App\Support\Moneda::gs($subtotal) }}</strong></div><p class="muted">El envío se calcula en el siguiente paso.</p><div class="cart-total"><span>Total</span><strong>{{ \App\Support\Moneda::gs($subtotal) }}</strong></div><a class="button" href="{{ route('tienda.checkout') }}">Continuar con mis datos</a><a class="text-link" href="{{ route('tienda.catalogo') }}">Seguir comprando</a></div>
 @endif

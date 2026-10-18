@@ -27,12 +27,16 @@ async function until(expression) {
  }
  throw new Error('No se cumplió: ' + expression);
 }
+async function limpiarCarrito(width) {
+ await navigate(baseUrl + '/carrito', width);
+ await evaluate(`(async () => {for(const form of [...document.querySelectorAll('form')].filter(f=>f.querySelector('input[name=_method][value=DELETE]'))) await fetch(form.action,{method:'POST',body:new FormData(form)})})()`);
+}
 async function key(value) { await call('input.performActions', {context, actions:[{type:'key',id:'keyboard',actions:[{type:'keyDown',value},{type:'keyUp',value}]}]}) }
 async function metrics(){return JSON.parse(await evaluate(`JSON.stringify({width:innerWidth,scroll:document.documentElement.scrollWidth,font:getComputedStyle(document.body).fontFamily,h1:document.querySelector('h1')?.textContent,hero:document.querySelector('.hero')?.getBoundingClientRect().height})`))}
 async function contrast(selector) {
  return evaluate(`(() => {
   const style = getComputedStyle(document.querySelector(${JSON.stringify(selector)}));
-  const luminance = color => color.match(/[0-9.]+/g).slice(0,3).map(Number).map(v => v/255).map(v => v <= .04045 ? v/12.92 : ((v+.055)/1.055)**2.4).reduce((sum,v,i) => sum + v * [.2126,.7152,.0722][i],0);
+  const luminance = color => color.match(/[0-9.]+/g).slice(0,3).map(Number).map(v => color.startsWith('color(srgb') ? v : v/255).map(v => v <= .04045 ? v/12.92 : ((v+.055)/1.055)**2.4).reduce((sum,v,i) => sum + v * [.2126,.7152,.0722][i],0);
   const values = [luminance(style.color),luminance(style.backgroundColor)].sort((a,b) => a-b);
   return (values[1]+.05)/(values[0]+.05);
  })()`);
@@ -111,6 +115,7 @@ if (process.argv[2] === 'task6') {
 }
 if (process.argv[2] === 'task7') {
  for (const width of [1440,375]) {
+  await limpiarCarrito(width);
   await navigate(baseUrl + '/perfumes/sauvage',width);
   await evaluate(`document.querySelector('#agregar-perfume').requestSubmit()`);
   await until(`document.querySelector('.cart-dialog')?.open === true`);
@@ -138,6 +143,49 @@ if (process.argv[2] === 'task7') {
   await navigate(maqueta,width);
   await evaluate(`(() => {const root=document.querySelector('#s5 .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
   await capture(`maqueta-carrito-${width}`);
+ }
+}
+if (process.argv[2] === 'task8') {
+ for (const width of [1440,375]) {
+  await limpiarCarrito(width);
+  await navigate(baseUrl + '/perfumes/sauvage',width);
+  await evaluate(`document.querySelector('#agregar-perfume').requestSubmit()`);
+  await until(`document.querySelector('.cart-dialog')?.open === true`);
+  await navigate(baseUrl + '/checkout', width);
+  assert.ok((await metrics()).scroll <= width);
+  assert.equal(await evaluate(`document.querySelector('#checkout-total').textContent.trim()`), '₲ 55.000');
+  await evaluate(`document.querySelector('input[value="retiro"]').click()`); await settle();
+  assert.equal(await evaluate(`document.querySelector('#checkout-total').textContent.trim()`), '₲ 35.000');
+  assert.equal(await evaluate(`document.querySelector('#direccion').disabled`),true);
+  await evaluate(`document.querySelector('input[value="interior"]').click()`); await settle();
+  assert.equal(await evaluate(`document.querySelector('#checkout-envio').textContent.trim()`), 'A coordinar');
+  await evaluate(`document.querySelector('input[value="asuncion"]').click()`); await settle();
+  await capture(`checkout-${width}`);
+  assert.ok(await contrast('.button-whatsapp') >= 4.5, 'Contraste del botón WhatsApp >= 4.5');
+  await evaluate(`(() => {for(const [id,value] of Object.entries({nombre_contacto:'María Paz & Luz',telefono:'0981 23',ciudad:'Lambaré',barrio:'Centro',direccion:'Av. Cacique Lambaré 1234',referencia:'Portón negro'})){const input=document.getElementById(id);input.value=value;input.dispatchEvent(new Event('input',{bubbles:true}))}document.querySelector('.checkout-page').requestSubmit()})()`);
+  await until(`document.querySelector('#error-telefono')?.textContent.includes('Revisá el número')`);
+  await capture(`checkout-error-${width}`);
+  assert.equal(await evaluate(`document.querySelector('#nombre_contacto').value`),'María Paz & Luz');
+  await evaluate(`document.querySelector('#telefono').value='+595 981 234 567'`);
+  const resultado = await evaluate(`fetch(document.querySelector('.checkout-page').action,{method:'POST',body:new FormData(document.querySelector('.checkout-page')),redirect:'manual'}).then(r => r.type)`);
+  assert.equal(resultado,'opaqueredirect','Guarda el pedido sin abrir conexión a WhatsApp en esta prueba');
+  await navigate(baseUrl + '/carrito',width);
+  const pedidoUrl = await evaluate(`Array.from(document.querySelectorAll('a[href]')).find(a=>a.textContent.startsWith('Volver a mi pedido')).href`);
+  await navigate(pedidoUrl,width);
+  assert.ok((await metrics()).scroll <= width);
+  const whatsapp = await evaluate(`document.querySelector('.order-actions .button-whatsapp').href`);
+  assert.ok(whatsapp.includes('%23MF-'));
+  assert.equal(new URL(whatsapp).hash,'');
+  assert.ok(decodeURIComponent(new URL(whatsapp).search.slice(6)).includes('María Paz & Luz'));
+  await capture(`pedido-enviado-${width}`);
+  console.log('Checkout: métodos, total, errores, recuperación y URL codificada',width);
+ }
+ for (const [section,name] of [['s6','checkout'],['t3','pedido-enviado']]) {
+  for (const width of [1440,375]) {
+   await navigate(maqueta,width);
+   await evaluate(`(() => {const root=document.querySelector('#${section} .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
+   await capture(`maqueta-${name}-${width}`);
+  }
  }
 }
 } finally {
