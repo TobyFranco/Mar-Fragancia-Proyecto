@@ -1,4 +1,4 @@
-@props(['title' => 'Perfumes de lujo en decant'])
+@props(['title' => 'Perfumes de lujo en decant', 'mostrarCarrito' => true])
 <!doctype html>
 <html lang="es-PY">
 <head>
@@ -14,6 +14,6 @@
     <x-tienda.encabezado />
     <main id="contenido" tabindex="-1">{{ $slot }}</main>
     <x-tienda.pie />
-    @if (!request()->routeIs('tienda.carrito'))<x-tienda.carrito-panel />@endif
+    @if ($mostrarCarrito && !request()->routeIs('tienda.carrito'))<x-tienda.carrito-panel />@endif
 </body>
 </html>

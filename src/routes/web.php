@@ -21,6 +21,7 @@ Route::get('/marcas/{marca}', [App\Http\Controllers\Tienda\MarcaController::clas
 Route::get('/perfumes', [CatalogoController::class, 'index'])->name('tienda.catalogo');
 Route::get('/perfumes/{producto}', [PerfumeController::class, 'show'])->name('tienda.perfume');
 Route::get('/termometro-olfativo', TermometroController::class)->name('tienda.termometro');
+Route::view('/como-funciona', 'tienda.como-funciona')->name('tienda.como-funciona');
 Route::get('/buscar', [BusquedaController::class, 'index'])->name('tienda.buscar');
 
 Route::get('/carrito', [CarritoController::class, 'show'])->name('tienda.carrito');

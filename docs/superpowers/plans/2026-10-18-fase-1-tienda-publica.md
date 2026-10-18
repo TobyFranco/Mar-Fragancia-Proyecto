@@ -305,17 +305,19 @@ Firefox `task10` verde a 375/1440: dos columnas desktop/apilado móvil, pestaña
 **Orden y commits autorizados para cerrar la tarea:** (a) cuatro retoques, (b) Cómo funciona/404, (c) auditoría sin emojis, (d) documento PI-13, (e) revisión visual/Pint/suite completa. Un commit al terminar cada punto; si se interrumpe, WIP explícito y estado exacto aquí.
 
 - [x] **11a:** cuatro retoques completos, tests PHP y Firefox normales/reduced motion.
-- [ ] **11b:** Cómo funciona y 404 con tests.
+- [x] **11b:** Cómo funciona y 404 con tests.
 - [ ] **11c:** auditoría sin emojis.
 - [ ] **11d:** documento PI-13.
 - [ ] **11e:** revisión visual, Pint y suite final.
+
+**Registro 11b:** RED de ambas páginas, GREEN de explicación/FAQ y404 con logo/salidas. FAQ con details nativo y respuestas basadas en spec: plazos y pago coordinados por WhatsApp, sin inventar días ni métodos de pago. Layout permite omitir panel de carrito en404 (ruta inexistente no inicializa sesión web). Revisión visual de ambas pantallas en punto11e.
 
 **Registro 11a:** RED PHPUnit (marca activa/resaltado/fragmento ausentes) y Firefox (doble CTA, marca sin subrayado, tonos incorrectos y transición ausente); GREEN 147 tests / 1002 assertions. Marca activa por ruta de marca/perfume o filtro único; abierto/activo subrayado y contorno reservado a focus-visible. Un solo CTA visible por viewport. Cuatro colores exactos y transición200ms; perfil Firefox propio con ui.prefersReducedMotion=1 verifica duración0 y matchMedia activo. Búsqueda incremental con debounce200ms, AbortController/versionado y fragmento HTML de la misma ruta; Enter conserva GET completo. Resaltado sin tildes conserva grafemas/espacios y escapa HTML antes de agregar mark. RED de navegador detectó que $el era el input al disparar @input: corregido con x-ref explícito al formulario. Sugerencias de marcas/notas/perfumes y Enter verificadas a375/1440; capturas busqueda-viva-* inspeccionadas. Sin dependencias nuevas.
 
 **Archivos:** Crear vista `tienda/como-funciona.blade.php` (ruta `tienda.como-funciona` `GET /como-funciona`), `resources/views/errors/404.blade.php`; crear `docs/pruebas/plan-de-pruebas-auth-catalogo.md`. Test: `tests/Feature/Tienda/PaginasInformativasTest.php`.
 
-- [ ] **Paso 1: tests que fallan:** `test_como_funciona_explica_decant_tamanos_y_pedido` (ve "Perfumes de lujo,", "5 o 10 ml", "Lo pedís por WhatsApp" y las 4 preguntas frecuentes); `test_404_usa_diseno_de_la_tienda_con_salida` (ruta inexistente → 404 con enlace a inicio).
-- [ ] **Paso 2–4:** rojo → implementar → verde.
+- [x] **Paso 1: tests que fallan:** `test_como_funciona_explica_decant_tamanos_y_pedido` (ve "Perfumes de lujo,", "5 o 10 ml", "Lo pedís por WhatsApp" y las 4 preguntas frecuentes); `test_404_usa_diseno_de_la_tienda_con_salida` (ruta inexistente → 404 con enlace a inicio).
+- [x] **Paso 2–4:** rojo → implementar → verde.
 - [ ] **Paso 5: auditoría sin emojis.** Test `test_vistas_publicas_no_contienen_emojis_ni_simbolos_icono`: recorre `resources/views/tienda`, `components/tienda`, `auth`, `errors` y falla si encuentra caracteres en los rangos de emoji (`\x{1F300}-\x{1FAFF}`, `\x{2600}-\x{27BF}`) o los símbolos `✕ ✓ → ▾`.
 - [ ] **Paso 6: plan de pruebas PI-13.** `docs/pruebas/plan-de-pruebas-auth-catalogo.md`: objetivo, alcance (Auth y Catálogo, más carrito/checkout), entorno (`php artisan test`, SQLite en memoria), y una tabla **Caso · Precondición · Pasos · Resultado esperado · Test automatizado** con todos los tests de las Tareas 3, 5, 6, 7, 8 y 10 (nombre de clase::método), más cómo correrlos y el resultado de la última corrida.
 - [ ] **Paso 7: revisión visual final.** `npm run build`, `php artisan serve`; comparar cada pantalla con la maqueta a 375 px y 1440 px; correr el detector de diseño si está disponible (`~/.agents/skills/impeccable/scripts/impeccable detect --json resources/views`) y corregir lo que marque.
