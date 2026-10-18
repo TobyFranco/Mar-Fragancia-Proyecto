@@ -278,7 +278,7 @@ Firefox `task9` verde 375/1440: bordes, dosis, meses y restaurar clima. RED visu
 
 **Archivos:** Modificar `resources/views/auth/login.blade.php`, `auth/register.blade.php` (usar `<x-tienda.layout>` y el diseño de la pantalla 7 con pestañas), `app/Http/Controllers/AuthController.php` solo si un test lo exige. Tests: `tests/Feature/Auth/LoginTest.php`, `RegistroTest.php`, `AccesoAdminTest.php`.
 
-- [ ] **Paso 1: tests** (varios ya deberían pasar con el código actual; los que fallen guían cambios):
+- [x] **Paso 1: tests** (varios ya deberían pasar con el código actual; los que fallen guían cambios):
   - `test_login_admin_redirige_al_dashboard`, `test_login_cliente_redirige_a_cliente_home`
   - `test_credenciales_invalidas_vuelven_con_error_y_conservan_email`
   - `test_registro_crea_usuario_cliente_y_perfil_y_autentica`
@@ -286,7 +286,13 @@ Firefox `task9` verde 375/1440: bordes, dosis, meses y restaurar clima. RED visu
   - `test_logout_invalida_la_sesion`
   - `test_admin_exige_rol`: invitado → redirect a `login`; cliente → 403; admin → 200 en `/admin/dashboard`
   - `test_vistas_de_auth_usan_el_nuevo_diseno`: login ve las pestañas "Ingresar" y "Crear cuenta" y el texto "Para comprar no hace falta cuenta"; enlace "seguí sin cuenta" a `/`.
-- [ ] **Paso 2–4:** rojo → implementar vistas → verde. **Paso 5:** Commit `feat(auth): diseño de ingreso y registro + tests`.
+- [x] **Paso 2–4:** rojo → implementar vistas → verde. **Paso 5:** Commit `feat(auth): diseño de ingreso y registro + tests`.
+
+**Registro Tarea 10:** RED inicial: 19 casos, 9 ya verdes (comportamiento Auth existente) y 10 rojos por diseño/entrada inválida; test adicional dentro de la matriz reproduce contraseña array de seis elementos confirmada causando500. GREEN 19/19, suite final 138 tests / 971 assertions. Login admin/cliente, error con email conservado, registro usuario+rol cliente+perfil+hash/autenticación, email duplicado/confirmación, logout con sesión invalidada y acceso invitado/cliente/admin a las cinco páginas admin cubiertos. Matrices de arrays verifican redirect y retorno al formulario con cookie conservada; vistas repueblan solo escalares y nunca contraseñas.
+
+AuthController modificado solo por defectos demostrados: contraseña debe ser string en login/registro (evita500 en hasher); email de registro max150 corresponde a la columna existente (SQLite no imponía el límite). Mensajes en español. Sin cambio de política de longitud mínima de contraseña (6) ni redirecciones. Dos componentes pequeños comparten marco y campos de ambas vistas. Se conservan celular/dirección opcionales para perfil. Se omiten Recordarme y recuperación de contraseña del dibujo: no existen implementación, columna remember_token ni rutas de recuperación, y no son parte de los comportamientos Auth de la spec/plan. Texto no promete Mis pedidos (fuera de esta fase).
+
+Firefox `task10` verde a 375/1440: dos columnas desktop/apilado móvil, pestaña/ruta activa, login inválido y registro con confirmación incorrecta, valores conservados y contraseñas vacías. Capturas `login-*`, `login-error-*`, `registro-*`, `registro-error-*`, referencias `maqueta-auth-*` en workspace SDD, inspeccionadas. Encabezado/pie compartido según spec, formulario con ancho máximo y controles44px; registro extiende la composición de pantalla7 con campos existentes. Sin desborde ni usuarios creados por prueba visual. Pint/build correctos; detector del bloque ejecutado una vez: `[]`. 48 rutas previas conservadas y 1 nueva (termómetro); ninguna migración modificada. MySQL, teléfono físico y concurrencia real fuera de estas verificaciones. Revisión del bloque a cargo del orquestador; se detiene antes de Tarea11. No push.
 
 ### Tarea 11: Cómo funciona, 404, pulido y plan de pruebas (PI-13)
 

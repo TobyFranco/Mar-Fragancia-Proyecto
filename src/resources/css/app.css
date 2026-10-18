@@ -437,3 +437,27 @@
         .climate-picks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 }
+
+@layer components {
+    .auth-page { display: grid; padding-inline: 0; }
+    .auth-intro { padding: 28px 24px; background: var(--color-sage-bg); }
+    .auth-intro img { width: 140px; height: auto; margin-bottom: 20px; }
+    .auth-intro h2 { font-size: 26px; line-height: 1.3; max-width: 400px; margin-bottom: 14px; }
+    .auth-intro p { color: var(--color-ink-soft); font-size: 13px; line-height: 1.8; max-width: 400px; }
+    .auth-form-area { padding: 28px 24px 36px; min-width: 0; }
+    .auth-tabs { display: flex; gap: 28px; border-bottom: 1px solid var(--color-line); margin-bottom: 24px; }
+    .auth-tabs a { display: flex; align-items: center; min-height: 48px; font: 600 15px var(--font-heading); color: var(--color-ink-soft); border-bottom: 2px solid transparent; }
+    .auth-tabs [aria-current=page] { color: var(--color-navy); border-bottom-color: var(--color-navy); }
+    .auth-form { display: grid; gap: 18px; }
+    .auth-form .button { margin-top: 8px; width: 100%; }
+    .auth-form .muted { font-size: 11px; margin-top: 6px; }
+    .auth-guest { text-align: center; color: var(--color-ink-soft); font-size: 12px; line-height: 1.8; margin-top: 20px; }
+    .auth-guest a { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-navy); font-weight: 600; text-decoration: underline; }
+    @media (min-width: 768px) {
+        .auth-page { grid-template-columns: 1fr 1fr; min-height: 500px; }
+        .auth-intro { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+        .auth-intro h2 { font-size: 32px; }
+        .auth-intro img { width: 160px; margin-bottom: 28px; }
+        .auth-form-area { width: min(100%, 520px); padding: 48px; margin: auto; }
+    }
+}

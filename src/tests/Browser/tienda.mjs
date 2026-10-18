@@ -218,6 +218,36 @@ if (process.argv[2] === 'task9') {
   await capture(`maqueta-termometro-${width}`);
  }
 }
+if (process.argv[2] === 'task10') {
+ for (const width of [1440,375]) {
+  await navigate(baseUrl + '/login',width);
+  assert.ok((await metrics()).scroll <= width);
+  assert.equal(await evaluate(`document.querySelector('.auth-tabs [aria-current=page]').textContent.trim()`),'Ingresar');
+  assert.equal(await evaluate(`getComputedStyle(document.querySelector('.auth-page')).gridTemplateColumns.split(' ').length`),width === 1440 ? 2 : 1);
+  await capture(`login-${width}`);
+  await evaluate(`document.querySelector('#auth-email').value='mariapaz@example.com';document.querySelector('#auth-password').value='incorrecta';document.querySelector('.auth-form').requestSubmit()`);
+  await until(`document.querySelector('#auth-error-email')?.textContent.includes('Credenciales incorrectas')`);
+  assert.equal(await evaluate(`document.querySelector('#auth-email').value`),'mariapaz@example.com');
+  assert.equal(await evaluate(`document.querySelector('#auth-password').value`),'');
+  await capture(`login-error-${width}`);
+  await navigate(baseUrl + '/register',width);
+  assert.ok((await metrics()).scroll <= width);
+  assert.equal(await evaluate(`document.querySelector('.auth-tabs [aria-current=page]').textContent.trim()`),'Crear cuenta');
+  await capture(`registro-${width}`);
+  await evaluate(`(() => {for(const [id,value] of Object.entries({'auth-nombre':'María Paz','auth-email':'visual@example.com','auth-password':'password123','auth-password_confirmation':'distinta'}))document.getElementById(id).value=value;document.querySelector('.auth-form').requestSubmit()})()`);
+  await until(`document.querySelector('#auth-error-password')?.textContent.includes('Las contraseñas no coinciden')`);
+  assert.equal(await evaluate(`document.querySelector('#auth-nombre').value`),'María Paz');
+  assert.equal(await evaluate(`document.querySelector('#auth-email').value`),'visual@example.com');
+  assert.equal(await evaluate(`document.querySelector('#auth-password').value`),'');
+  await capture(`registro-error-${width}`);
+  console.log('Auth: vistas, navegación, errores y datos conservados',width);
+ }
+ for (const width of [1440,375]) {
+  await navigate(maqueta,width);
+  await evaluate(`(() => {const root=document.querySelector('#s7 .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
+  await capture(`maqueta-auth-${width}`);
+ }
+}
 } finally {
  await call('session.end');
  ws.close();
