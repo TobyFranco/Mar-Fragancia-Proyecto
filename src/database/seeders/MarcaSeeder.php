@@ -2,17 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Marca;
+use Illuminate\Database\Seeder;
 
 class MarcaSeeder extends Seeder
 {
     public function run(): void
     {
-        $marcas = ['Dior', 'Chanel', 'Versace', 'Paco Rabanne', 'Carolina Herrera', 'Yves Saint Laurent'];
+        $destacadas = ['Chanel', 'Dior', 'Tom Ford', 'Creed', 'Guerlain', 'Hermès', 'Yves Saint Laurent', 'Maison Francis Kurkdjian'];
+        $otras = ['Carolina Herrera', 'Versace', 'Paco Rabanne', 'Parfums de Marly', 'Xerjoff', 'Lattafa', 'Armaf'];
 
-        foreach ($marcas as $marca) {
-            Marca::create(['nombre' => $marca]);
+        foreach ($destacadas as $orden => $nombre) {
+            Marca::create(['nombre' => $nombre, 'destacada' => true, 'orden_menu' => $orden + 1]);
+        }
+        foreach ($otras as $nombre) {
+            Marca::create(['nombre' => $nombre, 'destacada' => false]);
         }
     }
 }

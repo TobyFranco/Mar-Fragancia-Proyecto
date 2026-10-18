@@ -2,33 +2,286 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Producto;
-use App\Models\Marca;
 use App\Models\Categoria;
+use App\Models\Marca;
+use App\Models\Nota;
+use App\Models\Producto;
+use Illuminate\Database\Seeder;
 
 class ProductoSeeder extends Seeder
 {
+    public const CATALOGO = [
+        [
+            'nombre' => 'Coco Mademoiselle',
+            'marca' => 'Chanel',
+            'genero' => 'mujer',
+            'categoria' => 'Floral',
+            'notas' => ['naranja', 'jazmín', 'rosa', 'pachuli'],
+            'precio_5ml' => 40000,
+        ],
+        [
+            'nombre' => 'Bleu de Chanel',
+            'marca' => 'Chanel',
+            'genero' => 'hombre',
+            'categoria' => 'Amaderada',
+            'notas' => ['limón', 'cedro', 'sándalo'],
+            'precio_5ml' => 40000,
+        ],
+        [
+            'nombre' => '1957',
+            'marca' => 'Chanel',
+            'genero' => 'unisex',
+            'categoria' => 'Floral',
+            'notas' => ['neroli', 'iris', 'cedro', 'almizcle'],
+            'precio_5ml' => 60000,
+        ],
+        [
+            'nombre' => 'Sauvage',
+            'marca' => 'Dior',
+            'genero' => 'hombre',
+            'categoria' => 'Fresca',
+            'notas' => ['bergamota', 'pimienta', 'lavanda', 'ambroxan'],
+            'precio_5ml' => 35000,
+        ],
+        [
+            'nombre' => 'J’adore',
+            'marca' => 'Dior',
+            'genero' => 'mujer',
+            'categoria' => 'Floral',
+            'notas' => ['ylang-ylang', 'rosa', 'jazmín'],
+            'precio_5ml' => 40000,
+        ],
+        [
+            'nombre' => 'Gris Dior',
+            'marca' => 'Dior',
+            'genero' => 'unisex',
+            'categoria' => 'Floral',
+            'notas' => ['rosa', 'pachuli', 'bergamota'],
+            'precio_5ml' => 55000,
+        ],
+        [
+            'nombre' => 'Velvet Orchid',
+            'marca' => 'Tom Ford',
+            'genero' => 'mujer',
+            'categoria' => 'Oriental',
+            'notas' => ['miel', 'ron', 'orquídea'],
+            'precio_5ml' => 50000,
+        ],
+        [
+            'nombre' => 'Noir Extreme',
+            'marca' => 'Tom Ford',
+            'genero' => 'hombre',
+            'categoria' => 'Oriental',
+            'notas' => ['neroli', 'azafrán', 'sándalo', 'vainilla'],
+            'precio_5ml' => 50000,
+        ],
+        [
+            'nombre' => 'Oud Wood',
+            'marca' => 'Tom Ford',
+            'genero' => 'unisex',
+            'categoria' => 'Amaderada',
+            'notas' => ['oud', 'sándalo', 'cardamomo'],
+            'precio_5ml' => 60000,
+        ],
+        [
+            'nombre' => 'Aventus for Her',
+            'marca' => 'Creed',
+            'genero' => 'mujer',
+            'categoria' => 'Floral',
+            'notas' => ['manzana verde', 'bergamota', 'pimienta rosa'],
+            'precio_5ml' => 60000,
+        ],
+        [
+            'nombre' => 'Aventus',
+            'marca' => 'Creed',
+            'genero' => 'hombre',
+            'categoria' => 'Amaderada',
+            'notas' => ['piña', 'bergamota', 'abedul'],
+            'precio_5ml' => 65000,
+        ],
+        [
+            'nombre' => 'Silver Mountain Water',
+            'marca' => 'Creed',
+            'genero' => 'unisex',
+            'categoria' => 'Fresca',
+            'notas' => ['bergamota', 'té verde', 'grosella negra', 'almizcle'],
+            'precio_5ml' => 60000,
+        ],
+        [
+            'nombre' => 'Shalimar',
+            'marca' => 'Guerlain',
+            'genero' => 'mujer',
+            'categoria' => 'Oriental',
+            'notas' => ['bergamota', 'iris', 'vainilla'],
+            'precio_5ml' => 35000,
+        ],
+        [
+            'nombre' => 'L’Homme Idéal',
+            'marca' => 'Guerlain',
+            'genero' => 'hombre',
+            'categoria' => 'Amaderada',
+            'notas' => ['almendra', 'haba tonka', 'cuero'],
+            'precio_5ml' => 35000,
+        ],
+        [
+            'nombre' => 'Oud Essentiel',
+            'marca' => 'Guerlain',
+            'genero' => 'unisex',
+            'categoria' => 'Amaderada',
+            'notas' => ['oud', 'rosa', 'cuero', 'cedro'],
+            'precio_5ml' => 50000,
+        ],
+        [
+            'nombre' => 'Twilly d’Hermès',
+            'marca' => 'Hermès',
+            'genero' => 'mujer',
+            'categoria' => 'Floral',
+            'notas' => ['jengibre', 'nardo', 'sándalo'],
+            'precio_5ml' => 35000,
+        ],
+        [
+            'nombre' => 'Terre d’Hermès',
+            'marca' => 'Hermès',
+            'genero' => 'hombre',
+            'categoria' => 'Amaderada',
+            'notas' => ['naranja', 'pomelo', 'vetiver', 'cedro'],
+            'precio_5ml' => 35000,
+        ],
+        [
+            'nombre' => 'Voyage d’Hermès',
+            'marca' => 'Hermès',
+            'genero' => 'unisex',
+            'categoria' => 'Fresca',
+            'notas' => ['cardamomo', 'té', 'almizcle'],
+            'precio_5ml' => 40000,
+        ],
+        [
+            'nombre' => 'Libre',
+            'marca' => 'Yves Saint Laurent',
+            'genero' => 'mujer',
+            'categoria' => 'Floral',
+            'notas' => ['lavanda', 'flor de azahar', 'vainilla'],
+            'precio_5ml' => 35000,
+        ],
+        [
+            'nombre' => 'La Nuit de L’Homme',
+            'marca' => 'Yves Saint Laurent',
+            'genero' => 'hombre',
+            'categoria' => 'Amaderada',
+            'notas' => ['cardamomo', 'lavanda', 'cedro', 'bergamota'],
+            'precio_5ml' => 35000,
+        ],
+        [
+            'nombre' => 'Tuxedo',
+            'marca' => 'Yves Saint Laurent',
+            'genero' => 'unisex',
+            'categoria' => 'Oriental',
+            'notas' => ['pachuli', 'pimienta', 'coriandro'],
+            'precio_5ml' => 55000,
+        ],
+        [
+            'nombre' => 'Black Opium',
+            'marca' => 'Yves Saint Laurent',
+            'genero' => 'mujer',
+            'categoria' => 'Dulce',
+            'notas' => ['café', 'vainilla', 'jazmín'],
+            'precio_5ml' => 35000,
+        ],
+        [
+            'nombre' => 'À la rose',
+            'marca' => 'Maison Francis Kurkdjian',
+            'genero' => 'mujer',
+            'categoria' => 'Floral',
+            'notas' => ['rosa', 'violeta', 'bergamota'],
+            'precio_5ml' => 55000,
+        ],
+        [
+            'nombre' => 'masculin Pluriel',
+            'marca' => 'Maison Francis Kurkdjian',
+            'genero' => 'hombre',
+            'categoria' => 'Amaderada',
+            'notas' => ['lavanda', 'cedro', 'vetiver', 'pachuli'],
+            'precio_5ml' => 55000,
+        ],
+        [
+            'nombre' => 'Baccarat Rouge 540',
+            'marca' => 'Maison Francis Kurkdjian',
+            'genero' => 'unisex',
+            'categoria' => 'Oriental',
+            'notas' => ['azafrán', 'jazmín', 'cedro'],
+            'precio_5ml' => 65000,
+        ],
+        [
+            'nombre' => 'Good Girl',
+            'marca' => 'Carolina Herrera',
+            'genero' => 'mujer',
+            'categoria' => 'Floral',
+            'notas' => ['nardo', 'jazmín', 'haba tonka', 'cacao'],
+            'precio_5ml' => 30000,
+        ],
+        [
+            'nombre' => 'Eros',
+            'marca' => 'Versace',
+            'genero' => 'hombre',
+            'categoria' => 'Dulce',
+            'notas' => ['menta', 'manzana verde', 'vainilla'],
+            'precio_5ml' => 25000,
+        ],
+        [
+            'nombre' => '1 Million',
+            'marca' => 'Paco Rabanne',
+            'genero' => 'hombre',
+            'categoria' => 'Oriental',
+            'notas' => ['pomelo', 'canela', 'cuero'],
+            'precio_5ml' => 30000,
+        ],
+        [
+            'nombre' => 'Delina',
+            'marca' => 'Parfums de Marly',
+            'genero' => 'mujer',
+            'categoria' => 'Floral',
+            'notas' => ['lichi', 'rosa', 'ruibarbo'],
+            'precio_5ml' => 60000,
+        ],
+        [
+            'nombre' => 'Erba Pura',
+            'marca' => 'Xerjoff',
+            'genero' => 'unisex',
+            'categoria' => 'Dulce',
+            'notas' => ['naranja', 'limón', 'almizcle'],
+            'precio_5ml' => 55000,
+        ],
+        [
+            'nombre' => 'Khamrah',
+            'marca' => 'Lattafa',
+            'genero' => 'unisex',
+            'categoria' => 'Dulce',
+            'notas' => ['canela', 'dátiles', 'vainilla'],
+            'precio_5ml' => 15000,
+        ],
+        [
+            'nombre' => 'Club de Nuit Intense Man',
+            'marca' => 'Armaf',
+            'genero' => 'hombre',
+            'categoria' => 'Amaderada',
+            'notas' => ['limón', 'piña', 'abedul'],
+            'precio_5ml' => 20000,
+        ],
+    ];
+
     public function run(): void
     {
-        $productos = [
-            ['nombre' => 'Sauvage', 'marca' => 'Dior', 'categoria' => 'Fresca', 'descripcion' => 'Fragancia fresca y amaderada'],
-            ['nombre' => 'Bleu de Chanel', 'marca' => 'Chanel', 'categoria' => 'Amaderada', 'descripcion' => 'Aromática y elegante'],
-            ['nombre' => 'Eros', 'marca' => 'Versace', 'categoria' => 'Dulce', 'descripcion' => 'Fragancia dulce y vibrante'],
-            ['nombre' => '1 Million', 'marca' => 'Paco Rabanne', 'categoria' => 'Oriental', 'descripcion' => 'Especiada y seductora'],
-            ['nombre' => 'Good Girl', 'marca' => 'Carolina Herrera', 'categoria' => 'Floral', 'descripcion' => 'Floral con toques de cacao'],
-            ['nombre' => 'Black Opium', 'marca' => 'Yves Saint Laurent', 'categoria' => 'Dulce', 'descripcion' => 'Café y vainilla'],
-        ];
-
-        foreach ($productos as $p) {
-            Producto::create([
-                'marca_id' => Marca::where('nombre', $p['marca'])->first()->id,
-                'categoria_id' => Categoria::where('nombre', $p['categoria'])->first()->id,
-                'nombre' => $p['nombre'],
-                'descripcion' => $p['descripcion'],
-                'imagen' => null,
+        foreach (self::CATALOGO as $datos) {
+            $producto = Producto::create([
+                'marca_id' => Marca::where('nombre', $datos['marca'])->firstOrFail()->id,
+                'categoria_id' => Categoria::where('nombre', $datos['categoria'])->firstOrFail()->id,
+                'nombre' => $datos['nombre'],
+                'genero' => $datos['genero'],
+                'descripcion' => 'Un perfume con notas de '.implode(', ', $datos['notas']).'.',
+                'destacado' => true,
                 'activo' => true,
             ]);
+            $producto->notas()->sync(Nota::whereIn('nombre', $datos['notas'])->pluck('id'));
         }
     }
 }

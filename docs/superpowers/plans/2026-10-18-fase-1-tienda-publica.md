@@ -88,14 +88,24 @@ Casos que la spec implica pero ningún test "obvio" cubre; cada uno tiene su tes
 
 **Archivos:** Modificar `database/seeders/MarcaSeeder.php`, `ProductoSeeder.php`, `ProductoPresentacionSeeder.php` (hoy vacío); crear `NotaSeeder.php`; registrar en `DatabaseSeeder`. Test: `tests/Feature/Catalogo/SeedersTest.php`.
 
-- [ ] **Paso 1: tests que fallan**
+- [x] **Paso 1: tests que fallan**
   - `test_seed_crea_solo_tamanos_5_y_10_ml`: tras `$this->seed()`, `Tamano::pluck('nombre')->sort()->values()->all() === ['10 ml','5 ml']` y no existe ningún tamaño con `15` ni `frasco`.
   - `test_seed_tiene_ocho_marcas_del_menu_en_orden`: `Marca::delMenu()->pluck('nombre')->all() === ['Chanel','Dior','Tom Ford','Creed','Guerlain','Hermès','Yves Saint Laurent','Maison Francis Kurkdjian']`.
   - `test_cada_producto_visible_tiene_genero_notas_y_dos_decants`: cada `Producto::visibles()` tiene ≥ 3 notas y presentaciones de 5 y 10 ml con precio > 0.
-- [ ] **Paso 2:** correr → FAIL.
-- [ ] **Paso 3:** Seeders: ≥ 24 perfumes de ejemplo repartidos entre las 8 marcas del menú y otras (Carolina Herrera, Versace, Paco Rabanne, Parfums de Marly, Xerjoff, Lattafa, Armaf), con género, familia (categoría existente), notas reales del perfume y precios de ejemplo (5 ml entre ₲ 15.000 y ₲ 65.000; 10 ml ≈ 1,7×). Al menos uno por marca destacada en cada género cuando aplique; uno con 10 ml en stock 0 (para ver el estado deshabilitado). Mantener usuarios y roles existentes.
-- [ ] **Paso 4:** `php artisan test` → PASS. `php artisan migrate:fresh --seed` (con MySQL o SQLite local) sin errores.
-- [ ] **Paso 5:** Commit `feat(seed): marcas de lujo, notas y decants de ejemplo`.
+- [x] **Paso 2:** correr → FAIL.
+- [x] **Paso 3:** Seeders: ≥ 24 perfumes de ejemplo repartidos entre las 8 marcas del menú y otras (Carolina Herrera, Versace, Paco Rabanne, Parfums de Marly, Xerjoff, Lattafa, Armaf), con género, familia (categoría existente), notas reales del perfume y precios de ejemplo (5 ml entre ₲ 15.000 y ₲ 65.000; 10 ml ≈ 1,7×). Al menos uno por marca destacada en cada género cuando aplique; uno con 10 ml en stock 0 (para ver el estado deshabilitado). Mantener usuarios y roles existentes.
+- [x] **Paso 4:** `php artisan test` → PASS. `php artisan migrate:fresh --seed` (con MySQL o SQLite local) sin errores.
+- [x] **Paso 5:** Commit `feat(seed): marcas de lujo, notas y decants de ejemplo`.
+
+**Registro Tarea 2 (2026-10-18):** RED inicial: el rol cliente faltante impedía todos los seeds; tras agregarlo (autorizado), fallaron menú vacío, catálogo sin presentaciones y cobertura de género. Tamaños y usuarios ya estaban correctos y sus tests pasaron sin cambios adicionales. GREEN final: 17 tests, 421 assertions. Datos: 15 marcas, 8 destacadas en orden, 32 perfumes, 64 presentaciones, precios 5 ml entre 15.000 y 65.000 y 10 ml = 1,7×; Sauvage de 10 ml con stock 0. Cada marca destacada tiene Mujer, Hombre y Para compartir. Se conservan usuarios y administrador; se agrega el rol cliente faltante.
+
+Verificación: `php artisan migrate:fresh --seed --force --no-interaction` correcto sobre una SQLite temporal dedicada en `.superpowers/sdd/2026-10-18-fase-1-tienda-publica/task2.sqlite`, configurada con `DB_CONNECTION=sqlite` y `DB_DATABASE` absoluto; no se sobrescribió la base local. `vendor/bin/pint --dirty --format agent` correcto. Las 35 rutas existentes conservan método, URL pública, nombre y controlador; los parámetros admin incluyen ahora binding explícito `:id`. No se modificó ninguna migración anterior.
+
+Notas de ejecución: revisión por el programador en este bloque; el orquestador conserva la revisión de cada bloque. MySQL no fue ejecutado en esta máquina. La maqueta aprobada se abrió y revisó en Firefox con un perfil temporal; no se modificaron vistas en estas tareas. Se detiene la ejecución antes de Tarea 3.
+
+Fuentes oficiales consultadas para las notas de muestra: [Chanel 1957](https://www.chanel.com/us/fragrance/p/122160/1957-eau-de-parfum-amber-musky-floral/), [Tom Ford Noir Extreme](https://www.tomfordbeauty.com/products/noir-extreme-eau-de-parfum), [Creed Silver Mountain Water](https://www.creedfragrance.com/c/the-house-of-creed/the-book/silver-mountain-water/), [Guerlain Oud Essentiel](https://www.guerlain.com/es/es-es/p/oud-essentiel-eau-de-parfum-P013225.html), [YSL Tuxedo](https://www.yslbeauty.com/int/fragrance/unisex-fragrances/tuxedo-eau-de-parfum/WW-51373YSL.html), [MFK masculin Pluriel](https://www.franciskurkdjian.com/eu-en/p/masculin-pluriel-eau-de-toilette-RA132121.html).
+
+Riesgos previos detectados al instalar dependencias: `composer audit` informa 4 avisos en `laravel/framework`, `league/commonmark` (2) y `symfony/http-foundation`. Las versiones de esos tres paquetes coinciden con `main`; no se actualizaron fuera del alcance del plan. Referencias: [Laravel](https://github.com/advisories/GHSA-jh5r-qr3c-85q8), [CommonMark HTML](https://github.com/advisories/GHSA-97jj-33gv-5xf9), [CommonMark DoS](https://github.com/advisories/GHSA-3q6v-r5mr-hxv8), [HttpFoundation](https://symfony.com/cve-2026-108082).
 
 ### Tarea 3: Recomendaciones (parecido por notas y "más probados")
 
