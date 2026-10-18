@@ -156,7 +156,7 @@ URLs de tareas siguientes se enlazan sin crear rutas prematuras. Única repetici
 
 **Interfaces producidas:** `Texto::normalizar(string $s): string` (minúsculas, sin tildes, espacios colapsados). Query params del catálogo: `marca` (slug, múltiple), `genero` (`mujer|hombre|unisex`), `familia` (id de categoría, múltiple), `tamano` (`5|10`), `orden` (`probados|precio_asc|precio_desc|nombre`).
 
-- [ ] **Paso 1: tests que fallan**
+- [x] **Paso 1: tests que fallan**
   - `TextoTest`: `normalizar('Hermès  Terre D’HERMÈS') === 'hermes terre d’hermes'`.
   - `test_indice_de_marcas_agrupa_a_z_con_cantidad`: ve las letras y "Dior" con su cantidad de perfumes visibles.
   - `test_pagina_de_marca_filtra_por_genero`: `/marcas/chanel?genero=hombre` ve "Bleu de Chanel" y no ve "Coco Mademoiselle"; las pestañas "Todos", "Mujer", "Hombre", "Para compartir" están presentes.
@@ -165,7 +165,15 @@ URLs de tareas siguientes se enlazan sin crear rutas prematuras. Única repetici
   - `test_catalogo_ignora_genero_invalido` (`genero=niños` → se comporta como "Todos", 200).
   - `test_busqueda_por_perfume_marca_y_nota_sin_tildes`: `q=hermes` encuentra productos de Hermès; `q=vainilla` encuentra los que tienen esa nota; `q=SAUVAGE` encuentra Sauvage.
   - `test_busqueda_sin_resultados_muestra_estado_vacio_con_whatsapp`: ve `No encontramos "savaje"` y un enlace `wa.me`.
-- [ ] **Paso 2:** FAIL. **Paso 3:** implementar según pantallas 2, 3 y 9 (la búsqueda compara con `Texto::normalizar` en PHP para que funcione igual en SQLite y MySQL). **Paso 4:** PASS. **Paso 5:** Commit `feat(tienda): marcas, catálogo y búsqueda`.
+- [x] **Paso 2:** FAIL. **Paso 3:** implementar según pantallas 2, 3 y 9 (la búsqueda compara con `Texto::normalizar` en PHP para que funcione igual en SQLite y MySQL). **Paso 4:** PASS. **Paso 5:** Commit `feat(tienda): marcas, catálogo y búsqueda`.
+
+**Registro Tarea 5:** RED: rutas públicas 404 y Texto inexistente; 404 de marca desconocida ya pasaba y no se forzó un fallo artificial. GREEN: 39 tests, 512 assertions. Marcas A–Z con conteos de productos visibles; marca por slug con pestañas; catálogo con marcas/familias múltiples (parámetros `marca[]`/`familia[]`, aceptando también un valor), género, tamaño y los cuatro órdenes. El precio ordena por el mismo «desde» de la tarjeta, mínimo de presentaciones activas válidas; el filtro de tamaño requiere presentación activa con stock. Género inválido se ignora, como indica el plan. La búsqueda normaliza letras latinas, conserva el apóstrofo curvo y colapsa espacios en PHP, sin depender de la collation. Se probaron consultas vacías, `q` como array y escaping del texto.
+
+Ajuste de test respecto del texto literal del plan: las exclusiones por género se comprueban en `#resultados-perfumes` y en los productos enviados a la vista; un `assertDontSee` sobre toda la página fallaría por los nombres legítimos de los paneles ocultos del encabezado. La búsqueda usa GET/Enter según la interfaz del plan; no incluye autocomplete incremental ni resaltado de coincidencias de la maqueta. La URL de WhatsApp usa `config('tienda.whatsapp', '595900000000')`; el fallback es el placeholder aprobado del plan, pendiente del número real/configuración en Tarea 8.
+
+Comparación visual adicional en Firefox a 1440/375 px: índice A–Z, marca Chanel, catálogo Mujer, catálogo filtrado por Chanel, búsqueda «sau» y búsqueda vacía «savaje», contra pantallas 2/3/9 y la composición de marca descrita en spec (no hay una pantalla 3b separada en el HTML). Escritorio: filtros laterales y tres tarjetas por fila; móvil: filtros plegables y dos tarjetas. Se conservan jerarquía, tipografías y paleta; conteos, catálogo y precios son los datos del seeder. Las referencias se capturan como viewport para no ensanchar la imagen por el overflow de las maquetas fijas a 375 px; la implementación se captura completa. Capturas en `.superpowers/sdd/2026-10-18-fase-1-tienda-publica/`: `{marcas,marca-chanel,catalogo,catalogo-filtrado,busqueda,busqueda-vacia}-{1440,375}.png` y referencias `maqueta-{marcas,catalogo,busqueda}-{1440,375}.png`. Se vuelve a correr `node tests/Browser/tienda.mjs task4` y `task5`, ambos correctos, incluyendo columnas, filtros móviles, ausencia de overflow y contraste de textos de panel/filtros.
+
+Fallos encontrados y corregidos con RED → GREEN: CSS compartido imponía cuatro columnas al catálogo; singular/plural de conteos; el salvia sobre fondo salvia daba 4,35:1. Ese texto usa ahora navy sobre sage-bg (14,31:1), manteniendo los tokens aprobados. El detector Impeccable se ejecutó una vez sin hallazgos (`[]`); comprobación adicional sin emojis/símbolos-icono en las vistas nuevas. Pint, build y suite completa correctos. Se conservan las 35 rutas previas y se agregan 5 rutas públicas en el bloque; migraciones intactas. MySQL y hardware móvil siguen sin verificarse. Se detiene antes de Tarea 6; revisión del bloque a cargo del orquestador.
 
 ### Tarea 6: Página del perfume
 
