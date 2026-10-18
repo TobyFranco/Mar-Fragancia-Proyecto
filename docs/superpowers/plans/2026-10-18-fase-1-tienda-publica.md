@@ -179,13 +179,15 @@ Fallos encontrados y corregidos con RED → GREEN: CSS compartido imponía cuatr
 
 **Archivos:** Crear `app/Http/Controllers/Tienda/PerfumeController.php` (`show`), vista `tienda/perfume.blade.php`. Ruta `tienda.perfume` `GET /perfumes/{producto}`. Test: `tests/Feature/Tienda/PerfumeTest.php`.
 
-- [ ] **Paso 1: tests que fallan**
+- [x] **Paso 1: tests que fallan**
   - `test_muestra_dos_decants_con_precio_y_notas`: ve "5 ml", "10 ml", los dos precios con `Moneda::gs`, las notas y "¿Por qué un decant?".
   - `test_tamano_sin_stock_aparece_deshabilitado`: la opción de 10 ml del producto sin stock tiene `disabled` y el texto "Sin stock".
   - `test_producto_inactivo_da_404`.
   - `test_tambien_te_puede_gustar_muestra_cuatro_parecidos`.
   - `test_no_muestra_15ml_ni_frasco`.
-- [ ] **Paso 2:** FAIL. **Paso 3:** implementar según pantalla 4 y la versión celular (8): selección con radios accesibles (Alpine para el precio grande), cantidad entre 1 y el stock de la opción elegida, formulario `POST /carrito` (Tarea 7), barra fija inferior en celular. **Paso 4:** PASS + revisión visual. **Paso 5:** Commit `feat(tienda): página del perfume con decants`.
+- [x] **Paso 2:** FAIL. **Paso 3:** implementar según pantalla 4 y la versión celular (8): selección con radios accesibles (Alpine para el precio grande), cantidad entre 1 y el stock de la opción elegida, formulario `POST /carrito` (Tarea 7), barra fija inferior en celular. **Paso 4:** PASS + revisión visual. **Paso 5:** Commit `feat(tienda): página del perfume con decants`.
+
+**Registro Tarea 6:** RED: cuatro casos fallan por ruta inexistente; el caso negativo 404 se conserva y se verifica junto con la ruta activa en GREEN. Suite: 44 tests / 525 assertions. Pint y build correctos. Firefox `node tests/Browser/tienda.mjs task6`: selección cambia precio, cantidad se limita al stock y barra fija solo móvil; sin desborde a 375/1440. Capturas `perfume-{375,1440}.png`, referencias pantallas 4/8 en `.superpowers/sdd/2026-10-18-fase-1-tienda-publica/`. Comparación inspeccionada: dos columnas desktop, galería encima del detalle móvil, dos radios y barra inferior; recomendaciones 4/2 columnas. Datos/precios reales del seeder (Sauvage 10 ml sin stock) difieren del ejemplo; se elige el primer tamaño disponible (5 ml). No se simulan miniaturas de fotos inexistentes. Se conserva el encabezado/pie compartido. POST preparado con URL final, implementación en Tarea 7. Un valor esperado del harness usaba precio de maqueta para Bleu; corregido según seeder (40.000 × 1,7 = 68.000), sin cambio productivo.
 
 ### Tarea 7: Carrito en sesión con recomendaciones
 
@@ -267,6 +269,10 @@ Fallos encontrados y corregidos con RED → GREEN: CSS compartido imponía cuatr
 - [ ] **Paso 2–4:** rojo → implementar vistas → verde. **Paso 5:** Commit `feat(auth): diseño de ingreso y registro + tests`.
 
 ### Tarea 11: Cómo funciona, 404, pulido y plan de pruebas (PI-13)
+
+**Pendientes indicados por el orquestador al aprobar el bloque 2 (no implementar en Tareas 6–8):**
+- [ ] Marca activa del menú: subrayado como en la maqueta; contorno solo para `:focus-visible`.
+- [ ] Búsqueda: sugerencias mientras se escribe (perfumes, marcas y notas), con coincidencia resaltada como en pantalla 9; conservar Enter a resultados.
 
 **Archivos:** Crear vista `tienda/como-funciona.blade.php` (ruta `tienda.como-funciona` `GET /como-funciona`), `resources/views/errors/404.blade.php`; crear `docs/pruebas/plan-de-pruebas-auth-catalogo.md`. Test: `tests/Feature/Tienda/PaginasInformativasTest.php`.
 

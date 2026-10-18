@@ -78,6 +78,28 @@ if(process.argv[2]==='task5'){
   for(const width of [1440,375]){await navigate(maqueta,width);await evaluate(`(() => { const root=document.querySelector('#${section} .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style) })()`);await capture(`maqueta-${name}-${width}`)}
  }
 }
+if (process.argv[2] === 'task6') {
+ for (const width of [1440,375]) {
+  await navigate(baseUrl + '/perfumes/sauvage', width);
+  assert.ok((await metrics()).scroll <= width);
+  assert.equal(await evaluate(`document.querySelector('input[data-tamano="10 ml"]').disabled`), true);
+  assert.equal(await evaluate(`getComputedStyle(document.querySelector('.perfume-bottom-bar')).display !== 'none'`), width === 375);
+  await capture(`perfume-${width}`);
+  await navigate(baseUrl + '/perfumes/bleu-de-chanel', width);
+  await evaluate(`document.querySelector('input[data-tamano="10 ml"]').click()`); await settle();
+  assert.equal(await evaluate(`document.querySelector('.selected-price').textContent.trim()`), '₲ 68.000');
+  await evaluate(`const input = document.querySelector('#cantidad-perfume'); input.value = 999; input.dispatchEvent(new Event('input', {bubbles:true})); input.dispatchEvent(new Event('change', {bubbles:true}))`); await settle();
+  assert.equal(await evaluate(`Number(document.querySelector('#cantidad-perfume').value)`), 12);
+  console.log('Detalle: selección, cantidad y viewport', width);
+ }
+ for (const [section,name] of [['s4','perfume'],['s8','perfume-movil']]) {
+  for (const width of [1440,375]) {
+   await navigate(maqueta,width);
+   await evaluate(`(() => {const root=document.querySelector('#${section} .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
+   await capture(`maqueta-${name}-${width}`);
+  }
+ }
+}
 } finally {
  await call('session.end');
  ws.close();

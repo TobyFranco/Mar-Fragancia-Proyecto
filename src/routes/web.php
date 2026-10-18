@@ -8,12 +8,14 @@ use App\Http\Controllers\TamanoController;
 use App\Http\Controllers\Tienda\BusquedaController;
 use App\Http\Controllers\Tienda\CatalogoController;
 use App\Http\Controllers\Tienda\InicioController;
+use App\Http\Controllers\Tienda\PerfumeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', InicioController::class)->name('tienda.inicio');
 Route::get('/marcas', [App\Http\Controllers\Tienda\MarcaController::class, 'index'])->name('tienda.marcas.index');
 Route::get('/marcas/{marca}', [App\Http\Controllers\Tienda\MarcaController::class, 'show'])->name('tienda.marcas.show');
 Route::get('/perfumes', [CatalogoController::class, 'index'])->name('tienda.catalogo');
+Route::get('/perfumes/{producto}', [PerfumeController::class, 'show'])->name('tienda.perfume');
 Route::get('/buscar', [BusquedaController::class, 'index'])->name('tienda.buscar');
 
 // Autenticación
