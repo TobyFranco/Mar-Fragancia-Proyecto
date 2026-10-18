@@ -23,7 +23,7 @@
                 <a href="{{ url('/marcas/'.$marca->slug) }}" aria-controls="panel-{{ $marca->slug }}" :aria-expanded="abierta === {{ $marca->id }}"
                     @mouseenter="if (window.matchMedia('(hover: hover)').matches) abierta = {{ $marca->id }}"
                     @focus="if (!movil) { abierta = {{ $marca->id }}; disparador = $el }"
-                    class="brand-link">{{ $marca->nombre }}</a>
+                    class="brand-link" data-activa="{{ $marcaActiva === $marca->id ? 'true' : 'false' }}">{{ $marca->nombre }}</a>
             @endforeach
             <a class="all-brands" href="{{ url('/marcas') }}">Todas las marcas</a>
             <div class="info-links"><a href="{{ url('/termometro-olfativo') }}">Termómetro olfativo</a><a href="{{ url('/como-funciona') }}">Cómo funciona</a></div>

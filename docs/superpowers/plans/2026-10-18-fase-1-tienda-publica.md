@@ -296,10 +296,21 @@ Firefox `task10` verde a 375/1440: dos columnas desktop/apilado móvil, pestaña
 
 ### Tarea 11: Cómo funciona, 404, pulido y plan de pruebas (PI-13)
 
-**Pendientes indicados por el orquestador al aprobar el bloque 2 (no implementar en Tareas 6–8):**
-- [ ] Marca activa del menú: subrayado como en la maqueta; contorno solo para `:focus-visible`.
-- [ ] Perfume a 375 px: ocultar el botón Agregar normal y dejar solo la barra fija, como pantalla 8.
-- [ ] Búsqueda: sugerencias mientras se escribe (perfumes, marcas y notas), con coincidencia resaltada como en pantalla 9; conservar Enter a resultados.
+**Retoques indicados por el orquestador (punto 11a):**
+- [x] Marca activa del menú: subrayado como en la maqueta; contorno solo para `:focus-visible`.
+- [x] Perfume a 375 px: ocultar el botón Agregar normal y dejar solo la barra fija, como pantalla 8.
+- [x] Termómetro: fondos por zona frío #eef3fb, templado #f2f6f1, calor #fff7e8, calor intenso #fff1e8; transición suave y reduced motion.
+- [x] Búsqueda: sugerencias mientras se escribe (perfumes, marcas y notas), con coincidencia resaltada como en pantalla 9; conservar Enter a resultados.
+
+**Orden y commits autorizados para cerrar la tarea:** (a) cuatro retoques, (b) Cómo funciona/404, (c) auditoría sin emojis, (d) documento PI-13, (e) revisión visual/Pint/suite completa. Un commit al terminar cada punto; si se interrumpe, WIP explícito y estado exacto aquí.
+
+- [x] **11a:** cuatro retoques completos, tests PHP y Firefox normales/reduced motion.
+- [ ] **11b:** Cómo funciona y 404 con tests.
+- [ ] **11c:** auditoría sin emojis.
+- [ ] **11d:** documento PI-13.
+- [ ] **11e:** revisión visual, Pint y suite final.
+
+**Registro 11a:** RED PHPUnit (marca activa/resaltado/fragmento ausentes) y Firefox (doble CTA, marca sin subrayado, tonos incorrectos y transición ausente); GREEN 147 tests / 1002 assertions. Marca activa por ruta de marca/perfume o filtro único; abierto/activo subrayado y contorno reservado a focus-visible. Un solo CTA visible por viewport. Cuatro colores exactos y transición200ms; perfil Firefox propio con ui.prefersReducedMotion=1 verifica duración0 y matchMedia activo. Búsqueda incremental con debounce200ms, AbortController/versionado y fragmento HTML de la misma ruta; Enter conserva GET completo. Resaltado sin tildes conserva grafemas/espacios y escapa HTML antes de agregar mark. RED de navegador detectó que $el era el input al disparar @input: corregido con x-ref explícito al formulario. Sugerencias de marcas/notas/perfumes y Enter verificadas a375/1440; capturas busqueda-viva-* inspeccionadas. Sin dependencias nuevas.
 
 **Archivos:** Crear vista `tienda/como-funciona.blade.php` (ruta `tienda.como-funciona` `GET /como-funciona`), `resources/views/errors/404.blade.php`; crear `docs/pruebas/plan-de-pruebas-auth-catalogo.md`. Test: `tests/Feature/Tienda/PaginasInformativasTest.php`.
 

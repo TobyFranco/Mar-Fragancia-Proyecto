@@ -11,10 +11,12 @@ const ws = new WebSocket(process.env.FIREFOX_BIDI_URL || 'ws://127.0.0.1:9223/se
 await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true})});
 let id=0;
 const pending=new Map();
-ws.addEventListener('message',event=>{const msg=JSON.parse(event.data);if(!msg.id)return;const p=pending.get(msg.id);if(p){pending.delete(msg.id);msg.type==='error'?p.reject(new Error(JSON.stringify(msg))):p.resolve(msg.result)}});
+const browserErrors=[];
+ws.addEventListener('message',event=>{const msg=JSON.parse(event.data);if(msg.method === 'log.entryAdded' && msg.params.level === 'error') browserErrors.push(msg.params.text);if(!msg.id)return;const p=pending.get(msg.id);if(p){pending.delete(msg.id);msg.type==='error'?p.reject(new Error(JSON.stringify(msg))):p.resolve(msg.result)}});
 function call(method,params={}){return new Promise((resolve,reject)=>{const n=++id;pending.set(n,{resolve,reject});ws.send(JSON.stringify({id:n,method,params}))})}
 await call('session.new',{capabilities:{}});
 const {context}=await call('browsingContext.create',{type:'tab'});
+await call('session.subscribe',{events:['log.entryAdded'],contexts:[context]});
 async function evaluate(expression){const r=await call('script.evaluate',{expression,target:{context},awaitPromise:true});if(r.type==='exception')throw new Error(JSON.stringify(r));return r.result?.value}
 async function settle(){await evaluate('document.fonts.ready.then(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))).then(() => Promise.all(document.getAnimations().map(a => a.finished.catch(() => {}))))')}
 async function navigate(url,width){await call('browsingContext.setViewport',{context,viewport:{width,height:1000},devicePixelRatio:1});await call('browsingContext.navigate',{context,url,wait:'complete'});await settle()}
@@ -25,6 +27,8 @@ async function until(expression) {
   try { if (await evaluate(expression)) { await settle(); return } } catch {}
   await new Promise(resolve => setTimeout(resolve, 100));
  }
+ console.error('Browser errors:',browserErrors);
+ console.error(await evaluate(`JSON.stringify({url:location.href,contenido:document.querySelector('#sugerencias-busqueda')?.textContent.slice(0,500),estado:document.querySelector('.search-status')?.textContent,alpine:!!window.Alpine})`));
  throw new Error('No se cumplió: ' + expression);
 }
 async function limpiarCarrito(width) {
@@ -246,6 +250,43 @@ if (process.argv[2] === 'task10') {
   await navigate(maqueta,width);
   await evaluate(`(() => {const root=document.querySelector('#s7 .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
   await capture(`maqueta-auth-${width}`);
+ }
+}
+if (process.argv[2] === 'task11a-estilos') {
+ const errores=[];
+ const check=(mensaje,actual,esperado)=>{try{assert.deepEqual(actual,esperado,mensaje)}catch(e){errores.push(e.message)}};
+ for(const width of [1440,375]) {
+  await navigate(baseUrl+'/perfumes/sauvage',width);
+  check('Un solo Agregar visible '+width,await evaluate(`Array.from(document.querySelectorAll('button[form="agregar-perfume"],.add-perfume')).filter(el=>el.getClientRects().length>0).length`),1);
+ }
+ await navigate(baseUrl+'/marcas/chanel',1440);
+ check('Marca activa subrayada',await evaluate(`getComputedStyle(document.querySelector('[aria-controls="panel-chanel"]')).textDecorationLine`),'underline');
+ await navigate(baseUrl+'/termometro-olfativo',1440);
+ for(const [t,color] of [[18,'rgb(238, 243, 251)'],[22,'rgb(242, 246, 241)'],[30,'rgb(255, 247, 232)'],[36,'rgb(255, 241, 232)']]) {
+  await evaluate(`(() => {const e=document.querySelector('#temperatura');e.value=${t};e.dispatchEvent(new Event('input',{bubbles:true}))})()`); await settle();
+  check('Fondo '+t,await evaluate(`getComputedStyle(document.querySelector('.thermometer-page')).backgroundColor`),color);
+ }
+ check('Transición suave',await evaluate(`getComputedStyle(document.querySelector('.thermometer-page')).transitionDuration`),process.env.TIENDA_REDUCED_MOTION ? '0s' : '0.2s');
+ if(process.env.TIENDA_REDUCED_MOTION) check('Preferencia reducida activa',await evaluate(`matchMedia('(prefers-reduced-motion: reduce)').matches`),true);
+ if(errores.length) throw new Error(errores.join('\n'));
+ console.log('Retoques CSS: desktop/móvil, marca y cuatro fondos correctos');
+}
+if (process.argv[2] === 'task11a-busqueda') {
+ for(const width of [1440,375]) {
+  await navigate(baseUrl+'/buscar',width);
+  await evaluate(`const input=document.querySelector('#buscar-perfume');input.value='hermes';input.dispatchEvent(new Event('input',{bubbles:true}))`);
+  await until(`document.querySelector('#sugerencias-busqueda mark')?.textContent === 'Hermès'`);
+  assert.equal(new URL(await evaluate('location.href')).search,'','Escribir no navega');
+  assert.ok((await metrics()).scroll <= width);
+  await capture(`busqueda-viva-${width}`);
+  await evaluate(`(() => {const input=document.querySelector('#buscar-perfume');input.value='vainilla';input.dispatchEvent(new Event('input',{bubbles:true}))})()`);
+  await until(`document.querySelector('#sugerencias-busqueda').textContent.includes('Black Opium') && document.querySelector('#sugerencias-busqueda mark')?.textContent === 'vainilla'`);
+  await evaluate(`(() => {const input=document.querySelector('#buscar-perfume');input.value='sau';input.dispatchEvent(new Event('input',{bubbles:true}))})()`);
+  await until(`document.querySelector('#sugerencias-busqueda mark')?.textContent === 'Sau'`);
+  await evaluate(`document.querySelector('.search-form').requestSubmit()`);
+  await until(`location.search === '?q=sau' && document.querySelector('.search-page') !== null`);
+  assert.ok(await evaluate(`document.querySelector('#resultados-perfumes').textContent.includes('Sauvage')`));
+  console.log('Búsqueda incremental por marca/nota/perfume, resaltado y Enter',width);
  }
 }
 } finally {

@@ -240,7 +240,7 @@
     .quantity-control { display: inline-flex; align-items: center; border: 1px solid var(--color-line); border-radius: 6px; }
     .quantity-control input { min-width: 0; width: 38px; min-height: 44px; text-align: center; appearance: textfield; }
     .quantity-control input::-webkit-inner-spin-button { appearance: none; }
-    .add-perfume { flex: 1; }
+    .add-perfume { display: none; flex: 1; }
     button:disabled { cursor: default; opacity: .65; }
     .decant-hint { background: var(--color-sage-bg); border-radius: 8px; padding: 16px; margin-top: 20px; font-size: 12px; line-height: 1.7; }
     .decant-hint strong { display: block; }
@@ -254,6 +254,7 @@
         .perfume-gallery { min-height: 440px; }
         .perfume-info h1 { font-size: 36px; }
         .perfume-bottom-bar { display: none; }
+        .add-perfume { display: inline-flex; }
     }
 }
 
@@ -344,13 +345,13 @@
 }
 
 @theme {
-    --color-clima-frio: #eaf0f8;
-    --color-clima-templado: #f4f6f3;
+    --color-clima-frio: #eef3fb;
+    --color-clima-templado: #f2f6f1;
     --color-clima-calor: #fff7e8;
     --color-clima-intenso: #fff1e8;
 }
 @layer components {
-    .thermometer-page { padding-block: 30px 36px; background: var(--color-clima-calor); }
+    .thermometer-page { padding-block: 30px 36px; background: var(--color-clima-calor); transition: background-color 200ms ease-out; }
     .thermometer-page[data-zona=frio] { background: var(--color-clima-frio); }
     .thermometer-page[data-zona=templado] { background: var(--color-clima-templado); }
     .thermometer-page[data-zona=calor_intenso] { background: var(--color-clima-intenso); }
@@ -460,4 +461,11 @@
         .auth-intro img { width: 160px; margin-bottom: 28px; }
         .auth-form-area { width: min(100%, 520px); padding: 48px; margin: auto; }
     }
+}
+
+@layer components {
+    .brand-link[data-activa=true], .brand-link[aria-expanded=true] { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 8px; }
+    .brand-link:focus:not(:focus-visible) { outline: none; }
+    .search-status { min-height: 20px; padding-top: 6px; font-size: 12px; color: var(--color-ink-soft); }
+    .search-results mark { background: var(--color-sage-soft); color: var(--color-navy); border-radius: 2px; }
 }

@@ -25,6 +25,6 @@ class BusquedaController extends Controller
             ->filter(fn ($nota) => str_contains(Texto::normalizar($nota->nombre), $normalizada))->values();
         $whatsapp = 'https://wa.me/'.config('tienda.whatsapp', '595900000000');
 
-        return view('tienda.busqueda', compact('consulta', 'productos', 'marcas', 'notas', 'whatsapp'));
+        return view($request->query('sugerencias') === '1' ? 'tienda.resultados-busqueda' : 'tienda.busqueda', compact('consulta', 'productos', 'marcas', 'notas', 'whatsapp'));
     }
 }
