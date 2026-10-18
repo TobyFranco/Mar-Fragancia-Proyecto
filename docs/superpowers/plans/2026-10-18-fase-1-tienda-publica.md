@@ -42,13 +42,15 @@ Casos que la spec implica pero ningún test "obvio" cubre; cada uno tiene su tes
 
 **Archivos:** `src/.env` (local, no se commitea), `src/composer.json`, `src/package.json`, `src/AGENTS.md`/`CLAUDE.md` (los regenera Boost)
 
-- [ ] **Paso 1:** Si `php -v` no existe, instalar PHP y Composer como indica `src/AGENTS.md` para Linux: `/bin/bash -c "$(curl -fsSL https://php.new/install/linux/8.5)"`. Abrir una shell nueva y verificar con `php -v` (≥ 8.3) y `composer -V`.
-- [ ] **Paso 2:** `git checkout -b feature/tienda-publica` (desde la raíz del repo).
-- [ ] **Paso 3:** `composer install && npm install && cp -n .env.example .env && php artisan key:generate`.
-- [ ] **Paso 4:** Laravel Boost: `composer require laravel/boost --dev && php artisan boost:install`. Releer el `AGENTS.md` generado y seguir sus guías.
-- [ ] **Paso 5:** `composer require codeat3/blade-phosphor-icons` y `npm install alpinejs` (importarlo e iniciarlo en `resources/js/app.js`).
-- [ ] **Paso 6:** `php artisan test` → Esperado: PASS (los dos ExampleTest).
-- [ ] **Paso 7:** Commit: `chore: entorno, Laravel Boost, Phosphor y Alpine`.
+- [x] **Paso 1:** Si `php -v` no existe, instalar PHP y Composer como indica `src/AGENTS.md` para Linux: `/bin/bash -c "$(curl -fsSL https://php.new/install/linux/8.5)"`. Abrir una shell nueva y verificar con `php -v` (≥ 8.3) y `composer -V`.
+- [x] **Paso 2:** `git checkout -b feature/tienda-publica` (desde la raíz del repo).
+- [x] **Paso 3:** `composer install && npm install && cp -n .env.example .env && php artisan key:generate`.
+- [x] **Paso 4:** Laravel Boost: `composer require laravel/boost --dev && php artisan boost:install`. Releer el `AGENTS.md` generado y seguir sus guías.
+- [x] **Paso 5:** `composer require codeat3/blade-phosphor-icons` y `npm install alpinejs` (importarlo e iniciarlo en `resources/js/app.js`).
+- [x] **Paso 6:** `php artisan test` → Esperado: PASS (los dos ExampleTest).
+- [x] **Paso 7:** Commit: `chore: entorno, Laravel Boost, Phosphor y Alpine`.
+
+**Registro Tarea 0 (2026-10-18):** PHP 8.5.0 y Composer 2.8.12 instalados. Rama creada antes de la instalación, como pidió el orquestador. RED inicial: ExampleTest esperaba 200 en `/` y recibió 404 (la ruta aún no existe). El orquestador autorizó mover el smoke test a `/login`; GREEN: 2 tests, 2 assertions. En Tarea 4 corresponde probar el inicio real. Boost regeneró guías, skills y configuración MCP. Alpine importado e iniciado; `npm run build` correcto (aviso preexistente de `fontaine` opcional). `.env` local no versionado.
 
 ### Tarea 1: Datos del catálogo (migraciones, modelos, factories)
 
