@@ -116,12 +116,14 @@ Riesgos previos detectados al instalar dependencias: `composer audit` informa 4 
 - `Recomendador::parecidos(Producto $base, int $limite): Collection` de arrays `['producto' => Producto, 'porcentaje' => int, 'compartidas' => Collection<string>]`
 - `Recomendador::masProbados(int $limite): Collection<Producto>`
 
-- [ ] **Paso 1: tests que fallan**
+- [x] **Paso 1: tests que fallan**
   - `test_parecido_es_jaccard`: A {bergamota, pimienta, ambroxan, lavanda}, B {bergamota, pimienta, ámbar} → 2/5 → `40`.
   - `test_parecidos_ordena_por_porcentaje_y_nombre_y_excluye_base_inactivos_y_sin_stock`.
   - `test_parecidos_sin_notas_en_comun_no_aparecen` (porcentaje 0 se excluye).
   - `test_mas_probados_usa_ventas_confirmadas_90_dias_y_completa_con_destacados`: pedidos `confirmado` recientes cuentan, `pendiente`/`cancelado` y de hace 120 días no; si hay menos que `$limite`, completa con `destacado` y luego por nombre.
-- [ ] **Paso 2:** FAIL. **Paso 3:** implementar (el estado "confirmado o posterior" = `confirmado|preparando|enviado|entregado`; la fecha de venta en Fase 1 es `pedidos.fecha`, en Fase 2 pasará a la de confirmación). **Paso 4:** PASS. **Paso 5:** Commit `feat: recomendador por notas y más probados`.
+- [x] **Paso 2:** FAIL. **Paso 3:** implementar (el estado "confirmado o posterior" = `confirmado|preparando|enviado|entregado`; la fecha de venta en Fase 1 es `pedidos.fecha`, en Fase 2 pasará a la de confirmación). **Paso 4:** PASS. **Paso 5:** Commit `feat: recomendador por notas y más probados`.
+
+**Registro Tarea 3:** RED: 4 tests por servicio inexistente. GREEN: 21 tests, 429 assertions. Parecido Jaccard (incluido conjunto vacío), orden por porcentaje/nombre, límite y exclusión de inactivos/sin stock; ventas confirmadas o posteriores de 90 días (borde incluido), completadas con destacados y nombre. Ventas agrupadas en SQL por producto; fecha `pedidos.fecha`, según el plan.
 
 ### Tarea 4: Layout público, encabezado con panel de marca e inicio
 
