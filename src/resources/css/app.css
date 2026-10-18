@@ -4,6 +4,140 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-navy: #192438;
+    --color-sage: #5f7a61;
+    --color-sage-soft: #c8d6c4;
+    --color-sage-bg: #f4f6f3;
+    --color-line: #e6e8e4;
+    --color-ink-soft: #5b6475;
+    --color-cream: #f3ebe0;
+    --color-wa: #1f8f4e;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@layer base {
+    [x-cloak] { display: none !important; }
+    html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; }
+    h1, h2, h3 { font-family: var(--font-heading); font-weight: 600; }
+    a, button, input, select { touch-action: manipulation; }
+    button, select { cursor: pointer; }
+    a, button { text-underline-offset: 4px; }
+    :focus-visible { outline: 2px solid var(--color-sage); outline-offset: 4px; }
+    ::selection { background: var(--color-sage-soft); color: var(--color-navy); }
+    input, select, textarea { font-size: 16px; accent-color: var(--color-sage); caret-color: var(--color-navy); }
+    svg { flex-shrink: 0; }
+}
+
+@layer components {
+    .page-width { width: min(100%, 1440px); margin-inline: auto; padding-inline: 20px; }
+    .skip-link { position: absolute; z-index: 100; padding: 12px; background: white; transform: translateY(-150%); }
+    .skip-link:focus { transform: none; }
+    .topbar { background: var(--color-navy); color: white; text-align: center; text-transform: uppercase; font-size: 9px; letter-spacing: .06em; padding: 6px 16px; }
+    .site-header { position: relative; z-index: 20; background: white; border-bottom: 1px solid var(--color-line); }
+    .header-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding-block: 14px; }
+    .logo-link { grid-column: 2; }
+    .logo-link img { width: 112px; height: auto; }
+    .header-start { display: flex; }
+    .header-icons .desktop-search { display: none; }
+    .header-icons { display: flex; justify-content: flex-end; }
+    .icon-button { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; border-radius: 4px; }
+    .icon-button svg { width: 22px; height: 22px; }
+    .account-link { display: inline-flex; }
+    .cart-link { position: relative; }
+    .cart-count { position: absolute; top: 5px; right: 0; display: grid; place-items: center; min-width: 16px; height: 16px; border-radius: 50%; background: var(--color-sage); color: white; font-size: 10px; }
+    .brand-nav { display: none; }
+    .brand-nav.is-open { display: block; }
+    .nav-row { display: flex; flex-direction: column; padding-bottom: 16px; }
+    .nav-row a { display: flex; align-items: center; min-height: 44px; font-family: var(--font-heading); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; }
+    .all-brands { color: var(--color-sage); }
+    .info-links { display: flex; flex-direction: column; color: var(--color-ink-soft); margin-top: 12px; }
+    .brand-panel { display: none; position: absolute; inset-inline: 0; top: 100%; background: white; box-shadow: 0 18px 26px -18px var(--color-navy); border-top: 1px solid var(--color-line); }
+    .climate-strip { display: flex; gap: 8px; align-items: center; justify-content: center; background: var(--color-sage-bg); color: var(--color-sage); font-size: 12px; padding: 12px 64px; min-height: 44px; }
+    .climate-strip svg { width: 18px; height: 18px; }
+    .panel-close { position: absolute; right: 20px; top: 0; }
+    .panel-columns { display: grid; grid-template-columns: 1.2fr repeat(4, 1fr); gap: 32px; padding-block: 26px 32px; }
+    .panel-columns h2 { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }
+    .panel-columns li a { display: flex; align-items: center; min-height: 44px; font-size: 13px; }
+    .brand-photo { width: 100%; height: 220px; object-fit: cover; background: var(--color-sage-bg); border-radius: 8px; }
+    .perfume-placeholder { display: flex; align-items: center; justify-content: center; }
+    .text-link { display: inline-flex; gap: 7px; align-items: center; min-height: 44px; font-size: 12px; font-weight: 500; color: var(--color-sage); }
+    .text-link svg { width: 16px; height: 16px; }
+    .hero { display: grid; gap: 28px; padding-block: 32px; }
+    .eyebrow { font: 500 10px var(--font-mono); text-transform: uppercase; color: var(--color-sage); letter-spacing: .06em; }
+    .hero h1 { font-weight: 700; font-size: 34px; line-height: 1.08; letter-spacing: -.02em; margin-block: 12px 16px; }
+    .hero-copy { font-size: 14px; line-height: 1.7; color: var(--color-ink-soft); max-width: 420px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 44px; padding: 12px 18px; border: 1px solid var(--color-navy); border-radius: 6px; background: var(--color-navy); color: white; font: 600 12px var(--font-heading); text-transform: uppercase; letter-spacing: .05em; transition: transform 150ms ease-out, background-color 150ms ease-out; }
+    .button:active, .icon-button:active { transform: scale(.97); }
+    .button-outline { background: transparent; color: var(--color-navy); }
+    .hero-art { display: flex; align-items: flex-end; justify-content: center; gap: 24px; height: 220px; padding-bottom: 48px; background: var(--color-sage-bg); border-radius: 14px; }
+    .vial { position: relative; width: 34px; border: 2px solid var(--color-navy); border-top: none; border-radius: 0 0 17px 17px; background: linear-gradient(to top, var(--color-sage-soft) 78%, transparent 78%); }
+    .vial::before { content: ''; position: absolute; top: -10px; left: -2px; right: -2px; height: 10px; background: var(--color-navy); border-radius: 2px; }
+    .vial span { position: absolute; bottom: -26px; left: 50%; transform: translateX(-50%); font: 500 11px var(--font-mono); white-space: nowrap; }
+    .vial-small { height: 42px; }
+    .vial-large { height: 58px; }
+    .steps { display: grid; border-block: 1px solid var(--color-line); }
+    .steps li { padding: 20px; text-align: center; border-bottom: 1px solid var(--color-line); }
+    .steps li:last-child { border: 0; }
+    .steps h2 { font-size: 14px; margin-block: 6px 4px; }
+    .steps p { font-size: 12px; color: var(--color-ink-soft); line-height: 1.6; }
+    .featured { padding-block: 24px 36px; }
+    .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    .section-heading h2 { font-size: 20px; letter-spacing: -.02em; }
+    .product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
+    .perfume-card { min-width: 0; }
+    .card-link { display: block; }
+    .card-image { position: relative; aspect-ratio: 4/5; background: var(--color-sage-bg); border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .card-image img { width: 100%; height: 100%; object-fit: contain; }
+    .bottle { position: relative; display: block; width: 44px; height: 76px; background: var(--color-sage-soft); border: 1.5px solid var(--color-navy); border-radius: 8px 8px 12px 12px; }
+    .bottle::before { content: ''; position: absolute; top: -14px; left: 13px; width: 16px; height: 13px; background: var(--color-navy); border-radius: 2px; }
+    .gender-tag { position: absolute; z-index: 1; top: 10px; left: 10px; background: white; color: var(--color-sage); border-radius: 99px; padding: 4px 8px; font: 400 9px var(--font-mono); }
+    .card-brand { margin-top: 10px; font: 600 9px var(--font-heading); letter-spacing: .08em; text-transform: uppercase; overflow-wrap: anywhere; color: var(--color-ink-soft); }
+    .perfume-card h3 { font-size: 14px; line-height: 1.5; margin-top: 3px; overflow-wrap: anywhere; }
+    .size-chips { display: flex; gap: 4px; margin-block: 6px; }
+    .size-chips span { border: 1px solid var(--color-line); border-radius: 4px; padding: 2px 5px; font: 400 10px var(--font-mono); }
+    .size-chips .line-through { color: var(--color-ink-soft); }
+    .card-price { font-size: 12px; line-height: 1.6; }
+    .card-price strong { font-weight: 600; white-space: nowrap; }
+    .site-footer { background: var(--color-navy); color: var(--color-cream); padding-block: 30px; font-size: 12px; line-height: 1.8; }
+    .footer-grid { display: grid; gap: 24px; }
+    .site-footer img { width: 120px; height: auto; filter: brightness(0) invert(1); margin-bottom: 12px; }
+    .site-footer h2 { color: white; text-transform: uppercase; letter-spacing: .08em; font-size: 12px; margin-bottom: 8px; }
+    .site-footer a:not(:has(img)) { display: flex; align-items: center; min-height: 44px; }
+    @media (min-width: 768px) {
+        .page-width { padding-inline: 32px; }
+        .topbar { font-size: 11px; }
+        .header-start { display: none; }
+        .header-icons .desktop-search { display: inline-flex; }
+        .account-link { display: inline-flex; }
+        .logo-link img { width: 125px; }
+        .header-row { padding-block: 18px 6px; }
+        .brand-nav { display: block; }
+        .nav-row { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 24px; padding-block: 0; }
+        .nav-row a { font-size: 10px; }
+        .info-links { flex-direction: row; gap: 24px; margin-top: 0; margin-left: 20px; }
+        .brand-panel { display: block; }
+        .hero { grid-template-columns: 1.1fr 1fr; gap: 32px; padding-block: 44px 36px; align-items: center; }
+        .hero h1 { font-size: 44px; }
+        .hero-copy { font-size: 15px; }
+        .hero-art { height: 290px; }
+        .steps { grid-template-columns: repeat(3, 1fr); }
+        .steps li { border-bottom: 0; border-right: 1px solid var(--color-line); }
+        .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+        .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; }
+        .perfume-card h3 { font-size: 15px; }
+        .card-brand { font-size: 10px; }
+        .card-price { font-size: 13px; }
+    }
+    @media (hover: hover) {
+        .card-link:hover h3, .nav-row a:hover, .panel-columns a:hover { text-decoration: underline; }
+        .button:hover { background: var(--color-ink-soft); color: white; }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0ms !important; animation-duration: 0ms !important; }
 }

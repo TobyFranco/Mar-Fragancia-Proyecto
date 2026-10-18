@@ -5,7 +5,10 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\TamanoController;
+use App\Http\Controllers\Tienda\InicioController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/', InicioController::class)->name('tienda.inicio');
 
 // Autenticación
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

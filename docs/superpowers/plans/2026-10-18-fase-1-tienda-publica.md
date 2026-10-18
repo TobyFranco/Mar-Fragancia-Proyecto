@@ -134,13 +134,21 @@ Riesgos previos detectados al instalar dependencias: `composer audit` informa 4 
 
 **Interfaces producidas:** `Moneda::gs(int|float $monto): string` → `'₲ 124.000'`; componente `<x-tienda.layout title="...">`; `<x-tienda.tarjeta-perfume :producto="$p" />` (marca, nombre, chips "5ml"/"10ml" y "Decant desde ₲ X"; un tamaño sin stock con tachado).
 
-- [ ] **Paso 1: tests que fallan**
+- [x] **Paso 1: tests que fallan**
   - `MonedaTest`: `gs(124000) === '₲ 124.000'`, `gs(0) === '₲ 0'`, `gs(1500000) === '₲ 1.500.000'`.
   - `test_inicio_muestra_marcas_del_menu_en_orden_y_enlaces_informativos`: `assertSeeInOrder(['Chanel','Dior','Tom Ford', ...,'Todas las marcas','Termómetro olfativo','Cómo funciona'])`.
   - `test_inicio_muestra_hero_pasos_y_mas_probados`: ve "Perfumes de lujo", "en decant.", "Elegí tu perfume", "Elegí 5 o 10 ml", "Pedí por WhatsApp", "Los más probados" y 4 tarjetas.
   - `test_inicio_no_muestra_15ml_frasco_ni_bloques_descartados`: `assertDontSee('15 ml')`, `assertDontSee('15ml')`, `assertDontSee('Frasco completo')`, `assertDontSee('Para ella')`.
   - `test_panel_de_marca_lista_perfumes_por_genero`: el HTML del panel de Chanel contiene columnas "En portada", "Mujer", "Hombre", "Para compartir" con nombres de perfumes de esa marca y enlaces `/marcas/chanel?genero=mujer`.
-- [ ] **Paso 2:** FAIL. **Paso 3:** implementar siguiendo la pantalla "1 · Inicio" y "Menú · Panel de cada marca" de la maqueta (panel con Alpine: abre con hover y con foco de teclado, cierra con Escape y con el botón X; en celular, botón de menú con la lista de marcas). Imagen del panel: `marcas.imagen` o un placeholder neutro. **Paso 4:** PASS + revisar visualmente en `php artisan serve` contra la maqueta a 375 px y 1440 px. **Paso 5:** Commit `feat(tienda): layout, encabezado con panel de marca e inicio`.
+- [x] **Paso 2:** FAIL. **Paso 3:** implementar siguiendo la pantalla "1 · Inicio" y "Menú · Panel de cada marca" de la maqueta (panel con Alpine: abre con hover y con foco de teclado, cierra con Escape y con el botón X; en celular, botón de menú con la lista de marcas). Imagen del panel: `marcas.imagen` o un placeholder neutro. **Paso 4:** PASS + revisar visualmente en `php artisan serve` contra la maqueta a 375 px y 1440 px. **Paso 5:** Commit `feat(tienda): layout, encabezado con panel de marca e inicio`.
+
+**Registro Tarea 4:** RED: inicio 404, Moneda y componentes inexistentes. GREEN: 28 tests, 462 assertions; build y Pint correctos. Fonts Montserrat/Inter/IBM Plex Mono se sirven localmente por Vite (se ajustó `vite.config.js`). El smoke test vuelve a `/`, con RefreshDatabase. Composer específico del encabezado carga marcas/productos sin consultas desde las vistas. Imágenes sin datos usan placeholders neutros.
+
+Comparación Firefox real headless con perfil temporal, 1440 y 375 px: inicio, panel de marca en escritorio y lista de marcas móvil. Hero, paleta, fuentes, botellas geométricas, pasos y tarjetas comparados con las secciones s1/n1 de la maqueta; escritorio conserva la composición, móvil apila hero y pasos y usa dos columnas. La maqueta s1/n1 mantiene un layout fijo al reducirse a 375 px; la adaptación móvil aplica la spec. Datos de productos/precios provienen del seeder y ranking, no de los ejemplos estáticos. El pie omite número y horarios sin confirmar y amplía enlaces a objetivos táctiles de 44 px. No se agrega «Para regalar» de la maqueta porque la spec pide solo las cuatro columnas del panel.
+
+Prueba reproducible sin dependencias nuevas: con Artisan en puerto 8013 y Firefox `--headless --no-remote --profile <temporal> --remote-debugging-port 9223`, ejecutar `node tests/Browser/tienda.mjs task4` desde `src/`. Se puede configurar `TIENDA_URL`, `FIREFOX_BIDI_URL` y `TIENDA_CAPTURAS`. Verifica Alpine, foco, cierre con botón/Escape, cuenta/lupa y menú móvil, sin overflow horizontal. Dos fallos observados y corregidos RED → GREEN: reapertura al devolver foco y doble lupa móvil. Capturas/refs: `.superpowers/sdd/2026-10-18-fase-1-tienda-publica/{inicio-1440,inicio-375,panel-marca-1440,menu-marcas-375,maqueta-inicio-1440,maqueta-inicio-375,maqueta-panel-marca-1440,maqueta-panel-marca-375}.png`. No se probó hardware móvil.
+
+URLs de tareas siguientes se enlazan sin crear rutas prematuras. Única repetición del color fuera de CSS: `meta theme-color`, que requiere un color literal. Servidor visual usa SQLite temporal con datos del bloque anterior y `SESSION_DRIVER=file` (no hay tabla sessions en las migraciones originales).
 
 ### Tarea 5: Marcas, catálogo y búsqueda
 
