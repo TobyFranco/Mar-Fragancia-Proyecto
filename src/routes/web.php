@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\TamanoController;
+use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\TamanoController;
+use Illuminate\Support\Facades\Route;
 
 // Autenticación
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -20,10 +20,10 @@ Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->name('admin.'
         return view('admin.dashboard');
     })->name('dashboard');
 
-    Route::resource('marcas', MarcaController::class)->except(['show']);
+    Route::resource('marcas', MarcaController::class)->except(['show'])->scoped(['marca' => 'id']);
     Route::resource('categorias', CategoriaController::class)->except(['show']);
     Route::resource('tamanos', TamanoController::class)->except(['show']);
-    Route::resource('productos', ProductoController::class)->except(['show']);
+    Route::resource('productos', ProductoController::class)->except(['show'])->scoped(['producto' => 'id']);
 });
 
 // Área cliente

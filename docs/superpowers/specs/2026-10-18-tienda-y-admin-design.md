@@ -152,7 +152,7 @@ Mismo estilo de la tienda: menú lateral azul marino con logo en crema e iconos 
 Existe: `roles`, `usuarios`, `clientes`, `marcas`, `categorias` (se usan como **familia de aroma**: Amaderada, Fresca, Floral, Oriental, Cítrica, Dulce), `tamanos` (5 ml, 10 ml), `productos`, `producto_presentacion` (precio y stock por tamaño), `pedidos`, `detalle_pedidos`, `movimientos_inventario`.
 
 Cambios (con migraciones nuevas, sin editar las existentes):
-- `productos`: `genero` enum `mujer|hombre|unisex` (requerido), `slug` único, `destacado` boolean (default false).
+- `productos`: `genero` string(10) con valores permitidos `mujer|hombre|unisex` validados en la aplicación (default `unisex`), `slug` único, `destacado` boolean (default false).
 - `marcas`: `slug` único, `destacada` boolean, `orden_menu` entero nullable, `imagen` nullable (foto del panel).
 - `notas` (`id`, `nombre` único) y pivote `nota_producto` (`producto_id`, `nota_id`).
 - `pedidos`: `cliente_id` pasa a **nullable** (compra sin cuenta); se agregan `numero` único (`MF-0001`, a partir del id), `nombre_contacto`, `telefono`, `cedula` nullable, `email` nullable, `metodo_entrega` (`retiro|asuncion|interior`), `ciudad`, `barrio`, `direccion`, `referencia` (nullables según método), `subtotal`, `costo_envio`.

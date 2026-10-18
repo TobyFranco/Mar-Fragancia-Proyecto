@@ -70,17 +70,19 @@ Casos que la spec implica pero ningún test "obvio" cubre; cada uno tiene su tes
 - Rutas por slug: `Producto` y `Marca` usan `getRouteKeyName(): 'slug'`
 - `Pedido::numero` (`MF-0001`), generado al crear a partir del id (relleno con 4 ceros)
 
-- [ ] **Paso 1: tests que fallan**
+- [x] **Paso 1: tests que fallan**
   - `test_producto_tiene_genero_slug_y_notas`: crea producto con `genero='mujer'` y 2 notas; `assertSame('Mujer', $p->etiquetaGenero())`; `assertCount(2, $p->notas)`; `assertNotEmpty($p->slug)`.
   - `test_unisex_se_muestra_como_para_compartir`.
   - `test_visibles_excluye_inactivos_y_sin_presentaciones_activas`.
   - `test_marcas_del_menu_son_las_destacadas_en_orden_y_maximo_ocho`: 10 destacadas con `orden_menu` desordenado + 1 no destacada → 8 resultados ordenados.
   - `test_pedido_sin_cliente_genera_numero`: `Pedido::create([... 'cliente_id' => null ...])` → `numero === 'MF-' . str_pad($id, 4, '0', STR_PAD_LEFT)`.
   - `test_migracion_completa_datos_existentes`: un producto insertado sin genero/slug antes de migrar queda con `genero='unisex'` y slug derivado (usar `RefreshDatabase` + inserción por query en un test de migración, o probar el backfill como método estático `BackfillCatalogo::run()` invocado por la migración).
-- [ ] **Paso 2:** `php artisan test --filter=ModeloCatalogoTest` → FAIL.
-- [ ] **Paso 3:** Migraciones según spec §7: `productos.genero` (string 10, default `unisex`), `productos.slug` (único, backfill desde `Str::slug(nombre)` con sufijo `-2`, `-3` si se repite), `productos.destacado` (bool false); `marcas.slug` (único, backfill), `marcas.destacada` (bool false), `marcas.orden_menu` (int nullable), `marcas.imagen` (nullable); `notas` + `nota_producto`; en `pedidos`: `cliente_id` nullable, `numero` único (backfill), `nombre_contacto`, `telefono`, `cedula`, `email`, `metodo_entrega`, `ciudad`, `barrio`, `direccion`, `referencia`, `subtotal`, `costo_envio`. Slugs se generan automáticamente al crear (evento `creating`).
-- [ ] **Paso 4:** `php artisan test` → PASS completo.
-- [ ] **Paso 5:** Commit `feat(catalogo): género, slug, notas y campos de pedido`.
+- [x] **Paso 2:** `php artisan test --filter=ModeloCatalogoTest` → FAIL.
+- [x] **Paso 3:** Migraciones según spec §7: `productos.genero` (string 10, default `unisex`), `productos.slug` (único, backfill desde `Str::slug(nombre)` con sufijo `-2`, `-3` si se repite), `productos.destacado` (bool false); `marcas.slug` (único, backfill), `marcas.destacada` (bool false), `marcas.orden_menu` (int nullable), `marcas.imagen` (nullable); `notas` + `nota_producto`; en `pedidos`: `cliente_id` nullable, `numero` único (backfill), `nombre_contacto`, `telefono`, `cedula`, `email`, `metodo_entrega`, `ciudad`, `barrio`, `direccion`, `referencia`, `subtotal`, `costo_envio`. Slugs se generan automáticamente al crear (evento `creating`).
+- [x] **Paso 4:** `php artisan test` → PASS completo.
+- [x] **Paso 5:** Commit `feat(catalogo): género, slug, notas y campos de pedido`.
+
+**Registro Tarea 1 (2026-10-18):** RED: 9 casos sin factories/migraciones, pedido sin cliente rechazado; después se verificó el 404 del admin al usar slugs. GREEN: 12 tests, 43 assertions. Se fijaron bindings `id` explícitos en los recursos admin, conservando enlaces y URLs existentes; los modelos públicos resuelven por slug. El orquestador confirmó `genero` string(10), actualizó la spec y pidió validarlo con `Producto::GENEROS`. Confirmó backfill de pedidos: subtotal = total, costo_envio = 0, contacto y entrega NULL; ambas aclaraciones tuvieron test RED → GREEN. Solo se agregaron migraciones nuevas. La herramienta `task-start` del skill no reconoce encabezados «Tarea»; se mantiene el registro aquí y en el ledger sin cambiar el formato del plan.
 
 ### Tarea 2: Seeders con marcas de lujo, notas y decants
 
