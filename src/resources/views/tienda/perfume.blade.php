@@ -20,7 +20,7 @@
                 <p class="muted">{{ $producto->descripcion }}</p>
                 <ul class="note-chips" aria-label="Notas olfativas">@foreach ($producto->notas as $nota)<li>{{ $nota->nombre }}</li>@endforeach</ul>
                 @if ($errors->any())<div class="form-errors" role="alert">@foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach</div>@endif
-                <form id="agregar-perfume" method="POST" action="{{ url('/carrito') }}">
+                <form id="agregar-perfume" method="POST" action="{{ route('tienda.carrito.agregar') }}">
                     @csrf
                     <fieldset>
                         <legend>Elegí tu decant <span class="muted">del frasco original</span></legend>

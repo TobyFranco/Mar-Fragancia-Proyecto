@@ -14,5 +14,6 @@
     <x-tienda.encabezado />
     <main id="contenido" tabindex="-1">{{ $slot }}</main>
     <x-tienda.pie />
+    @if (!request()->routeIs('tienda.carrito'))<x-tienda.carrito-panel />@endif
 </body>
 </html>

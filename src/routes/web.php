@@ -6,6 +6,7 @@ use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\TamanoController;
 use App\Http\Controllers\Tienda\BusquedaController;
+use App\Http\Controllers\Tienda\CarritoController;
 use App\Http\Controllers\Tienda\CatalogoController;
 use App\Http\Controllers\Tienda\InicioController;
 use App\Http\Controllers\Tienda\PerfumeController;
@@ -17,6 +18,11 @@ Route::get('/marcas/{marca}', [App\Http\Controllers\Tienda\MarcaController::clas
 Route::get('/perfumes', [CatalogoController::class, 'index'])->name('tienda.catalogo');
 Route::get('/perfumes/{producto}', [PerfumeController::class, 'show'])->name('tienda.perfume');
 Route::get('/buscar', [BusquedaController::class, 'index'])->name('tienda.buscar');
+
+Route::get('/carrito', [CarritoController::class, 'show'])->name('tienda.carrito');
+Route::post('/carrito', [CarritoController::class, 'store'])->name('tienda.carrito.agregar');
+Route::patch('/carrito/{presentacion}', [CarritoController::class, 'update'])->whereNumber('presentacion')->name('tienda.carrito.actualizar');
+Route::delete('/carrito/{presentacion}', [CarritoController::class, 'destroy'])->whereNumber('presentacion')->name('tienda.carrito.quitar');
 
 // Autenticación
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

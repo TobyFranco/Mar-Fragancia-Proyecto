@@ -18,7 +18,16 @@ const {context}=await call('browsingContext.create',{type:'tab'});
 async function evaluate(expression){const r=await call('script.evaluate',{expression,target:{context},awaitPromise:true});if(r.type==='exception')throw new Error(JSON.stringify(r));return r.result?.value}
 async function settle(){await evaluate('document.fonts.ready.then(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))).then(() => Promise.all(document.getAnimations().map(a => a.finished.catch(() => {}))))')}
 async function navigate(url,width){await call('browsingContext.setViewport',{context,viewport:{width,height:1000},devicePixelRatio:1});await call('browsingContext.navigate',{context,url,wait:'complete'});await settle()}
-async function capture(name){await evaluate("window.scrollTo({top:0,left:0,behavior: 'instant'})");await settle();const r=await call('browsingContext.captureScreenshot',{context,origin:name.startsWith('maqueta-') ? 'viewport' : 'document'});fs.writeFileSync(`${dir}/${name}.png`,Buffer.from(r.data,'base64'))}
+async function capture(name){await evaluate("window.scrollTo({top:0,left:0,behavior: 'instant'})");await settle();const r=await call('browsingContext.captureScreenshot',{context,origin:(name.startsWith('maqueta-') || name.startsWith('carrito-panel-')) ? 'viewport' : 'document'});fs.writeFileSync(`${dir}/${name}.png`,Buffer.from(r.data,'base64'))}
+async function until(expression) {
+ const deadline = Date.now() + 10000;
+ while (Date.now() < deadline) {
+  try { if (await evaluate(expression)) { await settle(); return } } catch {}
+  await new Promise(resolve => setTimeout(resolve, 100));
+ }
+ throw new Error('No se cumplió: ' + expression);
+}
+async function key(value) { await call('input.performActions', {context, actions:[{type:'key',id:'keyboard',actions:[{type:'keyDown',value},{type:'keyUp',value}]}]}) }
 async function metrics(){return JSON.parse(await evaluate(`JSON.stringify({width:innerWidth,scroll:document.documentElement.scrollWidth,font:getComputedStyle(document.body).fontFamily,h1:document.querySelector('h1')?.textContent,hero:document.querySelector('.hero')?.getBoundingClientRect().height})`))}
 async function contrast(selector) {
  return evaluate(`(() => {
@@ -98,6 +107,37 @@ if (process.argv[2] === 'task6') {
    await evaluate(`(() => {const root=document.querySelector('#${section} .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
    await capture(`maqueta-${name}-${width}`);
   }
+ }
+}
+if (process.argv[2] === 'task7') {
+ for (const width of [1440,375]) {
+  await navigate(baseUrl + '/perfumes/sauvage',width);
+  await evaluate(`document.querySelector('#agregar-perfume').requestSubmit()`);
+  await until(`document.querySelector('.cart-dialog')?.open === true`);
+  assert.ok((await metrics()).scroll <= width);
+  assert.equal(await evaluate(`document.querySelector('.cart-dialog').contains(document.activeElement)`),true);
+  assert.equal(await evaluate(`Math.round(document.querySelector('.cart-dialog').getBoundingClientRect().width)`), Math.min(380,width), 'Ancho del panel de la maqueta');
+  await capture(`carrito-panel-${width}`);
+  const antes = Number(await evaluate(`document.querySelector('.cart-dialog input[name=cantidad]').value`));
+  await evaluate(`document.querySelector('.cart-dialog button[aria-label^="Sumar una unidad"]').click()`);
+  await until(`document.querySelector('.cart-dialog')?.open === true && Number(document.querySelector('.cart-dialog input[name=cantidad]').getAttribute('value')) === ${antes+1}`);
+  await evaluate(`(() => {const items=[...document.querySelector('.cart-dialog').querySelectorAll('a[href],button:not(:disabled),input:not([type="hidden"])')].filter(el=>el.getClientRects().length);items.at(-1).focus()})()`);
+  await key('\uE004');
+  assert.equal(await evaluate(`document.querySelector('.cart-dialog').contains(document.activeElement)`),true,'Tab queda dentro del diálogo');
+  await key('\uE00C'); await settle();
+  assert.equal(await evaluate(`document.querySelector('.cart-dialog').open`),false);
+  assert.equal(await evaluate(`document.activeElement === document.querySelector('.cart-link')`),true);
+  await navigate(baseUrl + '/carrito',width); await capture(`carrito-${width}`);
+  assert.ok((await metrics()).scroll <= width);
+  await evaluate(`document.querySelector('.cart-line-price form').requestSubmit()`);
+  await until(`document.querySelector('.search-empty')?.textContent.includes('Tu carrito está vacío')`);
+  await capture(`carrito-vacio-${width}`);
+  console.log('Carrito: agregar, panel, foco, Escape, quitar y vacío',width);
+ }
+ for (const width of [1440,375]) {
+  await navigate(maqueta,width);
+  await evaluate(`(() => {const root=document.querySelector('#s5 .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
+  await capture(`maqueta-carrito-${width}`);
  }
 }
 } finally {

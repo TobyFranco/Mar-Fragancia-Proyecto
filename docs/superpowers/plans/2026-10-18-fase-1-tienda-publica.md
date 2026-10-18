@@ -200,7 +200,7 @@ Fallos encontrados y corregidos con RED → GREEN: CSS compartido imponía cuatr
 - `Carrito::subtotal(): int`, `Carrito::unidades(): int`, `Carrito::vaciar(): void`, `Carrito::ultimoAgregado(): ?Producto`
 - Sesión: clave `carrito` → `[presentacion_id => cantidad]`, clave `carrito_ultimo` → producto_id.
 
-- [ ] **Paso 1: tests que fallan**
+- [x] **Paso 1: tests que fallan**
   - `test_agrega_y_suma_cantidades_y_muestra_confirmacion`: dos POST de 1 unidad → cantidad 2; redirect con flash; `GET /carrito` ve "Agregaste Sauvage · Decant 10 ml".
   - `test_no_supera_el_stock`: stock 3, pedir 5 → queda 3 y mensaje "Solo quedan 3".
   - `test_no_acepta_cantidades_invalidas`: `cantidad` = 0, -2, `'abc'` → error de validación, carrito sin cambios.
@@ -209,7 +209,11 @@ Fallos encontrados y corregidos con RED → GREEN: CSS compartido imponía cuatr
   - `test_muestra_recomendados_con_notas_parecidas`: tras agregar Sauvage, ve "Con notas parecidas a Sauvage", 3 perfumes con "% parecido" y sus notas compartidas, y un botón que agrega el decant de 5 ml.
   - `test_carrito_vacio_muestra_estado_vacio`: ve "Tu carrito está vacío" y "Ver los más probados".
   - `test_contador_del_encabezado_muestra_unidades`.
-- [ ] **Paso 2:** FAIL. **Paso 3:** implementar según pantallas 5 y 12; el panel lateral se abre (Alpine) tras agregar, con foco atrapado y cierre con Escape. **Paso 4:** PASS. **Paso 5:** Commit `feat(tienda): carrito con recomendados por notas`.
+- [x] **Paso 2:** FAIL. **Paso 3:** implementar según pantallas 5 y 12; el panel lateral se abre (Alpine) tras agregar, con foco atrapado y cierre con Escape. **Paso 4:** PASS. **Paso 5:** Commit `feat(tienda): carrito con recomendados por notas`.
+
+**Registro Tarea 7:** RED por rutas/servicio inexistentes; GREEN 17 casos nuevos (incluye matrices), suite completa 61 tests / 588 assertions. Cantidades enteras positivas al agregar, cero elimina al actualizar; negativos, fracciones, texto y arrays rechazados sin cambios. Cantidades mayores al stock se limitan y avisan; suma protegida incluso con `PHP_INT_MAX`. Se rechazan producto inactivo, presentación inactiva/sin stock y tamaños ajenos a 5/10 ml. Quitar funciona aunque la presentación haya desaparecido.
+
+Panel nativo `<dialog>` + Alpine, sin dependencias nuevas. Firefox mostró que el último Tab podía ir a la barra del navegador: foco circular explícito, Escape y devolución al carrito comprobados. Otro RED de navegador detectó que los botones de cantidad enviaban el valor previo al repintado de Alpine: envío ahora en `$nextTick`. Harness `task7` verde a 375/1440; capturas `carrito-panel-*`, `carrito-*`, `carrito-vacio-*` y `maqueta-carrito-*`, inspeccionadas. Ancho desktop corregido a los 380 px de la maqueta; móvil ocupa el ancho completo. Se agregan botones Actualizar/Quitar con objetivos de 44 px, aumentando el alto respecto de la maqueta; recomendaciones usan nombres, porcentaje, notas y botón sin repetir miniaturas decorativas. Datos/porcentajes corresponden al algoritmo, no a cifras ilustrativas. Corrección RED→GREEN de singular `1 unidad`. Enlace checkout preparado para Tarea 8.
 
 ### Tarea 8: Checkout, pedido pendiente y WhatsApp
 
