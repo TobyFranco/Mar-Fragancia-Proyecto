@@ -342,3 +342,98 @@
         .order-sent h1 { font-size: 30px; }
     }
 }
+
+@theme {
+    --color-clima-frio: #eaf0f8;
+    --color-clima-templado: #f4f6f3;
+    --color-clima-calor: #fff7e8;
+    --color-clima-intenso: #fff1e8;
+}
+@layer components {
+    .thermometer-page { padding-block: 30px 36px; background: var(--color-clima-calor); }
+    .thermometer-page[data-zona=frio] { background: var(--color-clima-frio); }
+    .thermometer-page[data-zona=templado] { background: var(--color-clima-templado); }
+    .thermometer-page[data-zona=calor_intenso] { background: var(--color-clima-intenso); }
+    .thermometer-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; margin-bottom: 28px; }
+    .thermometer-heading h1 { font-size: 28px; line-height: 1.2; margin-top: 8px; }
+    .weather-now p { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; font-size: 12px; }
+    .weather-now svg { width: 18px; height: 18px; }
+    .weather-now .text-link { color: var(--color-navy); text-decoration: underline; }
+    .thermometer-body { display: grid; gap: 28px; }
+    .temperature-dial { background: white; padding: 24px; border-radius: 14px; }
+    .temperature-number { font: 600 72px/1 var(--font-heading); text-align: center; font-variant-numeric: tabular-nums; }
+    .temperature-number small { font-size: 24px; margin-left: 6px; }
+    .temperature-zone { text-align: center; font: 600 13px var(--font-heading); margin-block: 12px 18px; }
+    .temperature-dial input[type=range] { width: 100%; min-height: 44px; accent-color: var(--color-navy); }
+    .temperature-ticks { display: flex; justify-content: space-between; font: 400 10px var(--font-mono); color: var(--color-ink-soft); }
+    .weather-toggles { display: grid; gap: 14px; margin-block: 24px; }
+    .weather-toggles legend { font: 500 10px var(--font-mono); text-transform: uppercase; margin-bottom: 8px; }
+    .weather-toggles fieldset > div { display: flex; border: 1px solid var(--color-line); border-radius: 6px; padding: 3px; }
+    .weather-toggles button { display: flex; justify-content: center; align-items: center; gap: 6px; min-height: 44px; border-radius: 4px; flex: 1; font-size: 12px; }
+    .weather-toggles button[aria-pressed=true] { background: var(--color-navy); color: white; }
+    .weather-toggles svg { width: 18px; height: 18px; }
+    .temperature-science { color: var(--color-ink-soft); font-size: 12px; line-height: 1.7; }
+    .temperature-advice { min-width: 0; }
+    .temperature-advice h2 { font-size: 22px; line-height: 1.4; margin-block: 8px 14px; }
+    .advice-copy { font-size: 13px; line-height: 1.8; color: var(--color-ink-soft); margin-bottom: 22px; }
+    .climate-note-columns { display: grid; gap: 18px; }
+    .climate-note-columns h3 { display: flex; gap: 7px; align-items: center; font: 600 12px var(--font-heading); }
+    .climate-note-columns svg { width: 18px; height: 18px; }
+    .climate-note-columns .note-chips { margin-block: 10px 18px; }
+    .climate-note-columns .note-chips li { background: white; color: var(--color-navy); }
+    .avoid-notes li { border-style: dashed; }
+    .application-dose { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding-block: 16px; border-block: 1px solid var(--color-line); font-size: 12px; }
+    .application-dose > svg { width: 22px; height: 22px; }
+    .dose-marks { display: flex; gap: 5px; margin-left: auto; }
+    .dose-marks i { width: 10px; height: 22px; border: 1px solid var(--color-navy); border-radius: 3px; }
+    .dose-marks .on { background: var(--color-navy); }
+    .climate-picks { display: grid; gap: 12px; margin-top: 20px; }
+    .climate-pick { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; align-items: center; background: white; padding: 14px; border-radius: 10px; }
+    .climate-pick strong, .climate-pick small, .climate-pick .card-brand { display: block; margin: 0; }
+    .climate-pick strong { font: 600 13px/1.6 var(--font-heading); overflow-wrap: anywhere; }
+    .climate-pick small { font-size: 12px; margin-top: 4px; }
+    .climate-year { border-top: 1px solid var(--color-line); padding-top: 22px; margin-top: 28px; }
+    .climate-year > div:first-child { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .climate-year h2 { font: 500 11px var(--font-mono); }
+    .climate-months { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+    .climate-months button { min-height: 52px; padding: 8px; border-radius: 6px; font: 500 11px var(--font-mono); color: var(--color-navy); background: white; border: 1px solid var(--color-line); }
+    .climate-months small { display: block; margin-top: 4px; }
+    .climate-months [aria-pressed=true] { outline: 2px solid var(--color-navy); outline-offset: 1px; }
+    @media (min-width: 768px) {
+        .thermometer-heading h1 { font-size: 32px; }
+        .thermometer-body { grid-template-columns: 380px minmax(0, 1fr); gap: 32px; }
+        .climate-note-columns { grid-template-columns: 1fr 1fr; }
+        .climate-picks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .climate-pick { grid-template-columns: 1fr; }
+        .climate-months { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    }
+}
+
+@theme {
+    --color-clima-frio-acento: #4f7fc2;
+    --color-clima-calor-acento: #c98a1b;
+    --color-clima-intenso-acento: #c4521e;
+}
+@layer components {
+    .temperature-dial input[type=range] { appearance: none; background: transparent; }
+    .temperature-dial input[type=range]::-moz-range-track { height: 14px; border-radius: 99px; background: linear-gradient(to right, var(--color-clima-frio-acento), var(--color-sage-soft), var(--color-clima-calor-acento), var(--color-clima-intenso-acento)); }
+    .temperature-dial input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border: 3px solid var(--color-navy); background: white; border-radius: 50%; }
+    .temperature-dial input[type=range]::-webkit-slider-runnable-track { height: 14px; border-radius: 99px; background: linear-gradient(to right, var(--color-clima-frio-acento), var(--color-sage-soft), var(--color-clima-calor-acento), var(--color-clima-intenso-acento)); }
+    .temperature-dial input[type=range]::-webkit-slider-thumb { appearance: none; width: 24px; height: 24px; margin-top: -5px; border: 3px solid var(--color-navy); background: white; border-radius: 50%; }
+    .climate-note-columns > div { background: white; border-radius: 12px; padding: 14px; }
+    .climate-note-columns .note-chips { margin-bottom: 0; }
+    .application-dose { background: white; border: 0; border-radius: 10px; padding: 14px; margin-top: 18px; }
+    .climate-year { border: 0; background: white; border-radius: 12px; padding: 18px; }
+    .climate-months [data-clima=frio] { background: var(--color-clima-frio); }
+    .climate-months [data-clima=templado] { background: var(--color-sage-soft); }
+    .climate-months [data-clima=calor] { background: var(--color-clima-calor); }
+    .climate-months [data-clima=calor_intenso] { background: var(--color-clima-intenso); }
+    @media (min-width: 768px) {
+        .weather-toggles { grid-template-columns: 1fr 1fr; }
+        .climate-picks { grid-template-columns: 1fr; }
+        .climate-pick { grid-template-columns: 44px minmax(0, 1fr); }
+    }
+    @media (min-width: 1100px) {
+        .climate-picks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+}

@@ -259,14 +259,20 @@ La acción vuelve a consultar presentaciones bajo transacción y `lockForUpdate`
 - `TermometroOlfativo::zonas(): array` (las 4, para pasarlas al JS como JSON) y `PROMEDIOS_MES = [1=>35,2=>34,3=>33,4=>29,5=>25,6=>22,7=>22,8=>25,9=>27,10=>30,11=>32,12=>34]`
 - `ClimaAsuncion::actual(): array` → `['temperatura' => int, 'humedo' => bool, 'fuente' => 'open-meteo'|'promedio']`; `Http::timeout(3)` a `https://api.open-meteo.com/v1/forecast?latitude=-25.28&longitude=-57.63&current=temperature_2m,relative_humidity_2m`; húmedo si humedad ≥ 60 %; `Cache::remember('clima_asuncion', 1800, ...)`.
 
-- [ ] **Paso 1: tests que fallan**
+- [x] **Paso 1: tests que fallan**
   - `test_bordes_de_zona`: 18→`frio`, 19→`templado`, 26→`templado`, 27→`calor`, 32→`calor`, 33→`calor_intenso`, 10 y 40 válidos.
   - `test_dosis_noche_y_humedad_con_limites`: 10°, noche → 4 (no 5); 36°, húmedo → 1 (no 0); 30°, noche y húmedo → 2.
   - `test_recomendaciones_priorizan_coincidencias_y_excluyen_notas_a_evitar`: a 36° un perfume con limón+menta va antes que uno con solo limón; uno con vainilla no aparece.
   - `test_clima_usa_open_meteo`: `Http::fake` con 31.6 °C y 70 % → `['temperatura'=>32,'humedo'=>true,'fuente'=>'open-meteo']`.
   - `test_si_open_meteo_falla_usa_promedio_del_mes`: `Http::fake` con 500 (y otro con `ConnectionException`) en octubre → `temperatura=30`, `fuente='promedio'`; la página responde 200 sin texto de error.
   - `test_pagina_muestra_termometro_meses_y_recomendaciones`: ve "Cada clima tiene su perfume.", "Usar el clima de hoy", los 12 meses y 3 recomendaciones.
-- [ ] **Paso 2:** FAIL. **Paso 3:** implementar según la pantalla "Termómetro olfativo" (el prototipo de la maqueta ya tiene la interacción; la lógica de zonas viene de PHP como JSON, el JS solo pinta; las recomendaciones de las 4 zonas se calculan en el servidor y se envían todas para cambiar sin recargar). Agregar el aviso del termómetro en la franja del panel de marca. **Paso 4:** PASS. **Paso 5:** Commit `feat(tienda): termómetro olfativo`.
+- [x] **Paso 2:** FAIL. **Paso 3:** implementar según la pantalla "Termómetro olfativo" (el prototipo de la maqueta ya tiene la interacción; la lógica de zonas viene de PHP como JSON, el JS solo pinta; las recomendaciones de las 4 zonas se calculan en el servidor y se envían todas para cambiar sin recargar). Agregar el aviso del termómetro en la franja del panel de marca. **Paso 4:** PASS. **Paso 5:** Commit `feat(tienda): termómetro olfativo`.
+
+**Registro Tarea 9:** RED por servicios/ruta ausentes; GREEN 20 casos nuevos, suite 119 tests / 847 assertions. Bordes, orden/límites de dosis, coincidencias y exclusiones, activo/stock, consulta Open-Meteo, caché y vencimiento, HTTP500/conexión/datos incompletos cubiertos. Otro RED detectó mes UTC equivocado al inicio de noviembre; fallback usa America/Asuncion. Timeout de conexión y respuesta 3 s, sin retries. Fallback cacheado 30 min y humedad seca por defecto al no disponer de datos; se etiqueta como promedio del mes sin error visible. La temperatura del control se limita a 10–40, conservando lectura real en el encabezado.
+
+Alpine solo selecciona zona/dosis/textos precalculados en PHP para 31 temperaturas y cuatro combinaciones día/noche/seco/húmedo. Recomendaciones de las cuatro zonas enviadas juntas; orden por coincidencias y nombre. Comparación normalizada exacta de nombres de notas: no se inventa intensidad ni se transforma `oud muy intenso` o `vainilla pesada` en otra nota; el catálogo no tiene intensidad. Se conserva el texto de la maqueta. Si la tienda necesita equivalencias cualitativas, habrá que definirlas explícitamente.
+
+Firefox `task9` verde 375/1440: bordes, dosis, meses y restaurar clima. RED visual de meses sin colores corregido con tonos por zona; gradiente del termómetro, tarjetas blancas, franja anual y recomendaciones comparadas con pantalla n2. Capturas `termometro-*`/`maqueta-termometro-*` en workspace SDD, inspeccionadas; desktop dos columnas, móvil apilado y meses en 4 columnas, sin desborde. Meses con fondos suaves y texto navy para contraste; muestra productos/precios reales y clima actual en lugar de ejemplo36°. Aviso en panel de marca ya existía: conectado a ruta nombrada. Pint y build correctos. Pendientes Tarea11 intactos.
 
 ### Tarea 10: Ingresar / Crear cuenta (PI-12) y tests de Auth (PI-13)
 
@@ -286,6 +292,7 @@ La acción vuelve a consultar presentaciones bajo transacción y `lockForUpdate`
 
 **Pendientes indicados por el orquestador al aprobar el bloque 2 (no implementar en Tareas 6–8):**
 - [ ] Marca activa del menú: subrayado como en la maqueta; contorno solo para `:focus-visible`.
+- [ ] Perfume a 375 px: ocultar el botón Agregar normal y dejar solo la barra fija, como pantalla 8.
 - [ ] Búsqueda: sugerencias mientras se escribe (perfumes, marcas y notas), con coincidencia resaltada como en pantalla 9; conservar Enter a resultados.
 
 **Archivos:** Crear vista `tienda/como-funciona.blade.php` (ruta `tienda.como-funciona` `GET /como-funciona`), `resources/views/errors/404.blade.php`; crear `docs/pruebas/plan-de-pruebas-auth-catalogo.md`. Test: `tests/Feature/Tienda/PaginasInformativasTest.php`.

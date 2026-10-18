@@ -1,6 +1,6 @@
 @props(['marca'])
 <section id="panel-{{ $marca->slug }}" aria-label="Perfumes de {{ $marca->nombre }}" class="brand-panel" x-cloak x-show="abierta === {{ $marca->id }}" x-transition.opacity.duration.150ms>
-    <a class="climate-strip" href="{{ url('/termometro-olfativo') }}"><x-phosphor-thermometer-light aria-hidden="true" /><span>Termómetro olfativo: encontrá el {{ $marca->nombre }} ideal para el clima de hoy</span></a>
+    <a class="climate-strip" href="{{ route('tienda.termometro') }}"><x-phosphor-thermometer-light aria-hidden="true" /><span>Termómetro olfativo: encontrá el {{ $marca->nombre }} ideal para el clima de hoy</span></a>
     <button type="button" class="icon-button panel-close" aria-label="Cerrar panel de {{ $marca->nombre }}" @click="cerrar()"><x-phosphor-x-light aria-hidden="true" /></button>
     <div class="panel-columns page-width">
         <div>

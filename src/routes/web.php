@@ -12,6 +12,7 @@ use App\Http\Controllers\Tienda\CheckoutController;
 use App\Http\Controllers\Tienda\InicioController;
 use App\Http\Controllers\Tienda\PedidoController;
 use App\Http\Controllers\Tienda\PerfumeController;
+use App\Http\Controllers\Tienda\TermometroController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', InicioController::class)->name('tienda.inicio');
@@ -19,6 +20,7 @@ Route::get('/marcas', [App\Http\Controllers\Tienda\MarcaController::class, 'inde
 Route::get('/marcas/{marca}', [App\Http\Controllers\Tienda\MarcaController::class, 'show'])->name('tienda.marcas.show');
 Route::get('/perfumes', [CatalogoController::class, 'index'])->name('tienda.catalogo');
 Route::get('/perfumes/{producto}', [PerfumeController::class, 'show'])->name('tienda.perfume');
+Route::get('/termometro-olfativo', TermometroController::class)->name('tienda.termometro');
 Route::get('/buscar', [BusquedaController::class, 'index'])->name('tienda.buscar');
 
 Route::get('/carrito', [CarritoController::class, 'show'])->name('tienda.carrito');

@@ -188,6 +188,36 @@ if (process.argv[2] === 'task8') {
   }
  }
 }
+if (process.argv[2] === 'task9') {
+ for (const width of [1440,375]) {
+  await navigate(baseUrl + '/termometro-olfativo',width);
+  assert.ok((await metrics()).scroll <= width);
+  for (const [temperatura,zona] of [[18,'frio'],[19,'templado'],[26,'templado'],[27,'calor'],[32,'calor'],[33,'calor_intenso']]) {
+   await evaluate(`(() => {const el=document.querySelector('#temperatura');el.value=${temperatura};el.dispatchEvent(new Event('input',{bubbles:true}))})()`); await settle();
+   assert.equal(await evaluate(`document.querySelector('.thermometer-page').dataset.zona`),zona);
+  }
+  await evaluate(`document.querySelector('#momento-dia').click();document.querySelector('#humedad-seco').click()`); await settle();
+  assert.equal(await evaluate(`document.querySelector('#dosis-texto').textContent.trim()`),'1 aplicación');
+  await evaluate(`document.querySelector('#momento-noche').click()`); await settle();
+  assert.equal(await evaluate(`document.querySelector('#dosis-texto').textContent.trim()`),'2 aplicaciones');
+  await evaluate(`document.querySelector('#humedad-humedo').click()`); await settle();
+  assert.equal(await evaluate(`document.querySelector('#dosis-texto').textContent.trim()`),'1 aplicación');
+  await evaluate(`document.querySelector('[data-mes="Jun"]').click()`); await settle();
+  assert.equal(await evaluate(`Number(document.querySelector('#temperatura').value)`),22);
+  assert.equal(await evaluate(`document.querySelector('.thermometer-page').dataset.zona`),'templado');
+  assert.equal(await evaluate(`document.querySelectorAll('.climate-months button').length`),12);
+  assert.equal(await evaluate(`getComputedStyle(document.querySelector('[data-mes=Ene]')).backgroundColor === getComputedStyle(document.querySelector('[data-mes=Jun]')).backgroundColor`),false,'Meses distinguen zonas por color');
+  await capture(`termometro-${width}`);
+  await evaluate(`document.querySelector('.weather-now button').click()`); await settle();
+  assert.ok((await metrics()).scroll <= width);
+  console.log('Termómetro: bordes, dosis, meses y clima',width);
+ }
+ for (const width of [1440,375]) {
+  await navigate(maqueta,width);
+  await evaluate(`(() => {const root=document.querySelector('#n2 .mf');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
+  await capture(`maqueta-termometro-${width}`);
+ }
+}
 } finally {
  await call('session.end');
  ws.close();
