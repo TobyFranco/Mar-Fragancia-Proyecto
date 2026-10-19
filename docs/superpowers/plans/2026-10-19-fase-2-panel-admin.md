@@ -65,8 +65,16 @@
 - `CicloPedido::pasarA(Pedido $pedido, string $estado, Usuario $admin): Pedido` — en una transacción: relee el pedido con `lockForUpdate()`; si `! puedePasarA($estado)` lanza `TransicionInvalida`; al pasar a `confirmado` registra una **salida** por cada detalle con motivo `Venta MF-XXXX` (vía `Inventario::registrar`); al pasar a `cancelado` desde `confirmado` o `preparando` registra **entradas** `Cancelación MF-XXXX`; desde `pendiente` no toca stock. Guarda el estado y su fila en `pedido_estados` con el usuario.
 - Si falta stock al confirmar, no cambia nada y la excepción `StockInsuficiente` identifica el perfume y el tamaño.
 
-- [ ] **Paso 1: tests que fallan:** `test_confirmar_descuenta_stock_y_registra_salidas`; `test_confirmar_sin_stock_suficiente_falla_sin_cambios` (estado sigue `pendiente`, ningún stock cambia, ningún movimiento); `test_confirmar_dos_veces_descuenta_una_sola_vez`; `test_cancelar_confirmado_devuelve_stock`; `test_cancelar_pendiente_no_toca_stock`; `test_transiciones_invalidas_se_rechazan` (`pendiente→enviado`, `enviado→cancelado`, `entregado→pendiente`); `test_cada_cambio_queda_en_el_historial_con_usuario`.
-- [ ] **Pasos 2–4:** rojo → verde. **Paso 5:** Commit `feat(admin): ciclo de estados de pedido con descuento de stock`.
+- [x] **Paso 1: tests que fallan:** `test_confirmar_descuenta_stock_y_registra_salidas`; `test_confirmar_sin_stock_suficiente_falla_sin_cambios` (estado sigue `pendiente`, ningún stock cambia, ningún movimiento); `test_confirmar_dos_veces_descuenta_una_sola_vez`; `test_cancelar_confirmado_devuelve_stock`; `test_cancelar_pendiente_no_toca_stock`; `test_transiciones_invalidas_se_rechazan` (`pendiente→enviado`, `enviado→cancelado`, `entregado→pendiente`); `test_cada_cambio_queda_en_el_historial_con_usuario`.
+- [x] **Pasos 2–4:** rojo → verde. **Paso 5:** Commit `feat(admin): ciclo de estados de pedido con descuento de stock`.
+
+**Notas del bloque 1 (Tareas 1–3, 2026-10-19):**
+- Verificados RED → GREEN por tarea; suite final del bloque: 191 tests, 1248 assertions. Pint correcto. Se aplicaron las dos migraciones nuevas a la base local con `php artisan migrate`, sin `fresh` ni cambios a migraciones existentes.
+- `CrearPedidoDesdeCarrito` vive en `app/Actions`, no en `app/Services`. El historial inicial registra el usuario del cliente autenticado o NULL para invitada; las fechas se escriben con el reloj de la aplicación. No se inventó historial para pedidos anteriores ni stock resultante para movimientos históricos.
+- Insignias: se exponen las clases de la maqueta (`b-pend`, `b-conf`, `b-prep`, `b-env`, `b-ent`, `b-can`); su CSS corresponde a la Tarea 4.
+- La firma `int $cantidad` se conserva: texto no numérico produce `TypeError`; cero/negativos, tipo inválido y motivo vacío producen `InvalidArgumentException`. La validación de campos HTTP sigue pendiente para Tarea 7.
+- CicloPedido relee/bloquea el pedido y procesa presentaciones en orden de id para reducir deadlocks entre pedidos. Se probaron doble confirmación con instancia obsoleta, falta de stock en la segunda línea con rollback integral, cancelación desde preparando, reposición intermedia y fallo al guardar auditoría.
+- Las pruebas son SQLite en memoria; los bloqueos concurrentes reales de MySQL quedan por verificar. No se adelantaron las pantallas/controladores de Tareas 4–9.
 
 ### Tarea 4: Layout del admin y dashboard
 
