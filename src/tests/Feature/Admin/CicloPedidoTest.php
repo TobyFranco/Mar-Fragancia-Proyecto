@@ -159,13 +159,13 @@ class CicloPedidoTest extends TestCase
         $this->travelTo(now()->setDate(2026, 11, 1)->setTime(0, 10));
         foreach (['confirmado', 'preparando', 'enviado', 'entregado'] as $estado) {
             $servicio->pasarA($pedido, $estado, $admin);
-            $this->assertDatabaseHas('pedido_estados', ['pedido_id' => $pedido->id, 'estado' => $estado, 'usuario_id' => $admin->id, 'created_at' => now()->format('Y-m-d H:i:s')]);
+            $this->assertDatabaseHas('pedido_estados', ['pedido_id' => $pedido->id, 'estado' => $estado, 'usuario_id' => $admin->id, 'created_at' => now()->utc()->format('Y-m-d H:i:s')]);
             $this->travel(1)->minute();
         }
 
         $this->assertSame('entregado', $pedido->fresh()->estado);
         $this->assertSame(['pendiente', 'confirmado', 'preparando', 'enviado', 'entregado'], $pedido->estados()->pluck('estado')->all());
-        $this->assertSame('2026-11-01 00:10:00', $pedido->fechaConfirmacion()->format('Y-m-d H:i:s'));
+        $this->assertSame('2026-11-01 03:10:00', $pedido->fechaConfirmacion()->format('Y-m-d H:i:s'));
         $this->assertSame(8, $a->fresh()->stock);
         $this->assertSame(7, $b->fresh()->stock);
         $this->assertDatabaseCount('movimientos_inventario', 2);

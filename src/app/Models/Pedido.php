@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\FechaUtc;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -33,7 +34,7 @@ class Pedido extends Model
 
     protected function casts(): array
     {
-        return ['fecha' => 'datetime'];
+        return ['fecha' => FechaUtc::class];
     }
 
     public function puedePasarA(string $estado): bool

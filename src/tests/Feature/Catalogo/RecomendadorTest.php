@@ -79,6 +79,19 @@ class RecomendadorTest extends TestCase
         $this->assertSame([$masVendido->id, $otro->id, $destacado->id, $alfabetico->id], $resultado->modelKeys());
     }
 
+    public function test_mas_probados_usa_fecha_de_confirmacion(): void
+    {
+        $this->freezeTime();
+        $actual = $this->perfume('Zeta venta actual', []);
+        $anterior = $this->perfume('Alfa venta anterior', []);
+        $this->venta($actual, 'confirmado', 200, 2);
+        $this->venta($anterior, 'confirmado', 1, 100);
+        Pedido::whereKey(1)->first()->estados()->where('estado', 'confirmado')->update(['created_at' => now()->utc()]);
+        Pedido::whereKey(2)->first()->estados()->where('estado', 'confirmado')->update(['created_at' => now()->subDays(100)->utc()]);
+
+        $this->assertSame([$actual->id, $anterior->id], app(Recomendador::class)->masProbados(2)->modelKeys());
+    }
+
     private function perfume(string $nombre, array $notas): Producto
     {
         $producto = Producto::factory()->create(['nombre' => $nombre]);
@@ -93,6 +106,9 @@ class RecomendadorTest extends TestCase
     private function venta(Producto $producto, string $estado, int $dias, int $cantidad): void
     {
         $pedido = Pedido::create(['cliente_id' => null, 'fecha' => now()->subDays($dias), 'estado' => $estado, 'total' => 30000 * $cantidad]);
+        if ($estado !== 'pendiente') {
+            $pedido->estados()->create(['estado' => 'confirmado', 'created_at' => now()->subDays($dias)]);
+        }
         DetallePedido::create(['pedido_id' => $pedido->id, 'presentacion_id' => $producto->presentaciones()->first()->id, 'cantidad' => $cantidad, 'precio_unitario' => 30000, 'subtotal' => 30000 * $cantidad]);
     }
 }

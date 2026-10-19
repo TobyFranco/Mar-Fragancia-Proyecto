@@ -10,7 +10,7 @@ class AuditoriaVistasTest extends TestCase
     {
         $hallazgos = [];
 
-        foreach (['tienda', 'components/tienda', 'auth', 'errors'] as $directorio) {
+        foreach (['tienda', 'components/tienda', 'auth', 'errors', 'admin', 'components/admin'] as $directorio) {
             $archivos = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(resource_path('views/'.$directorio), \FilesystemIterator::SKIP_DOTS));
 
             foreach ($archivos as $archivo) {

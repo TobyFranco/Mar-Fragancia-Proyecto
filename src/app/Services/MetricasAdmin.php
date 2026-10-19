@@ -28,7 +28,7 @@ class MetricasAdmin
 
         return [
             'pendientes' => Pedido::where('estado', 'pendiente')->count(),
-            'pendiente_mas_viejo' => $fecha ? Carbon::parse($fecha) : null,
+            'pendiente_mas_viejo' => $fecha ? Carbon::parse($fecha, 'UTC') : null,
             'ventas_mes' => (int) (clone $pedidos)->sum('total'),
             'pedidos_mes' => (clone $pedidos)->count(),
             'decants_mes' => $unidades,

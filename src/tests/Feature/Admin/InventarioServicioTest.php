@@ -29,7 +29,7 @@ class InventarioServicioTest extends TestCase
 
         $this->assertInstanceOf(MovimientoInventario::class, $movimiento);
         $this->assertSame(6, $presentacion->fresh()->stock);
-        $this->assertDatabaseHas('movimientos_inventario', ['id' => $movimiento->id, 'presentacion_id' => $presentacion->id, 'tipo' => 'entrada', 'cantidad' => 4, 'stock_resultante' => 6, 'motivo' => 'Fraccionado', 'usuario_id' => $usuario->id, 'fecha' => now()->format('Y-m-d H:i:s')]);
+        $this->assertDatabaseHas('movimientos_inventario', ['id' => $movimiento->id, 'presentacion_id' => $presentacion->id, 'tipo' => 'entrada', 'cantidad' => 4, 'stock_resultante' => 6, 'motivo' => 'Fraccionado', 'usuario_id' => $usuario->id, 'fecha' => now()->utc()->format('Y-m-d H:i:s')]);
         $this->assertTrue($movimiento->fresh()->fecha->equalTo(now()->startOfSecond()));
     }
 

@@ -38,7 +38,7 @@ class Recomendador
             ->join('pedidos', 'pedidos.id', '=', 'detalle_pedidos.pedido_id')
             ->join('producto_presentacion', 'producto_presentacion.id', '=', 'detalle_pedidos.presentacion_id')
             ->whereIn('pedidos.estado', ['confirmado', 'preparando', 'enviado', 'entregado'])
-            ->where('pedidos.fecha', '>=', now()->subDays(90))
+            ->whereExists(fn ($q) => $q->selectRaw('1')->from('pedido_estados')->whereColumn('pedido_estados.pedido_id', 'pedidos.id')->where('pedido_estados.estado', 'confirmado')->whereBetween('pedido_estados.created_at', [now()->subDays(90)->utc(), now()->utc()]))
             ->selectRaw('producto_presentacion.producto_id, SUM(detalle_pedidos.cantidad) as unidades')
             ->groupBy('producto_presentacion.producto_id');
 

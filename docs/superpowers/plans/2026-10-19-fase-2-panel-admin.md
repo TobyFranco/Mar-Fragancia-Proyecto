@@ -135,10 +135,21 @@
 
 ### Tarea 9: Cierre de la Fase 2
 
-- [ ] **Pendiente del orquestador:** configurar `APP_TIMEZONE` / `config(app.timezone)` como `America/Asuncion` (también `.env.example`) y probar que una fecha persistida se muestra en hora de Asunción en detalle de pedido y kardex. Conservar interpretación de fechas históricas para evitar desplazarlas dos veces.
+- [x] **Pendiente del orquestador:** configurar `APP_TIMEZONE` / `config(app.timezone)` como `America/Asuncion` (también `.env.example`) y probar que una fecha persistida se muestra en hora de Asunción en detalle de pedido y kardex. Conservar interpretación de fechas históricas para evitar desplazarlas dos veces.
 
-- [ ] **Paso 1:** cambiar `Recomendador::masProbados` para contar por **fecha de confirmación** (como pide la spec) con su test `test_mas_probados_usa_fecha_de_confirmacion`.
-- [ ] **Paso 2:** extender el test de auditoría sin emojis a `resources/views/admin` y `components/admin`.
-- [ ] **Paso 3:** agregar a `docs/pruebas/` un `plan-de-pruebas-panel-admin.md` con la misma estructura del de PI-13 (caso · precondición · pasos · resultado esperado · test automatizado) para todos los tests de las Tareas 1–8.
-- [ ] **Paso 4:** revisión visual de las pantallas 14–20 contra la maqueta; `npm run build`; `./vendor/bin/pint --dirty`; `php artisan test` → todo verde. Si es posible, correr migraciones y seeders contra **MySQL** (docker-compose) y anotar el resultado.
-- [ ] **Paso 5:** Commit `chore(admin): cierre de Fase 2` y responder con el informe final (commits, tests, desvíos, pendientes).
+- [x] **Paso 1:** cambiar `Recomendador::masProbados` para contar por **fecha de confirmación** (como pide la spec) con su test `test_mas_probados_usa_fecha_de_confirmacion`.
+- [x] **Paso 2:** extender el test de auditoría sin emojis a `resources/views/admin` y `components/admin`.
+- [x] **Paso 3:** agregar a `docs/pruebas/` un `plan-de-pruebas-panel-admin.md` con la misma estructura del de PI-13 (caso · precondición · pasos · resultado esperado · test automatizado) para todos los tests de las Tareas 1–8.
+- [x] **Paso 4:** revisión visual de las pantallas 14–20 contra la maqueta; `npm run build`; `./vendor/bin/pint --dirty`; `php artisan test` → todo verde. Si es posible, correr migraciones y seeders contra **MySQL** (docker-compose) y anotar el resultado.
+- [x] **Paso 5:** Commit `chore(admin): cierre de Fase 2` y responder con el informe final (commits, tests, desvíos, pendientes).
+
+**Notas de cierre (Tareas 7–9):**
+- T7: RED11 por rutas faltantes; GREEN11/59, suite257/1559. Kardex con filtros combinables y registro vía Inventario; cantidades0/negativas/texto/fracción se rechazan sin cambios.
+- T8: RED6 de8; GREEN8/57, suite265/1616. Ocho destacadas como máximo bajo transacción/bloqueo; imagen y orden gestionables; marca/categoría con perfumes protegidas. Tamaños solo lectura, rutas mutables y vistas retiradas por instrucción expresa.
+- T9: APP_TIMEZONE configurado en config, `.env.example` y `.env` local (ignorado), default America/Asuncion. Fechas de negocio siguen UTC en BD mediante cast explícito; vistas convierten a Asunción. Regresión04:26UTC →01:26local en pedido/kardex y roundtrip de registros nuevos. Sin cambios a migraciones ni backfill de fechas sin procedencia. Se adaptaron dos expectativas previas de auditoría al almacenamiento UTC, sin reducir cobertura.
+- Ranking público usa confirmación en los últimos90 días (límitesUTC) y excluye pendiente/cancelado; fixtures anteriores ahora registran confirmación explícita. Auditoría sin emojis ampliada a admin/componentsadmin y verificada con fixture negativo temporal retirado.
+- Documento `docs/pruebas/plan-de-pruebas-panel-admin.md`:74 métodos admin (incluidos tres de fechas), más ranking y auditoría. Suite final269 tests/1630 assertions, Pint/build correctos, diff sin errores. Recorrido Firefox14–20 completo a1440/768 sin overflow raíz ni errores de consola; capturas en workspaceSDD para revisión humana.
+- MySQL no pudo ejecutarse: pdo_mysql instalado, pero Docker/servidor/cliente no disponibles y sin puertos3306/3307 escuchando. Pendientes integración y concurrencia real, teléfono físico/WhatsApp y datos comerciales definitivos.
+- Menores ya informados en bloque2 siguen diferidos (búsqueda0 y deselección de notas tras error). Precios fraccionarios conservan comportamiento heredado, pendiente criterio de negocio para unificar cálculo/visualización. Sin push ni merge.
+
+**Revisión final independiente:** rango45d4b35..4aa2bdb, sin hallazgos críticos/importantes. Menor nuevo diferido: una entrada extrema puede desbordar el entero de stock resultante (stock1 + cantidad2147483647); MySQL estricto devolvería error, aunque la transacción revierte todo. Agregar límite del resultado bajo bloqueo y error de cantidad en una corrección posterior. No fue reproducido contra MySQL por falta de entorno. Se conservan como pendientes los dos menores del bloque2. Se mantiene la rama para revisión, sin push/merge. Capturas conservadas para el orquestador.
