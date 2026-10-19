@@ -1,0 +1,31 @@
+
+  .why-box{background:#f6f7f5;border-radius:12px;padding:14px 18px;font:400 14px/1.55 Inter;color:#333;max-width:900px;margin:6px 0 24px}
+  .why-box b{color:#192438}
+  .opt{margin-bottom:28px;border:2px solid transparent;border-radius:14px;padding:10px;cursor:pointer;transition:border-color .15s ease}
+  .opt.selected{border-color:#2563eb}
+  .opt h3{margin:0 0 2px;font:600 17px Montserrat}
+  .opt .d{font:400 13px/1.5 Inter;color:#555;margin:0 0 10px;max-width:900px}
+  .opt .d b{color:#192438}
+  .ch{background:#fff;font-family:Inter,system-ui;color:#192438}
+  .ch .r1{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 32px 6px}
+  .ch .r1 img{height:50px;display:block}
+  .ch .r1 .icons{display:flex;justify-content:flex-end;gap:18px}
+  .ch .r1 .icons i{font-size:21px}
+  .ch .r2{display:flex;justify-content:center;align-items:center;padding:14px 32px 16px;border-bottom:1px solid #e6e8e4}
+  .ch .r2 a{font:600 11.5px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:#192438;margin:0 15px;text-decoration:none;white-space:nowrap}
+  .ch .r2 a.on{border-bottom:1.5px solid #192438;padding-bottom:5px}
+  .ch .r2 a.all{color:#5f7a61}
+  .ch .r2 .gap{width:48px}
+  .ch .r2 a.info{color:#5b6475}
+  .lbl{font:500 10.5px 'IBM Plex Mono';letter-spacing:.06em;text-transform:uppercase;color:#5f7a61}
+  .brandpage{padding:22px 32px 26px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px}
+  .brandpage h2{font:600 30px Montserrat;margin:4px 0 0;letter-spacing:.06em}
+  .tabs{display:flex;gap:6px}
+  .tabs span{border:1px solid #e6e8e4;border-radius:999px;padding:6px 14px;font-size:12px}
+  .tabs span.on{background:#192438;border-color:#192438;color:#fff}
+  .mega{display:grid;grid-template-columns:repeat(5,1fr);gap:6px 24px;padding:22px 48px 18px;font:400 13px/1.9 Inter}
+  .mega .L{font:600 13px Montserrat;color:#5f7a61}
+  .mega-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e6e8e4;padding:12px 48px;font-size:12px;color:#5b6475}
+  .wall{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;padding:18px 32px 24px}
+  .wall div{height:64px;border:1px solid #e6e8e4;border-radius:10px;display:flex;align-items:center;justify-content:center;font:600 12px Montserrat;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:0 8px}
+  .wall div.more{background:#192438;color:#fff;border-color:#192438;letter-spacing:.06em}

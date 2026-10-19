@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mar Fragancias · Maquetas aprobadas</title>
+<style>body{font-family:Inter,system-ui;margin:0;padding:24px 32px;background:#f5f6f7;color:#111}.subtitle{color:#555}.screen h3{font:600 18px Montserrat,Inter}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="menu.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#192438; --navy-2:#2b3a55; --ink-soft:#5b6475;
+    --sage:#5f7a61; --sage-soft:#c8d6c4; --sage-bg:#f4f6f3;
+    --line:#e6e8e4; --bg:#ffffff; --wa:#1f8f4e;
+  }
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 24px}
+  .toc a{font:500 13px Inter,system-ui;padding:6px 12px;border-radius:999px;background:#f1f3f5;color:#111;text-decoration:none}
+  .screen{margin:0 0 44px}
+  .screen h3{margin:0 0 4px}
+  .screen .why{color:#555;font:400 14px/1.5 Inter,system-ui;margin:0 0 12px;max-width:820px}
+  .frame{border:1px solid #d9dce1;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(15,23,42,.08);background:var(--bg)}
+  .bar{height:26px;background:#eef0f2;display:flex;align-items:center;gap:6px;padding:0 10px;border-bottom:1px solid #dde0e4}
+  .bar i{width:9px;height:9px;border-radius:50%;background:#cfd3d8;display:block}
+  .bar span{margin-left:10px;font:400 11px 'IBM Plex Mono',monospace;color:#777}
+
+  .mf{font:400 13px/1.5 Inter,system-ui;color:var(--navy);background:var(--bg)}
+  .mf *{box-sizing:border-box}
+  .mf .serif{font-family:Montserrat,Inter,sans-serif}
+  .mf .mono{font-family:'IBM Plex Mono',monospace}
+  .mf .topbar{background:var(--navy);color:#e9edf3;text-align:center;font-size:11px;letter-spacing:.08em;padding:6px}
+  .mf header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--line)}
+  .mf header img{height:38px;display:block}
+  .mf nav a{margin:0 14px;font:600 12px Montserrat;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);text-decoration:none}
+  .mf nav a.on{border-bottom:2px solid var(--sage);padding-bottom:4px}
+  .mf .icons{display:flex;gap:18px;align-items:center;font-size:12px;color:var(--navy)}
+  .mf .icons svg{width:18px;height:18px;stroke:var(--navy);fill:none;stroke-width:1.7}
+  .mf .cartcount{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:var(--sage);color:#fff;font-size:10px;margin-left:2px}
+  .mf .btn{display:inline-block;background:var(--navy);color:#fff;padding:12px 20px;border-radius:6px;font:600 12px Montserrat;letter-spacing:.06em;text-transform:uppercase;border:none}
+  .mf .btn.ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy)}
+  .mf .btn.sage{background:var(--sage)}
+  .mf .btn.wa{background:var(--wa)}
+  .mf .muted{color:var(--ink-soft)}
+  .mf .eyebrow{font:500 11px 'IBM Plex Mono',monospace;color:var(--sage);letter-spacing:.06em;text-transform:uppercase}
+  .mf h1,.mf h2,.mf h4{font-family:Montserrat,Inter,sans-serif;margin:0;color:var(--navy)}
+  .mf .wrap{padding:28px 32px}
+
+  /* home */
+  .mf .hero{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:center;padding:44px 32px 36px}
+  .mf .hero h1{font-size:44px;line-height:1.05;letter-spacing:-.02em;margin:10px 0 14px}
+  .mf .hero p{font-size:15px;color:var(--ink-soft);max-width:420px;margin:0 0 22px}
+  .mf .hero-art{background:var(--sage-bg);border-radius:14px;height:290px;display:flex;align-items:flex-end;justify-content:center;gap:22px;padding-bottom:46px;position:relative}
+  .mf .vial{width:34px;border:2px solid var(--navy);border-top:none;border-radius:0 0 17px 17px;background:linear-gradient(to top,var(--sage-soft) 78%,transparent 78%);position:relative}
+  .mf .vial:before{content:"";position:absolute;top:-10px;left:-2px;right:-2px;height:10px;background:var(--navy);border-radius:2px}
+  .mf .vial b{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font:500 11px 'IBM Plex Mono';white-space:nowrap}
+  .mf .flask{width:84px;height:118px;border:2px solid var(--navy);border-radius:12px;background:var(--sage-soft);position:relative}
+  .mf .flask:before{content:"";position:absolute;top:-18px;left:28px;width:24px;height:18px;background:var(--navy);border-radius:3px}
+  .mf .flask b{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font:500 11px 'IBM Plex Mono';white-space:nowrap}
+  .mf .arrow{font-size:22px;color:var(--sage);align-self:center;margin-top:40px}
+  .mf .steps{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .mf .steps div{padding:18px 32px;border-right:1px solid var(--line)}
+  .mf .steps div:last-child{border-right:none}
+  .mf .steps h4{font-size:14px;margin:4px 0 2px}
+  .mf .tiles{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:28px 32px 8px}
+  .mf .tile{height:150px;border-radius:12px;padding:20px;display:flex;flex-direction:column;justify-content:flex-end;background:var(--sage-bg);position:relative;overflow:hidden}
+  .mf .tile.dark{background:var(--navy);color:#fff}
+  .mf .tile.dark h2{color:#fff}
+  .mf .tile h2{font-size:24px}
+  .mf .tile span{font-size:12px;margin-top:4px;opacity:.8}
+  .mf .brands{display:flex;gap:10px;flex-wrap:wrap;padding:8px 32px 0}
+  .mf .brand{border:1px solid var(--line);border-radius:999px;padding:8px 16px;font:600 12px Montserrat;letter-spacing:.04em}
+  .mf .sechead{display:flex;justify-content:space-between;align-items:baseline;padding:28px 32px 12px}
+  .mf .sechead h2{font-size:20px}
+  .mf .sechead a{font-size:12px;color:var(--sage);font-weight:600;text-decoration:none}
+  .mf .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:0 32px 32px}
+  .mf .grid.three{grid-template-columns:repeat(3,1fr);padding:0}
+  .mf .card .ph{aspect-ratio:4/5;background:var(--sage-bg);border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative}
+  .mf .card .ph i{width:44px;height:76px;border-radius:8px 8px 12px 12px;background:var(--sage-soft);border:1.5px solid var(--navy);position:relative;display:block}
+  .mf .card .ph i:before{content:"";position:absolute;top:-14px;left:13px;width:16px;height:13px;background:var(--navy);border-radius:2px}
+  .mf .card .tag{position:absolute;top:10px;left:10px;background:#fff;border-radius:999px;padding:3px 9px;font:500 10px 'IBM Plex Mono';color:var(--sage)}
+  .mf .card .b{margin-top:10px;font:600 10px Montserrat;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .mf .card .n{font:600 15px Montserrat;margin:2px 0}
+  .mf .card .sizes{display:flex;gap:4px;margin:6px 0}
+  .mf .card .sizes span{font:500 10px 'IBM Plex Mono';border:1px solid var(--line);border-radius:4px;padding:2px 5px}
+  .mf .card .p{font-size:13px}
+  .mf .card .p strong{font-weight:600}
+  .mf footer{background:var(--navy);color:#cfd6e2;padding:26px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px;font-size:12px}
+  .mf footer h4{color:#fff;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+
+  /* catálogo */
+  .mf .crumbs{font-size:12px;color:var(--ink-soft);padding:18px 32px 0}
+  .mf .cathead{display:flex;justify-content:space-between;align-items:end;padding:6px 32px 18px;border-bottom:1px solid var(--line)}
+  .mf .cathead h1{font-size:32px}
+  .mf .select{border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:12px}
+  .mf .catbody{display:grid;grid-template-columns:220px 1fr;gap:28px;padding:22px 32px 32px}
+  .mf .filter h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px}
+  .mf .filter{margin-bottom:22px}
+  .mf .chk{display:flex;align-items:center;gap:8px;font-size:13px;margin:7px 0}
+  .mf .chk i{width:15px;height:15px;border:1.5px solid #b9c0ca;border-radius:3px;display:block}
+  .mf .chk.on i{background:var(--navy);border-color:var(--navy)}
+  .mf .chk em{font-style:normal;color:var(--ink-soft);margin-left:auto;font-size:11px}
+  .mf .seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .mf .seg span{flex:1;text-align:center;padding:7px 0;font-size:12px}
+  .mf .seg span.on{background:var(--navy);color:#fff}
+  .mf .activechips{display:flex;gap:8px;margin-bottom:14px}
+  .mf .activechips span{background:var(--sage-bg);border-radius:999px;padding:5px 10px;font-size:12px}
+
+  /* marcas */
+  .mf .az{display:flex;gap:6px;padding:0 32px 18px;flex-wrap:wrap}
+  .mf .az span{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;font:600 12px Montserrat;border:1px solid var(--line)}
+  .mf .az span.off{color:#c3c8d0;border-color:#f0f1f3}
+  .mf .brandcols{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 28px;padding:0 32px 32px}
+  .mf .brandcols h4{font-size:22px;color:var(--sage);margin-bottom:6px}
+  .mf .brandcols div div{font-size:13px;padding:3px 0;display:flex;justify-content:space-between}
+  .mf .brandcols em{font-style:normal;color:var(--ink-soft);font-size:11px}
+
+  /* detalle */
+  .mf .pdp{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:22px 32px 36px}
+  .mf .gallery{background:var(--sage-bg);border-radius:14px;height:440px;display:flex;align-items:center;justify-content:center}
+  .mf .gallery i{width:110px;height:180px;border-radius:16px 16px 22px 22px;background:var(--sage-soft);border:2px solid var(--navy);position:relative;display:block}
+  .mf .gallery i:before{content:"";position:absolute;top:-30px;left:34px;width:38px;height:28px;background:var(--navy);border-radius:4px}
+  .mf .thumbs{display:flex;gap:8px;margin-top:10px}
+  .mf .thumbs span{width:62px;height:62px;border-radius:8px;background:var(--sage-bg);border:1.5px solid transparent}
+  .mf .thumbs span.on{border-color:var(--navy)}
+  .mf .pdp h1{font-size:34px;margin:4px 0 6px}
+  .mf .notes{display:flex;gap:6px;margin:10px 0 18px}
+  .mf .notes span{font-size:11px;border-radius:999px;padding:4px 10px;background:var(--sage-bg)}
+  .mf .optlabel{font:600 11px Montserrat;letter-spacing:.1em;text-transform:uppercase;margin:16px 0 8px;display:flex;justify-content:space-between}
+  .mf .optlabel em{font:400 12px Inter;color:var(--ink-soft);text-transform:none;letter-spacing:0;font-style:normal}
+  .mf .decants{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .mf .dc{border:1.5px solid var(--line);border-radius:10px;padding:12px;display:flex;gap:10px;align-items:end}
+  .mf .dc.on{border-color:var(--navy);box-shadow:0 0 0 1px var(--navy) inset}
+  .mf .dc .mini{width:14px;border:1.5px solid var(--navy);border-top:none;border-radius:0 0 7px 7px;background:var(--sage-soft)}
+  .mf .dc strong{display:block;font:600 14px Montserrat}
+  .mf .dc small{font-size:12px;color:var(--ink-soft)}
+  .mf .dc.out{opacity:.45}
+  .mf .full{border:1.5px dashed #b9c0ca;border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+  .mf .full strong{font:600 14px Montserrat}
+  .mf .qtyrow{display:flex;gap:10px;margin-top:20px}
+  .mf .qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:6px}
+  .mf .qty span{width:38px;text-align:center;padding:10px 0}
+  .mf .hint{background:var(--sage-bg);border-radius:10px;padding:12px 14px;margin-top:18px;font-size:12px;display:flex;gap:10px}
+  .mf .price{font:600 24px Montserrat;margin-top:12px}
+
+  /* carrito */
+  .mf .cartlayout{display:grid;grid-template-columns:1fr 380px;min-height:470px}
+  .mf .dim{background:rgba(25,36,56,.35);position:relative}
+  .mf .dim .ghost{position:absolute;inset:24px;border-radius:12px;background:rgba(255,255,255,.4)}
+  .mf .drawer{border-left:1px solid var(--line);padding:22px;display:flex;flex-direction:column;background:#fff}
+  .mf .drawer h2{font-size:18px;display:flex;justify-content:space-between}
+  .mf .line{display:grid;grid-template-columns:56px 1fr auto;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .mf .line .th{width:56px;height:66px;border-radius:8px;background:var(--sage-bg)}
+  .mf .line .t{font:600 13px Montserrat}
+  .mf .line .s{font:500 11px 'IBM Plex Mono';color:var(--sage)}
+  .mf .line .q{display:inline-flex;border:1px solid var(--line);border-radius:5px;margin-top:6px;font-size:12px}
+  .mf .line .q span{padding:2px 9px}
+  .mf .tot{margin-top:auto;padding-top:14px}
+  .mf .tot div{display:flex;justify-content:space-between;margin:4px 0}
+  .mf .tot .big{font:600 17px Montserrat}
+
+  /* checkout */
+  .mf .co{display:grid;grid-template-columns:1fr 360px;gap:32px;padding:24px 32px 36px}
+  .mf .stepper{display:flex;gap:10px;align-items:center;font-size:12px;margin-bottom:20px}
+  .mf .stepper span{display:flex;align-items:center;gap:6px;color:var(--ink-soft)}
+  .mf .stepper b{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid #c3c8d0;font-size:11px}
+  .mf .stepper .on{color:var(--navy);font-weight:600}
+  .mf .stepper .on b{background:var(--navy);border-color:var(--navy);color:#fff}
+  .mf .stepper .done b{background:var(--sage);border-color:var(--sage);color:#fff}
+  .mf .stepper hr{flex:0 0 30px;border:none;border-top:1px solid #c3c8d0}
+  .mf fieldset{border:none;padding:0;margin:0 0 20px}
+  .mf legend{font:600 15px Montserrat;margin-bottom:12px}
+  .mf .f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .mf .fld label{display:block;font-size:12px;font-weight:500;margin-bottom:5px}
+  .mf .fld .in{border:1px solid #cdd2d9;border-radius:6px;padding:10px 12px;font-size:13px;color:var(--ink-soft);background:#fff}
+  .mf .fld .in.err{border-color:#c2410c}
+  .mf .fld small{font-size:11px;color:var(--ink-soft)}
+  .mf .fld small.err{color:#c2410c}
+  .mf .radios{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .mf .radio{border:1.5px solid var(--line);border-radius:10px;padding:12px}
+  .mf .radio.on{border-color:var(--navy);box-shadow:0 0 0 1px var(--navy) inset}
+  .mf .radio strong{display:block;font:600 13px Montserrat}
+  .mf .radio small{color:var(--ink-soft);font-size:12px}
+  .mf .summary{background:var(--sage-bg);border-radius:12px;padding:20px;align-self:start}
+  .mf .summary h4{font-size:15px;margin-bottom:10px}
+  .mf .summary .r{display:flex;justify-content:space-between;font-size:13px;margin:6px 0}
+  .mf .summary hr{border:none;border-top:1px solid #dde3da;margin:12px 0}
+  .mf .wa-preview{background:#e7ddd3;border-radius:12px;padding:14px;margin-top:14px}
+  .mf .bubble{background:#d9fdd3;border-radius:8px 8px 2px 8px;padding:10px 12px;font-size:12px;line-height:1.55;color:#111;margin-left:22px;box-shadow:0 1px 1px rgba(0,0,0,.08);white-space:pre-line}
+
+  /* auth */
+  .mf .auth{display:grid;grid-template-columns:1fr 1fr;min-height:470px}
+  .mf .authart{background:var(--sage-bg);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:48px}
+  .mf .authart img{height:56px;margin-bottom:26px}
+  .mf .authart h2{font-size:28px;line-height:1.15;margin-bottom:10px}
+  .mf .authform{padding:48px 56px;display:flex;flex-direction:column;justify-content:center}
+  .mf .tabs{display:flex;border-bottom:1px solid var(--line);margin-bottom:22px}
+  .mf .tabs span{padding:10px 0;margin-right:24px;font:600 13px Montserrat;color:var(--ink-soft)}
+  .mf .tabs span.on{color:var(--navy);border-bottom:2px solid var(--navy)}
+
+  /* mobile */
+  .phones{display:flex;gap:28px;flex-wrap:wrap}
+  .phone{width:300px;border:9px solid #111;border-radius:34px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+  .phone .mf header{padding:10px 14px}
+  .phone .mf header img{height:26px}
+  .phone .mf .wrap{padding:14px}
+  .phone .mf .gallery{height:250px;border-radius:0}
+  .phone .mf .gallery i{transform:scale(.7)}
+  .phone .mf .decants{grid-template-columns:repeat(2,1fr);gap:8px}
+  .phone .mf .dc{flex-direction:column;align-items:flex-start;padding:9px}
+  .phone .mf .sticky{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
+  .icon-wa{width:16px;height:16px;vertical-align:-3px;margin-right:6px;fill:#fff}
+</style>
+<style>.mf .steps > div{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 32px}</style>
+<style>
+  .mf .steps div div{padding:0;border:none}
+  .mf .authform .tabs span{background:none;border:none;border-radius:0;padding:10px 0;margin-right:24px;font:600 13px Montserrat;color:var(--ink-soft)}
+  .mf .authform .tabs span.on{background:none;color:var(--navy);border-bottom:2px solid var(--navy)}
+  .mf .order .track{background:none;height:auto;border-radius:0;margin:12px 0 4px}
+</style>
+
+<style>
+  .why-box{background:#f6f7f5;border-radius:12px;padding:14px 18px;font:400 14px/1.55 Inter;color:#333;max-width:900px;margin:6px 0 22px}
+  .why-box b{color:#192438}
+  .mf i.ph-light,.mf i.ph{vertical-align:-3px}
+  .ch .r2 a{margin:0 12px;font-size:11px}
+
+  /* ===== termómetro olfativo ===== */
+  .to{--c1:#e8a33d;--c2:#fff4e3;padding:34px 32px 30px;background:var(--c2);transition:background-color .5s ease}
+  .to .head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+  .to h1{font-size:34px;letter-spacing:-.02em;margin-top:6px}
+  .to .live{display:flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:8px 8px 8px 14px;font-size:13px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+  .to .live b{font-weight:600}
+  .to .live button{border:none;background:var(--navy);color:#fff;border-radius:999px;padding:7px 12px;font:600 11px Montserrat;letter-spacing:.04em;cursor:pointer}
+  .to .body{display:grid;grid-template-columns:380px 1fr;gap:32px}
+  .dial{background:#fff;border-radius:18px;padding:22px;box-shadow:0 1px 3px rgba(25,36,56,.08)}
+  .dial .deg{font:700 72px/1 Montserrat;color:var(--navy);display:flex;align-items:flex-start;gap:4px}
+  .dial .deg small{font-size:26px;margin-top:8px}
+  .dial .zone{font:600 15px Montserrat;color:var(--c1);margin:6px 0 16px;transition:color .3s ease}
+  .track{position:relative;height:14px;border-radius:7px;background:linear-gradient(90deg,#5b8fd6 0%,#7fb3a6 30%,#9fb59b 45%,#e8b04a 70%,#d9622b 100%);margin:8px 0 4px}
+  .track input{position:absolute;inset:-12px 0;width:100%;opacity:0;cursor:pointer;margin:0}
+  .knob{position:absolute;top:50%;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--navy);transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,.2);pointer-events:none;transition:left .08s linear}
+  .ticks{display:flex;justify-content:space-between;font:500 10px 'IBM Plex Mono';color:#7a8291}
+  .toggles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+  .tg .l{font:500 10.5px 'IBM Plex Mono';letter-spacing:.06em;text-transform:uppercase;color:#7a8291;margin-bottom:6px}
+  .seg2{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg2 button{flex:1;border:none;background:#fff;padding:8px 0;font:500 12px Inter;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
+  .seg2 button.on{background:var(--navy);color:#fff}
+  .seg2 button.on i{color:#fff}
+  .science{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+  .science b{color:var(--navy)}
+  .advice h2{font-size:24px;margin:2px 0 10px}
+  .advice p{font-size:14px;color:#3b4456;margin:0 0 16px;max-width:560px}
+  .notesrow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+  .nb{background:#fff;border-radius:12px;padding:14px}
+  .nb .l{display:flex;align-items:center;gap:6px;font:600 11px Montserrat;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chips span{font-size:12px;border-radius:999px;padding:4px 11px;background:var(--sage-bg)}
+  .chips.avoid span{background:#f6ece6;color:#8a4b2b;text-decoration:line-through;text-decoration-color:rgba(138,75,43,.4)}
+  .dose{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:18px}
+  .dose i{font-size:22px;color:var(--c1)}
+  .dose .sp{display:flex;gap:4px;margin-left:auto}
+  .dose .sp b{width:10px;height:22px;border-radius:3px;background:#e2e5ea}
+  .dose .sp b.on{background:var(--navy)}
+  .picks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pick{background:#fff;border-radius:12px;padding:12px;display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center}
+  .pick .th{width:48px;height:58px;border-radius:8px;background:var(--sage-bg)}
+  .pick .n{font:600 13.5px Montserrat}
+  .pick .b{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em}
+  .pick .p{font-size:12px;margin-top:2px}
+  .year{margin-top:26px;background:#fff;border-radius:14px;padding:16px 18px}
+  .year .l{font:500 10.5px 'IBM Plex Mono';letter-spacing:.06em;text-transform:uppercase;color:#7a8291;margin-bottom:10px;display:flex;justify-content:space-between}
+  .months{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+  .months div{border-radius:6px;padding:8px 0 6px;text-align:center;font:600 11px Montserrat;color:#fff;cursor:pointer;transition:transform .16s ease}
+  .months div:active{transform:scale(.96)}
+  .months div small{display:block;font:400 9.5px Inter;opacity:.9}
+  .months div.now{outline:2px solid var(--navy);outline-offset:2px}
+
+  /* ===== carrito con recomendados ===== */
+  .cartwrap{display:grid;grid-template-columns:1fr 420px;min-height:600px}
+  .cartwrap .dim{background:rgba(25,36,56,.35)}
+  .dr{background:#fff;padding:22px;display:flex;flex-direction:column}
+  .added{display:flex;gap:10px;align-items:center;background:#eef5ec;border-radius:10px;padding:10px 12px;font-size:12.5px;margin:10px 0 6px}
+  .added i{font-size:20px;color:var(--sage)}
+  .reco{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .reco h4{font-size:14px;margin:0 0 2px}
+  .reco .sub{font-size:12px;color:var(--ink-soft);margin-bottom:10px}
+  .reco .shared-base{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+  .reco .shared-base span{font-size:10.5px;border:1px solid var(--sage-soft);color:var(--sage);border-radius:999px;padding:2px 8px}
+  .rrow{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:9px 0}
+  .rrow .th{width:44px;height:52px;border-radius:6px;background:var(--sage-bg)}
+  .rrow .n{font:600 13px Montserrat}
+  .rrow .m{font-size:11px;color:var(--ink-soft)}
+  .rrow .match{font:500 10.5px 'IBM Plex Mono';color:var(--sage)}
+  .rrow .add{border:1.5px solid var(--navy);border-radius:999px;padding:6px 10px;font:600 11px Montserrat;display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .rrow .why{grid-column:2/4;display:flex;gap:4px;flex-wrap:wrap;margin-top:-2px}
+  .rrow .why span{font-size:10px;background:var(--sage-bg);border-radius:999px;padding:1px 7px}
+
+
+  .why-box{background:#f6f7f5;border-radius:12px;padding:14px 18px;font:400 14px/1.55 Inter;color:#333;max-width:900px;margin:6px 0 24px}
+  .why-box b{color:#192438}
+  .opt{margin-bottom:30px;border:2px solid transparent;border-radius:14px;padding:10px;cursor:pointer;transition:border-color .15s ease}
+  .opt.selected{border-color:#2563eb}
+  .opt h3{margin:0 0 2px;font:600 17px Montserrat}
+  .opt .d{font:400 13px/1.55 Inter;color:#555;margin:0 0 10px;max-width:900px}
+  .ch .r2 a{margin:0 12px;font-size:11px}
+  .ch .r2 a.on{border-bottom:2px solid #192438;padding-bottom:13px;margin-bottom:-16px}
+  .mf i.ph-light{vertical-align:-3px}
+
+  /* panel estilo Chanel */
+  .cpanel{display:grid;grid-template-columns:230px repeat(4,1fr);gap:36px;padding:34px 48px 40px;font:400 13.5px/1 Inter;color:#192438;background:#fff}
+  .cpanel .ph{width:230px;height:290px;object-fit:cover;display:block;border-radius:2px}
+  .cpanel .more{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font:600 11px Montserrat;letter-spacing:.14em;text-transform:uppercase}
+  .cpanel h5{font:600 11px Montserrat;letter-spacing:.14em;text-transform:uppercase;margin:0 0 18px;line-height:1.5}
+  .cpanel ul{list-style:none;margin:0 0 30px;padding:0}
+  .cpanel li{margin:0 0 15px;line-height:1.35}
+  .cpanel li small{display:block;font-size:11px;color:#7a8291;margin-top:2px}
+  .cpanel li.all{font-weight:500;color:#5f7a61}
+  .strip{text-align:center;font:500 11px Montserrat;letter-spacing:.12em;text-transform:uppercase;padding:14px 0 0;color:#192438}
+  .strip u{text-underline-offset:3px}
+  .close{position:absolute;right:32px;top:14px;font-size:20px}
+  .homehead{display:flex;justify-content:space-between;align-items:baseline;padding:34px 48px 0}
+  .homehead h2{font:600 24px Montserrat}
+</style>
+<style>.ch .r2 a{margin:0 12px;font-size:11px}.ch .r1 .icons .cartcount{margin-left:-4px}.ch .r2 a.all.on,.ch .r2 a.info.on{border-bottom:1.5px solid #192438;padding-bottom:5px}</style>
+<style>
+  .mf i.ph-light,.adm i.ph-light,.mf i.ph{display:inline-block;vertical-align:-3px}
+  .mf .icons i{font-size:21px;color:var(--navy)}
+  .mf .btn i{font-size:16px;margin-right:6px;vertical-align:-3px}
+  .mf .qty span,.mf .line .q span{display:inline-flex;align-items:center;justify-content:center}
+  .mf .arrow i{font-size:26px}
+  .adm .btn i{font-size:15px;margin-right:4px;vertical-align:-3px}
+  .adm aside a span{display:inline-flex;align-items:center;gap:8px}
+  .adm aside a span i{font-size:17px}
+</style>
+
+<h2>Mar Fragancias: diseño final</h2>
+<p class="subtitle">Todos los símbolos de texto fueron reemplazados por iconos Phosphor (grosor light; WhatsApp en regular). Usá el índice para saltar.</p>
+<div class="toc" style="position:sticky;top:0;background:#fff;z-index:5;padding:8px 0">
+<a href="#s1">Inicio</a><a href="#n1">Panel de marca</a><a href="#n2">Termómetro olfativo</a><a href="#s2">Catálogo</a><a href="#s3">Marcas</a><a href="#s4">Perfume</a><a href="#s5">Carrito</a><a href="#s6">Datos y envío</a><a href="#s7">Ingresar</a><a href="#s8">Celular</a><a href="#t1">Búsqueda</a><a href="#t2">Cómo funciona</a><a href="#t3">Pedido enviado</a><a href="#t4">Vacíos</a><a href="#t5">Mis pedidos</a><a href="#a1">Admin: Dashboard</a><a href="#a2">Productos</a><a href="#a3">Editar perfume</a><a href="#a4">Pedidos</a><a href="#a5">Detalle pedido</a><a href="#a6">Inventario</a><a href="#a7">Marcas</a></div>
+
+<!-- ============ 1 INICIO ============ -->
+<section class="screen" id="s1">
+  <h3>1 · Inicio</h3>
+  <p class="why">El mensaje de la marca primero ("perfumes de lujo, en decant"), un "cómo funciona" de una línea y los decants más pedidos. Sin carruseles ni banners de ofertas: esa es la parte "más minimalista" respecto a La Perfumería.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py</span></div>
+  <div class="mf">
+    <div class="topbar">ENVÍOS A TODO PARAGUAY · FINALIZÁS TU COMPRA POR WHATSAPP</div>
+    <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass" aria-label="Buscar"></i><i class="ph-light ph-user" aria-label="Mi cuenta"></i><span style="display:inline-flex;align-items:center"><i class="ph-light ph-handbag" aria-label="Carrito"></i><span class="cartcount">2</span></span></div></div><div class="r2"><a>Chanel</a><a>Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a>Maison Francis Kurkdjian</a><a class="all">Todas las marcas</a><span class="gap"></span><a class="info">Termómetro olfativo</a><a class="info">Cómo funciona</a></div></div>
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Decants de perfumes originales</div>
+        <h1>Perfumes de lujo,<br>en decant.</h1>
+        <p>Las mejores casas en 5 o 10 ml, del frasco original. Probá más fragancias, pagando solo lo que vas a usar.</p>
+        <span class="btn">Ver perfumes</span>&nbsp;&nbsp;<span class="btn ghost">Cómo funciona</span>
+      </div>
+      <div class="hero-art">
+        <div class="vial" style="height:42px"><b>5 ml</b></div>
+        <div class="vial" style="height:58px"><b>10 ml</b></div>
+        
+        
+        
+      </div>
+    </div>
+    <div class="steps">
+      <div><div class="eyebrow">01</div><h4>Elegí tu perfume</h4><div class="muted">Por género, marca o familia de aroma.</div></div>
+      <div><div class="eyebrow">02</div><h4>Elegí 5 o 10 ml</h4><div class="muted">5 o 10 ml, del mismo frasco original.</div></div>
+      <div><div class="eyebrow">03</div><h4>Pedí por WhatsApp</h4><div class="muted">Completás tus datos y confirmamos el envío.</div></div>
+    </div>
+    <div class="sechead"><h2>Los más probados</h2><a>Ver todos <i class="ph-light ph-arrow-right"></i></a></div>
+    <div class="grid">
+      <div class="card"><div class="ph"><span class="tag">Hombre</span><i></i></div><div class="b">Dior</div><div class="n">Sauvage</div><div class="sizes"><span>5ml</span><span>10ml</span></div><div class="p">Decant desde <strong>₲ 35.000</strong></div></div>
+      <div class="card"><div class="ph"><span class="tag">Mujer</span><i></i></div><div class="b">Carolina Herrera</div><div class="n">Good Girl</div><div class="sizes"><span>5ml</span><span>10ml</span></div><div class="p">Decant desde <strong>₲ 32.000</strong></div></div>
+      <div class="card"><div class="ph"><span class="tag">Hombre</span><i></i></div><div class="b">Chanel</div><div class="n">Bleu de Chanel</div><div class="sizes"><span>5ml</span><span>10ml</span></div><div class="p">Decant desde <strong>₲ 38.000</strong></div></div>
+      <div class="card"><div class="ph"><span class="tag">Mujer</span><i></i></div><div class="b">Yves Saint Laurent</div><div class="n">Black Opium</div><div class="sizes"><span>5ml</span><span>10ml</span></div><div class="p">Decant desde <strong>₲ 34.000</strong></div></div>
+    </div>
+    <footer>
+      <div><img src="logo-mf.png" alt="" style="height:30px;filter:brightness(0) invert(1);margin-bottom:10px"><div>Decants de perfumes originales de 5 y 10 ml. Asunción, Paraguay.</div></div>
+      <div><h4>Tienda</h4>Todas las marcas<br>Termómetro olfativo<br>Cómo funciona<br>Mi cuenta</div>
+      <div><h4>Contacto</h4>WhatsApp 09XX XXX XXX<br>Instagram @marfragancias<br>Lun a sáb · 08:00 a 20:00</div>
+    </footer>
+  </div></div>
+</section>
+
+
+<section class="screen" id="n1">
+  <h3>Menú · Panel de cada marca</h3>
+  <p class="why">Al pasar el mouse por una marca de la barra se abre su panel, como en Chanel: foto, En portada, Mujer, Hombre y Para compartir, solo con perfumes de esa casa.</p>
+  <div class="frame"><div class="mf">
+    <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass"></i><i class="ph-light ph-user"></i><i class="ph-light ph-handbag"></i></div></div>
+    <div class="r2"><a class="on">Chanel</a><a>Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a class="all">Todas las marcas</a><span class="gap"></span><a class="info">Termómetro olfativo</a><a class="info">Cómo funciona</a></div></div>
+    <div style="position:relative;border-top:1px solid #e6e8e4">
+      <div class="strip"><u>Termómetro olfativo:</u> encontrá el Chanel ideal para el clima de hoy</div>
+      <i class="ph-light ph-x close"></i>
+      <div class="cpanel">
+        <div><img class="ph" src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&q=80" alt="Frasco de perfume"><span class="more">Todo Chanel <i class="ph-light ph-caret-right"></i></span></div>
+        <div><h5>En portada</h5><ul><li>Bleu de Chanel L’Exclusif</li><li>Chance Eau Splendide</li><li>Coco Mademoiselle</li></ul><h5>Para regalar</h5><ul><li>Para ella</li><li>Para él</li></ul></div>
+        <div><h5>Mujer</h5><ul><li>N°5</li><li>Coco Mademoiselle</li><li>Chance</li><li>Gabrielle</li><li>Allure</li><li class="all">Ver todo</li></ul></div>
+        <div><h5>Hombre</h5><ul><li>Bleu de Chanel</li><li>Allure Homme Sport</li><li>Allure Homme</li><li>Égoïste</li><li>Pour Monsieur</li><li class="all">Ver todo</li></ul></div>
+        <div><h5>Para compartir</h5><ul><li>Les Exclusifs de Chanel</li><li>Les Eaux de Chanel</li><li class="all">Ver todo</li></ul></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+<section class="screen" id="n2">
+  <h3>Termómetro olfativo</h3>
+  <p class="why">Sección propia del menú. Interactiva: mové el termómetro, cambiá día/noche y humedad o tocá un mes.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/termometro-olfativo</span></div>
+<div class="mf">
+  <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass"></i><i class="ph-light ph-user"></i><i class="ph-light ph-handbag"></i></div></div>
+  <div class="r2"><a>Chanel</a><a>Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a class="all">Todas las marcas</a><span class="gap"></span><a class="info on" style="border-bottom:1.5px solid #192438;padding-bottom:5px">Termómetro olfativo</a><a class="info">Cómo funciona</a></div></div>
+
+  <div class="to" id="to">
+    <div class="head">
+      <div><div class="eyebrow">Termómetro olfativo</div><h1>Cada clima tiene su perfume.</h1></div>
+      <div class="live"><i class="ph-light ph-map-pin"></i><span>Hoy en Asunción: <b>36°</b> · húmedo</span><button onclick="setT(36);setH('hum');setD('dia')">Usar el clima de hoy</button></div>
+    </div>
+    <div class="body">
+      <div class="dial">
+        <div class="deg"><span id="deg">36</span><small>°C</small></div>
+        <div class="zone" id="zone">Calor intenso</div>
+        <div class="track"><div class="knob" id="knob"></div><input type="range" min="10" max="40" value="36" id="range" oninput="setT(+this.value)" aria-label="Temperatura"></div>
+        <div class="ticks"><span>10°</span><span>18°</span><span>26°</span><span>32°</span><span>40°</span></div>
+        <div class="toggles">
+          <div class="tg"><div class="l">Momento</div><div class="seg2"><button id="d-dia" class="on" onclick="setD('dia')"><i class="ph-light ph-sun"></i>Día</button><button id="d-noche" onclick="setD('noche')"><i class="ph-light ph-moon"></i>Noche</button></div></div>
+          <div class="tg"><div class="l">Humedad</div><div class="seg2"><button id="h-seco" onclick="setH('seco')"><i class="ph-light ph-wind"></i>Seco</button><button id="h-hum" class="on" onclick="setH('hum')"><i class="ph-light ph-drop"></i>Húmedo</button></div></div>
+        </div>
+        <div class="science" id="science"></div>
+      </div>
+      <div class="advice">
+        <div class="eyebrow" id="advEyebrow">Qué usar</div>
+        <h2 id="advTitle"></h2>
+        <p id="advText"></p>
+        <div class="notesrow">
+          <div class="nb"><div class="l"><i class="ph-light ph-check-circle"></i>Notas que funcionan</div><div class="chips" id="good"></div></div>
+          <div class="nb"><div class="l"><i class="ph-light ph-prohibit"></i>Mejor dejar para otro día</div><div class="chips avoid" id="bad"></div></div>
+        </div>
+        <div class="dose"><i class="ph-light ph-spray-bottle"></i><div><b>Cuánto aplicar:</b> <span id="doseTxt"></span></div><div class="sp" id="dose"></div></div>
+        <div class="picks" id="picks"></div>
+      </div>
+    </div>
+    <div class="year">
+      <div class="l"><span>El año en Paraguay · tocá un mes</span><span id="monthName"></span></div>
+      <div class="months" id="months"></div>
+    </div>
+  </div>
+</div></div>
+</section>
+
+<!-- ============ 2 CATÁLOGO ============ -->
+<section class="screen" id="s2">
+  <h3>2 · Catálogo (Mujer / Hombre)</h3>
+  <p class="why">Mismo diseño para Mujer, Hombre y "todos". Filtros a la izquierda: marca, familia de aroma (las categorías que ya existen en la base de datos: Fresca, Floral, Dulce…) y tamaño. Las tarjetas siempre muestran el precio "desde" del decant más chico.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/mujer</span></div>
+  <div class="mf">
+    <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass" aria-label="Buscar"></i><i class="ph-light ph-user" aria-label="Mi cuenta"></i><span style="display:inline-flex;align-items:center"><i class="ph-light ph-handbag" aria-label="Carrito"></i><span class="cartcount">2</span></span></div></div><div class="r2"><a>Chanel</a><a>Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a>Maison Francis Kurkdjian</a><a class="all">Todas las marcas</a><span class="gap"></span><a class="info">Termómetro olfativo</a><a class="info">Cómo funciona</a></div></div>
+    <div class="crumbs">Inicio / Mujer</div>
+    <div class="cathead"><div><h1>Perfumes para mujer</h1><div class="muted">48 perfumes · todos disponibles en decant</div></div><span class="select">Ordenar: Más probados <i class="ph-light ph-caret-down"></i></span></div>
+    <div class="catbody">
+      <aside>
+        <div class="filter"><h4>Género</h4><div class="seg"><span>Todos</span><span class="on">Mujer</span><span>Hombre</span></div></div>
+        <div class="filter"><h4>Marca</h4>
+          <div class="chk on"><i></i>Carolina Herrera<em>6</em></div><div class="chk"><i></i>Dior<em>5</em></div><div class="chk"><i></i>Lattafa<em>9</em></div><div class="chk"><i></i>Paco Rabanne<em>4</em></div><div class="chk"><i></i>Yves Saint Laurent<em>3</em></div><div class="muted" style="font-size:12px;margin-top:6px">+ 12 marcas</div></div>
+        <div class="filter"><h4>Familia de aroma</h4><div class="chk"><i></i>Floral</div><div class="chk on"><i></i>Dulce</div><div class="chk"><i></i>Fresca</div><div class="chk"><i></i>Oriental</div><div class="chk"><i></i>Amaderada</div></div>
+        <div class="filter"><h4>Tamaño</h4><div class="chk"><i></i>Decant 5 ml</div><div class="chk"><i></i>Decant 10 ml</div></div>
+      </aside>
+      <div>
+        <div class="activechips"><span>Carolina Herrera <i class="ph-light ph-x"></i></span><span>Dulce <i class="ph-light ph-x"></i></span><span class="muted" style="background:none">Limpiar filtros</span></div>
+        <div class="grid three">
+          <div class="card"><div class="ph"><i></i></div><div class="b">Carolina Herrera</div><div class="n">Good Girl</div><div class="sizes"><span>5ml</span><span>10ml</span></div><div class="p">Decant desde <strong>₲ 32.000</strong></div></div>
+          <div class="card"><div class="ph"><span class="tag">Nuevo</span><i></i></div><div class="b">Carolina Herrera</div><div class="n">Good Girl Blush</div><div class="sizes"><span>5ml</span><span>10ml</span></div><div class="p">Decant desde <strong>₲ 34.000</strong></div></div>
+          <div class="card"><div class="ph"><i></i></div><div class="b">Carolina Herrera</div><div class="n">Very Good Girl</div><div class="sizes"><span>5ml</span><span>10ml</span><span style="text-decoration:line-through;color:#b9c0ca">10ml</span></div><div class="p">Decant desde <strong>₲ 33.000</strong></div></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 3 MARCAS ============ -->
+<section class="screen" id="s3">
+  <h3>3 · Marcas</h3>
+  <p class="why">Índice A–Z como el desplegable de La Perfumería, pero en una página propia y más fácil de leer en el celular. Al tocar una marca se abre el catálogo (pantalla 2) ya filtrado por esa marca.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/marcas</span></div>
+  <div class="mf">
+    <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass" aria-label="Buscar"></i><i class="ph-light ph-user" aria-label="Mi cuenta"></i><span style="display:inline-flex;align-items:center"><i class="ph-light ph-handbag" aria-label="Carrito"></i><span class="cartcount">2</span></span></div></div><div class="r2"><a>Chanel</a><a>Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a>Maison Francis Kurkdjian</a><a class="all on">Todas las marcas</a><span class="gap"></span><a class="info">Termómetro olfativo</a><a class="info">Cómo funciona</a></div></div>
+    <div class="wrap" style="padding-bottom:14px"><h1 style="font-size:32px">Marcas</h1><div class="muted">17 marcas · tocá una para ver sus perfumes</div></div>
+    <div class="az"><span>A</span><span class="off">B</span><span>C</span><span>D</span><span class="off">E</span><span class="off">F</span><span>G</span><span class="off">H</span><span class="off">I</span><span>J</span><span class="off">K</span><span>L</span><span>M</span><span class="off">N</span><span class="off">O</span><span>P</span><span class="off">Q</span><span>R</span><span class="off">S</span><span>T</span><span class="off">U</span><span>V</span><span class="off">W</span><span>Y</span><span class="off">Z</span></div>
+    <div class="brandcols">
+      <div><h4>A</h4><div>Antonio Banderas<em>4</em></div><div>Armaf<em>6</em></div><div>Azzaro<em>3</em></div></div>
+      <div><h4>C</h4><div>Carolina Herrera<em>6</em></div><div>Chanel<em>4</em></div></div>
+      <div><h4>D</h4><div>Dior<em>5</em></div></div>
+      <div><h4>G</h4><div>Giorgio Armani<em>4</em></div><div>Gucci<em>2</em></div></div>
+      <div><h4>J</h4><div>Jean Paul Gaultier<em>3</em></div></div>
+      <div><h4>L</h4><div>Lattafa<em>9</em></div></div>
+      <div><h4>P</h4><div>Paco Rabanne<em>4</em></div></div>
+      <div><h4>V</h4><div>Versace<em>4</em></div><div>Victoria's Secret<em>5</em></div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 4 DETALLE ============ -->
+<section class="screen" id="s4">
+  <h3>4 · Perfume y selección de decants</h3>
+  <p class="why">El corazón de la tienda: dos opciones grandes, 5 ml y 10 ml. El precio cambia según lo que elijas. Si un tamaño se queda sin stock se ve apagado y no se puede elegir.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/perfumes/dior-sauvage</span></div>
+  <div class="mf">
+    <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass" aria-label="Buscar"></i><i class="ph-light ph-user" aria-label="Mi cuenta"></i><span style="display:inline-flex;align-items:center"><i class="ph-light ph-handbag" aria-label="Carrito"></i><span class="cartcount">2</span></span></div></div><div class="r2"><a>Chanel</a><a class="on">Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a>Maison Francis Kurkdjian</a><a class="all">Todas las marcas</a><span class="gap"></span><a class="info">Termómetro olfativo</a><a class="info">Cómo funciona</a></div></div>
+    <div class="crumbs">Inicio / Hombre / Dior / Sauvage</div>
+    <div class="pdp">
+      <div><div class="gallery"><i></i></div><div class="thumbs"><span class="on"></span><span></span><span></span></div></div>
+      <div>
+        <div class="eyebrow">Dior · Hombre · Fresca</div>
+        <h1>Sauvage</h1>
+        <div class="muted">Fresca y amaderada. Bergamota de Calabria, pimienta y ambroxan. Ideal para el día y el calor de Asunción.</div>
+        <div class="notes"><span>Bergamota</span><span>Pimienta</span><span>Ambroxan</span><span>Lavanda</span></div>
+        <div class="optlabel">Elegí tu decant <em>del frasco original</em></div>
+        <div class="decants">
+          <div class="dc"><div class="mini" style="height:16px"></div><div><strong>5 ml</strong><small>₲ 35.000</small></div></div>
+          <div class="dc on"><div class="mini" style="height:22px"></div><div><strong>10 ml</strong><small>₲ 60.000</small></div></div>
+          
+        </div>
+        
+        
+        <div class="price">₲ 60.000</div>
+        <div class="qtyrow"><div class="qty"><span><i class="ph-light ph-minus"></i></span><span>1</span><span><i class="ph-light ph-plus"></i></span></div><span class="btn" style="flex:1;text-align:center">Agregar al carrito</span></div>
+        <div class="hint"><div><strong>¿Por qué un decant?</strong> Un perfume cambia en tu piel. Con un decant lo usás varios días y conocés más fragancias por el precio de una.</div></div>
+      </div>
+    </div>
+    <div class="sechead" style="padding-top:0"><h2>También te puede gustar</h2><a>Ver más de Dior <i class="ph-light ph-arrow-right"></i></a></div>
+    <div class="grid">
+      <div class="card"><div class="ph"><i></i></div><div class="b">Dior</div><div class="n">Sauvage Elixir</div><div class="p">Decant desde <strong>₲ 45.000</strong></div></div>
+      <div class="card"><div class="ph"><i></i></div><div class="b">Chanel</div><div class="n">Bleu de Chanel</div><div class="p">Decant desde <strong>₲ 38.000</strong></div></div>
+      <div class="card"><div class="ph"><i></i></div><div class="b">Armaf</div><div class="n">Odyssey Mandarin Sky</div><div class="p">Decant desde <strong>₲ 18.000</strong></div></div>
+      <div class="card"><div class="ph"><i></i></div><div class="b">Versace</div><div class="n">Eros</div><div class="p">Decant desde <strong>₲ 30.000</strong></div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 5 CARRITO ============ -->
+<section class="screen" id="s5">
+  <h3>5 · Carrito</h3>
+  <p class="why">Se abre como panel lateral al agregar algo, sin sacarte de la página. Cada línea dice perfume + tamaño. No hace falta tener cuenta para comprar.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/perfumes/dior-sauvage</span></div>
+  <div class="mf">
+    <div class="cartlayout">
+      <div class="dim"><div class="ghost"></div></div>
+      <div class="drawer">
+        <h2>Tu carrito <i class="ph-light ph-x" aria-label="Cerrar" style="font-size:20px"></i></h2><div class="added"><i class="ph ph-check-circle"></i><span>Agregaste <b>Sauvage · Decant 10 ml</b></span></div>
+        <div class="line"><div class="th"></div><div><div class="t">Sauvage · Dior</div><div class="s">Decant 10 ml</div><div class="q"><span><i class="ph-light ph-minus"></i></span><span>1</span><span><i class="ph-light ph-plus"></i></span></div></div><div>₲ 60.000</div></div>
+        <div class="line"><div class="th"></div><div><div class="t">Good Girl · Carolina Herrera</div><div class="s">Decant 5 ml</div><div class="q"><span><i class="ph-light ph-minus"></i></span><span>2</span><span><i class="ph-light ph-plus"></i></span></div></div><div>₲ 64.000</div></div>
+        <div class="reco">
+      <h4>Con notas parecidas a Sauvage</h4>
+      <div class="sub">Si te gusta Sauvage, estos comparten su base:</div>
+      <div class="shared-base"><span>bergamota</span><span>pimienta</span><span>ambroxan</span><span>lavanda</span></div>
+      <div class="rrow"><div class="th"></div><div><div class="match">82% parecido</div><div class="n">Bleu de Chanel</div><div class="m">Chanel · 5 ml ₲ 38.000</div></div><span class="add"><i class="ph-light ph-plus"></i>5 ml</span><div class="why"><span>pimienta</span><span>cítricos</span><span>ámbar</span></div></div>
+      <div class="rrow"><div class="th"></div><div><div class="match">76% parecido</div><div class="n">Aventus</div><div class="m">Creed · 5 ml ₲ 55.000</div></div><span class="add"><i class="ph-light ph-plus"></i>5 ml</span><div class="why"><span>bergamota</span><span>ambroxan</span></div></div>
+      <div class="rrow"><div class="th"></div><div><div class="match">71% parecido</div><div class="n">Y Eau de Parfum</div><div class="m">Yves Saint Laurent · 5 ml ₲ 36.000</div></div><span class="add"><i class="ph-light ph-plus"></i>5 ml</span><div class="why"><span>bergamota</span><span>lavanda</span></div></div>
+    </div>
+    <div class="tot">
+          <div><span class="muted">Subtotal (3 productos)</span><span>₲ 124.000</span></div>
+          <div><span class="muted">Envío</span><span class="muted">se calcula en el siguiente paso</span></div>
+          <div class="big" style="margin:12px 0"><span>Total</span><span>₲ 124.000</span></div>
+          <span class="btn" style="display:block;text-align:center">Continuar con mis datos</span>
+          <div style="text-align:center;margin-top:10px;font-size:12px" class="muted">Seguir comprando</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 6 CHECKOUT ============ -->
+<section class="screen" id="s6">
+  <h3>6 · Datos personales y envío y WhatsApp</h3>
+  <p class="why">Un solo formulario corto. Al tocar el botón verde se guarda el pedido como "pendiente" y se abre WhatsApp con el mensaje ya escrito (a la derecha se ve cómo llega). La venta se confirma en el chat.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/checkout</span></div>
+  <div class="mf">
+    <header><img src="logo-mf.png" alt="Mar Fragancias"><div class="muted" style="font-size:12px">Compra segura · confirmás por WhatsApp</div></header>
+    <div class="co">
+      <div>
+        <div class="stepper"><span class="done"><b><i class="ph-light ph-check" style="font-size:12px;vertical-align:0"></i></b>Carrito</span><hr><span class="on"><b>2</b>Tus datos</span><hr><span><b>3</b>WhatsApp</span></div>
+        <fieldset><legend>Datos personales</legend>
+          <div class="f2">
+            <div class="fld"><label>Nombre y apellido</label><div class="in">María Paz Gutiérrez</div></div>
+            <div class="fld"><label>Celular (WhatsApp)</label><div class="in err">0981 23</div><small class="err">Revisá el número: deben ser 10 dígitos, ej. 0981 234 567.</small></div>
+            <div class="fld"><label>Cédula <span class="muted">(opcional, para la factura)</span></label><div class="in">4.567.890</div></div>
+            <div class="fld"><label>Email <span class="muted">(opcional)</span></label><div class="in">mariapaz@example.com</div></div>
+          </div>
+        </fieldset>
+        <fieldset><legend>Entrega</legend>
+          <div class="radios">
+            <div class="radio"><strong>Retiro</strong><small>Gratis · coordinamos punto</small></div>
+            <div class="radio on"><strong>Envío Asunción y Gran Asunción</strong><small>₲ 20.000 · 24 a 48 h</small></div>
+            <div class="radio"><strong>Envío al interior</strong><small>Por encomienda · a coordinar</small></div>
+          </div>
+          <div class="f2" style="margin-top:12px">
+            <div class="fld"><label>Ciudad</label><div class="in">Lambaré <i class="ph-light ph-caret-down"></i></div></div>
+            <div class="fld"><label>Barrio</label><div class="in">Centro</div></div>
+            <div class="fld" style="grid-column:1/-1"><label>Dirección</label><div class="in">Av. Cacique Lambaré 1234</div></div>
+            <div class="fld" style="grid-column:1/-1"><label>Referencia <span class="muted">(opcional)</span></label><div class="in">Portón negro, frente a la farmacia</div></div>
+          </div>
+        </fieldset>
+      </div>
+      <div>
+        <div class="summary">
+          <h4>Tu pedido</h4>
+          <div class="r"><span>Sauvage · Decant 10 ml × 1</span><span>₲ 60.000</span></div>
+          <div class="r"><span>Good Girl · Decant 5 ml × 2</span><span>₲ 64.000</span></div>
+          <hr>
+          <div class="r"><span>Subtotal</span><span>₲ 124.000</span></div>
+          <div class="r"><span>Envío</span><span>₲ 20.000</span></div>
+          <div class="r" style="font:600 16px Montserrat"><span>Total</span><span>₲ 144.000</span></div>
+          <span class="btn wa" style="display:block;text-align:center;margin-top:14px"><i class="ph ph-whatsapp-logo"></i>Enviar pedido por WhatsApp</span>
+          <div class="muted" style="font-size:11px;text-align:center;margin-top:8px">Se abre WhatsApp con tu pedido listo para enviar.</div>
+        </div>
+        <div class="wa-preview">
+          <div class="mono" style="font-size:10px;color:#5b6475;margin-bottom:6px">ASÍ LLEGA A MAR FRAGANCIAS</div>
+          <div class="bubble">¡Hola Mar Fragancias! Quiero hacer este pedido (#MF-0042):
+
+• Sauvage (Dior) · Decant 10 ml × 1 · ₲ 60.000
+• Good Girl (Carolina Herrera) · Decant 5 ml × 2 · ₲ 64.000
+
+Subtotal: ₲ 124.000
+Envío Asunción: ₲ 20.000
+<b>Total: ₲ 144.000</b>
+
+Nombre: María Paz Gutiérrez
+Entrega: Av. Cacique Lambaré 1234, Centro, Lambaré
+Ref.: Portón negro, frente a la farmacia</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 7 AUTH ============ -->
+<section class="screen" id="s7">
+  <h3>7 · Ingresar / Registrarse</h3>
+  <p class="why">Es parte de la tarea PI-12 y ya existe en el proyecto (sin estilo). Propuesta: ingresar es opcional para comprar; sirve para guardar tus datos de envío y ver tus pedidos. Ingresar y registrarse en la misma pantalla con pestañas.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/login</span></div>
+  <div class="mf">
+    <div class="auth">
+      <div class="authart">
+        <img src="logo-mf.png" alt="Mar Fragancias">
+        <h2>Tus datos, listos para tu próximo decant.</h2>
+        <div class="muted">Guardá tu dirección y mirá el estado de tus pedidos. Para comprar no hace falta cuenta.</div>
+      </div>
+      <div class="authform">
+        <div class="tabs"><span class="on">Ingresar</span><span>Crear cuenta</span></div>
+        <div class="fld" style="margin-bottom:14px"><label>Email</label><div class="in">mariapaz@example.com</div></div>
+        <div class="fld" style="margin-bottom:6px"><label>Contraseña</label><div class="in">••••••••••</div></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:20px"><span class="chk" style="margin:0"><i></i>Recordarme</span><span style="color:var(--sage);font-weight:600">¿Olvidaste tu contraseña?</span></div>
+        <span class="btn" style="text-align:center">Ingresar</span>
+        <div class="muted" style="font-size:12px;text-align:center;margin-top:14px">¿Primera vez? <span style="color:var(--navy);font-weight:600">Creá tu cuenta</span> o <span style="color:var(--navy);font-weight:600">seguí sin cuenta</span></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 8 MOBILE ============ -->
+<section class="screen" id="s8">
+  <h3>8 · En el celular</h3>
+  <p class="why">La mayoría va a llegar desde Instagram, así que el celular es la pantalla principal. El botón "Agregar" queda fijo abajo; los dos decants entran en una fila.</p>
+  <div class="phones">
+    <div class="phone"><div class="mf">
+      <header><img src="logo-mf.png" alt=""><div class="icons"><i class="ph-light ph-magnifying-glass" aria-label="Buscar"></i><span><i class="ph-light ph-handbag" aria-label="Carrito"></i><span class="cartcount">2</span></span><i class="ph-light ph-list" aria-label="Menú"></i></div></header>
+      <div class="gallery"><i></i></div>
+      <div class="wrap">
+        <div class="eyebrow">Dior · Hombre</div>
+        <h1 style="font-size:24px;margin:2px 0 6px">Sauvage</h1>
+        <div class="muted" style="font-size:12px">Fresca y amaderada. Bergamota, pimienta y ambroxan.</div>
+        <div class="optlabel">Elegí tu decant</div>
+        <div class="decants">
+          <div class="dc"><strong>5 ml</strong><small>₲ 35.000</small></div>
+          <div class="dc on"><strong>10 ml</strong><small>₲ 60.000</small></div>
+          
+        </div>
+        
+      </div>
+      <div class="sticky"><div><div class="muted" style="font-size:11px">Decant 10 ml</div><div style="font:600 16px Montserrat">₲ 60.000</div></div><span class="btn" style="padding:11px 16px">Agregar</span></div>
+    </div></div>
+
+    <div class="phone"><div class="mf" style="min-height:560px;display:flex;flex-direction:column">
+      <header><img src="logo-mf.png" alt=""><i class="ph-light ph-x" aria-label="Cerrar" style="font-size:20px"></i></header>
+      <div class="wrap" style="flex:1;display:flex;flex-direction:column">
+        <h2 style="font-size:18px;margin-bottom:6px">Tu carrito</h2>
+        <div class="line"><div class="th"></div><div><div class="t">Sauvage</div><div class="s">Decant 10 ml</div><div class="q"><span><i class="ph-light ph-minus"></i></span><span>1</span><span><i class="ph-light ph-plus"></i></span></div></div><div style="font-size:12px">₲ 60.000</div></div>
+        <div class="line"><div class="th"></div><div><div class="t">Good Girl</div><div class="s">Decant 5 ml</div><div class="q"><span><i class="ph-light ph-minus"></i></span><span>2</span><span><i class="ph-light ph-plus"></i></span></div></div><div style="font-size:12px">₲ 64.000</div></div>
+        <div class="tot">
+          <div class="big" style="margin:10px 0"><span>Total</span><span>₲ 124.000</span></div>
+          <span class="btn" style="display:block;text-align:center">Continuar con mis datos</span>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  /* búsqueda */
+  .mf .search{padding:20px 32px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}
+  .mf .search .in{flex:1;border:1.5px solid var(--navy);border-radius:8px;padding:12px 14px;font-size:15px}
+  .mf .sres{display:grid;grid-template-columns:1fr 2fr;gap:28px;padding:20px 32px 28px}
+  .mf .sres h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+  .mf .sres .li{padding:7px 0;font-size:13px;border-bottom:1px solid var(--line)}
+  .mf .sres mark{background:var(--sage-soft);color:inherit;padding:0 2px;border-radius:2px}
+  .mf .mini-list .it{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+  .mf .mini-list .th{width:48px;height:56px;border-radius:6px;background:var(--sage-bg)}
+
+  /* estados vacíos / confirmación */
+  .mf .center{display:flex;flex-direction:column;align-items:center;text-align:center;padding:56px 32px}
+  .mf .center h1{font-size:28px;margin:16px 0 8px}
+  .mf .center p{max-width:420px;color:var(--ink-soft);margin:0 0 20px}
+  .mf .okmark{width:56px;height:56px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center}
+  .mf .okmark svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2.5}
+  .mf .emptyvial{width:42px;height:64px;border:2px solid #c3c8d0;border-top:none;border-radius:0 0 21px 21px;position:relative}
+  .mf .emptyvial:before{content:"";position:absolute;top:-10px;left:-2px;right:-2px;height:10px;background:#c3c8d0;border-radius:2px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+  /* cómo funciona */
+  .mf .how{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:0 32px 28px}
+  .mf .how div{background:var(--sage-bg);border-radius:12px;padding:20px}
+  .mf .how .eyebrow{margin-bottom:6px}
+  .mf .faq{padding:0 32px 32px}
+  .mf .faq div{border-top:1px solid var(--line);padding:14px 0;display:flex;justify-content:space-between;font:600 14px Montserrat}
+
+  /* mi cuenta */
+  .mf .acct{display:grid;grid-template-columns:200px 1fr;gap:32px;padding:24px 32px 32px}
+  .mf .acct aside a{display:block;padding:9px 12px;border-radius:6px;font-size:13px;color:var(--navy);text-decoration:none}
+  .mf .acct aside a.on{background:var(--sage-bg);font-weight:600}
+  .mf .order{border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+  .mf .order .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .mf .order .hd strong{font:600 14px Montserrat}
+  .mf .badge{display:inline-block;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:600}
+  .mf .b-pend{background:#fef3c7;color:#92400e}
+  .mf .b-conf{background:#dbeafe;color:#1e40af}
+  .mf .b-prep{background:#ede9fe;color:#5b21b6}
+  .mf .b-env{background:#cffafe;color:#155e75}
+  .mf .b-ent{background:#dcfce7;color:#166534}
+  .mf .b-can{background:#fee2e2;color:#991b1b}
+  .mf .track{display:flex;align-items:center;gap:0;margin:12px 0 4px}
+  .mf .track span{flex:1;height:4px;background:#e5e7eb}
+  .mf .track span.on{background:var(--sage)}
+  .mf .track b{width:12px;height:12px;border-radius:50%;background:#e5e7eb;flex:0 0 12px}
+  .mf .track b.on{background:var(--sage)}
+  .mf .tracklbl{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-soft)}
+
+  /* admin */
+  .adm{display:grid;grid-template-columns:210px 1fr;min-height:520px;font:400 13px/1.5 Inter,system-ui;color:var(--navy)}
+  .adm *{box-sizing:border-box}
+  .adm aside{background:var(--navy);color:#cfd6e2;padding:18px 12px}
+  .adm aside img{height:30px;filter:brightness(0) invert(1);margin:0 8px 22px}
+  .adm aside .grp{font:500 10px 'IBM Plex Mono';letter-spacing:.08em;color:#8794aa;margin:14px 10px 6px}
+  .adm aside a{display:flex;justify-content:space-between;padding:8px 10px;border-radius:6px;color:#cfd6e2;text-decoration:none;font-size:13px}
+  .adm aside a.on{background:#2b3a55;color:#fff}
+  .adm aside a em{font-style:normal;background:#c2410c;color:#fff;border-radius:999px;padding:0 7px;font-size:11px}
+  .adm main{background:#f7f8f6;padding:22px 26px}
+  .adm h1{font:600 22px Montserrat;margin:0}
+  .adm .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .adm .btn{display:inline-block;background:var(--navy);color:#fff;padding:9px 14px;border-radius:6px;font:600 12px Montserrat;letter-spacing:.04em}
+  .adm .btn.ghost{background:#fff;color:var(--navy);border:1px solid #cdd2d9}
+  .adm .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+  .adm .kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px}
+  .adm .kpi small{color:var(--ink-soft);font-size:12px}
+  .adm .kpi strong{display:block;font:600 22px Montserrat;margin-top:2px}
+  .adm .kpi .d{font-size:11px;color:var(--sage)}
+  .adm .kpi.warn strong{color:#c2410c}
+  .adm .panels{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+  .adm .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
+  .adm .panel h4{font:600 14px Montserrat;margin:0 0 12px;display:flex;justify-content:space-between}
+  .adm .panel h4 a{font:500 12px Inter;color:var(--sage)}
+  .adm .barrow{display:grid;grid-template-columns:150px 1fr 40px;gap:10px;align-items:center;margin:8px 0;font-size:12px}
+  .adm .barrow .tr{height:10px;background:#eef1ed;border-radius:5px;overflow:hidden}
+  .adm .barrow .tr i{display:block;height:100%;background:var(--sage);border-radius:5px}
+  .adm table{width:100%;border-collapse:collapse;background:#fff;font-size:12.5px}
+  .adm th{text-align:left;font:600 11px Inter;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);padding:10px 12px;border-bottom:1px solid var(--line);background:#fbfbfa}
+  .adm td{padding:10px 12px;border-bottom:1px solid var(--line)}
+  .adm .tbl{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .adm .low{color:#c2410c;font-weight:600}
+  .adm .filters{display:flex;gap:8px;margin-bottom:12px}
+  .adm .filters span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12px}
+  .adm .filters span.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .adm .badge{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:600}
+  .adm .b-pend{background:#fef3c7;color:#92400e}.adm .b-conf{background:#dbeafe;color:#1e40af}.adm .b-prep{background:#ede9fe;color:#5b21b6}.adm .b-env{background:#cffafe;color:#155e75}.adm .b-ent{background:#dcfce7;color:#166534}.adm .b-can{background:#fee2e2;color:#991b1b}
+  .adm .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .adm .fld label{display:block;font-size:12px;font-weight:500;margin-bottom:5px}
+  .adm .fld .in{background:#fff;border:1px solid #cdd2d9;border-radius:6px;padding:9px 11px;font-size:13px}
+  .adm .seg{display:inline-flex;border:1px solid #cdd2d9;border-radius:6px;overflow:hidden;background:#fff}
+  .adm .seg span{padding:8px 14px;font-size:12px}
+  .adm .seg span.on{background:var(--navy);color:#fff}
+  .adm .imgdrop{border:1.5px dashed #b9c0ca;border-radius:10px;height:150px;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:12px;background:#fff}
+  .adm .tog{display:inline-block;width:30px;height:17px;border-radius:9px;background:var(--sage);position:relative;vertical-align:middle}
+  .adm .tog:after{content:"";position:absolute;right:2px;top:2px;width:13px;height:13px;border-radius:50%;background:#fff}
+  .adm .tog.off{background:#cfd3d8}.adm .tog.off:after{right:auto;left:2px}
+  .adm .detail{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
+  .adm .tl div{display:flex;gap:10px;font-size:12px;padding:6px 0}
+  .adm .tl b{width:9px;height:9px;border-radius:50%;background:var(--sage);margin-top:5px;flex:0 0 9px}
+  .adm .tl b.off{background:#d6dbe1}
+  .adm .in-mov{color:#166534;font-weight:600}.adm .out-mov{color:#991b1b;font-weight:600}
+</style>
+<style>
+  .mf i.ph-light,.adm i.ph-light,.mf i.ph{display:inline-block;vertical-align:-3px}
+  .mf .icons i{font-size:21px;color:var(--navy)}
+  .mf .btn i{font-size:16px;margin-right:6px;vertical-align:-3px}
+  .mf .qty span,.mf .line .q span{display:inline-flex;align-items:center;justify-content:center}
+  .mf .arrow i{font-size:26px}
+  .adm .btn i{font-size:15px;margin-right:4px;vertical-align:-3px}
+  .adm aside a span{display:inline-flex;align-items:center;gap:8px}
+  .adm aside a span i{font-size:17px}
+</style>
+
+<h2 style="margin-top:40px">Resto de la tienda y panel de administración</h2>
+
+<!-- 9 BÚSQUEDA -->
+<section class="screen" id="t1">
+  <h3>9 · Búsqueda</h3>
+  <p class="why">Se abre desde la lupa, arriba de la página. Busca por perfume, marca y nota ("vainilla", "cítrico") mientras escribís. Enter lleva al catálogo con todos los resultados.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py</span></div>
+  <div class="mf">
+    <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass" aria-label="Buscar"></i><i class="ph-light ph-user" aria-label="Mi cuenta"></i><span style="display:inline-flex;align-items:center"><i class="ph-light ph-handbag" aria-label="Carrito"></i><span class="cartcount">2</span></span></div></div><div class="r2"><a>Chanel</a><a>Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a>Maison Francis Kurkdjian</a><a class="all">Todas las marcas</a><span class="gap"></span><a class="info">Termómetro olfativo</a><a class="info">Cómo funciona</a></div></div>
+    <div class="search"><div class="in">sau|</div><span class="muted" style="font-size:12px">Enter para ver todos</span></div>
+    <div class="sres">
+      <div>
+        <h4>Marcas y aromas</h4>
+        <div class="li"><mark>Sau</mark>vage · línea de Dior</div>
+        <div class="li">Notas: <mark>sau</mark>ce (madera)</div>
+        <h4 style="margin-top:20px">Búsquedas populares</h4>
+        <div class="li">Dior</div><div class="li">Vainilla</div><div class="li">Para el día</div>
+      </div>
+      <div class="mini-list">
+        <h4>Perfumes (3)</h4>
+        <div class="it"><div class="th"></div><div><div style="font:600 13px Montserrat"><mark>Sau</mark>vage</div><div class="muted" style="font-size:12px">Dior · Hombre</div></div><div style="font-size:12px">desde ₲ 35.000</div></div>
+        <div class="it"><div class="th"></div><div><div style="font:600 13px Montserrat"><mark>Sau</mark>vage Elixir</div><div class="muted" style="font-size:12px">Dior · Hombre</div></div><div style="font-size:12px">desde ₲ 45.000</div></div>
+        <div class="it"><div class="th"></div><div><div style="font:600 13px Montserrat"><mark>Sau</mark>vage Parfum</div><div class="muted" style="font-size:12px">Dior · Hombre</div></div><div style="font-size:12px">desde ₲ 40.000</div></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 10 CÓMO FUNCIONA -->
+<section class="screen" id="t2">
+  <h3>10 · Cómo funciona</h3>
+  <p class="why">Explica la idea de la tienda a quien llega por primera vez, y responde las dudas que hoy te preguntan por Instagram. Las preguntas son ejemplos: hay que llenarlas con las respuestas reales.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/como-funciona</span></div>
+  <div class="mf">
+    <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass" aria-label="Buscar"></i><i class="ph-light ph-user" aria-label="Mi cuenta"></i><span style="display:inline-flex;align-items:center"><i class="ph-light ph-handbag" aria-label="Carrito"></i><span class="cartcount">2</span></span></div></div><div class="r2"><a>Chanel</a><a>Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a>Maison Francis Kurkdjian</a><a class="all">Todas las marcas</a><span class="gap"></span><a class="info">Termómetro olfativo</a><a class="info on">Cómo funciona</a></div></div>
+    <div class="wrap"><div class="eyebrow">Cómo funciona</div><h1 style="font-size:34px;margin-top:6px">Perfumes de lujo,<br>en la medida justa.</h1></div>
+    <div class="how">
+      <div><div class="eyebrow">01 · Decant</div><h4 style="font-size:16px">¿Qué es un decant?</h4><div class="muted">Una porción del perfume original, pasada de su frasco a un atomizador más chico. Mismo aroma, menor precio.</div></div>
+      <div><div class="eyebrow">02 · Tamaños</div><h4 style="font-size:16px">5 o 10 ml</h4><div class="muted">5 ml para conocerlo; 10 ml para usarlo por más tiempo.</div></div>
+      <div><div class="eyebrow">03 · Pedido</div><h4 style="font-size:16px">Lo pedís por WhatsApp</h4><div class="muted">Armá tu carrito, completá tus datos y confirmamos el envío por chat.</div></div>
+    </div>
+    <div class="faq"><div>¿Los perfumes son originales? <i class="ph-light ph-plus"></i></div><div>¿Cuánto tarda el envío? <i class="ph-light ph-plus"></i></div><div>¿Cómo pago? <i class="ph-light ph-plus"></i></div><div>¿Puedo retirar en persona? <i class="ph-light ph-plus"></i></div></div>
+  </div></div>
+</section>
+
+<!-- 11 PEDIDO ENVIADO -->
+<section class="screen" id="t3">
+  <h3>11 · Pedido enviado</h3>
+  <p class="why">Lo que queda en la web después de tocar "Enviar por WhatsApp". Si WhatsApp no se abrió (pasa en algunas computadoras), hay un botón para reintentar y el número de pedido para mencionarlo.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/pedido/MF-0042</span></div>
+  <div class="mf">
+    <header><img src="logo-mf.png" alt="Mar Fragancias"><div></div></header>
+    <div class="center">
+      <div class="okmark"><i class="ph ph-check" style="font-size:28px;color:#fff"></i></div>
+      <h1>¡Listo! Tu pedido MF-0042 está en WhatsApp</h1>
+      <p>Enviá el mensaje en el chat que se abrió. Te respondemos para confirmar el pago y el envío.</p>
+      <div><span class="btn wa">Abrir WhatsApp de nuevo</span>&nbsp;&nbsp;<span class="btn ghost">Seguir viendo perfumes</span></div>
+      <div class="muted" style="font-size:12px;margin-top:18px">Total ₲ 144.000 · Envío a Lambaré · 3 productos</div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 12 VACÍOS -->
+<section class="screen" id="t4">
+  <h3>12 · Estados vacíos y errores</h3>
+  <p class="why">Pantallas que casi nadie diseña y todos ven: carrito vacío, búsqueda sin resultados y página no encontrada. Siempre con una salida clara.</p>
+  <div class="two">
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><span>carrito vacío</span></div><div class="mf"><div class="center" style="padding:44px 24px"><div class="emptyvial"></div><h1 style="font-size:20px">Tu carrito está vacío</h1><p>Empezá por un decant de 5 ml: la forma más fácil de conocer una fragancia nueva.</p><span class="btn">Ver los más probados</span></div></div></div>
+    <div class="frame"><div class="bar"><i></i><i></i><i></i><span>sin resultados</span></div><div class="mf"><div class="center" style="padding:44px 24px"><div class="emptyvial"></div><h1 style="font-size:20px">No encontramos "savaje"</h1><p>¿Quisiste decir <b style="color:var(--navy)">Sauvage</b>? También podés escribirnos y lo buscamos por vos.</p><span class="btn ghost">Preguntar por WhatsApp</span></div></div></div>
+  </div>
+</section>
+
+<!-- 13 MIS PEDIDOS -->
+<section class="screen" id="t5">
+  <h3>13 · Mi cuenta: mis pedidos</h3>
+  <p class="why">Para quien tiene cuenta (épica "Perfil y Clientes"). Muestra el estado real de cada pedido con los mismos estados del panel: pendiente, confirmado, preparando, enviado, entregado o cancelado.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/mi-cuenta/pedidos</span></div>
+  <div class="mf">
+    <div class="ch"><div class="r1"><div></div><img src="logo-mf.png" alt="Mar Fragancias"><div class="icons"><i class="ph-light ph-magnifying-glass" aria-label="Buscar"></i><i class="ph-light ph-user" aria-label="Mi cuenta"></i><span style="display:inline-flex;align-items:center"><i class="ph-light ph-handbag" aria-label="Carrito"></i><span class="cartcount">2</span></span></div></div><div class="r2"><a>Chanel</a><a>Dior</a><a>Tom Ford</a><a>Creed</a><a>Guerlain</a><a>Hermès</a><a>Yves Saint Laurent</a><a>Maison Francis Kurkdjian</a><a class="all">Todas las marcas</a><span class="gap"></span><a class="info">Termómetro olfativo</a><a class="info">Cómo funciona</a></div></div>
+    <div class="acct">
+      <aside><a class="on">Mis pedidos</a><a>Mis datos</a><a>Direcciones</a><a>Cerrar sesión</a></aside>
+      <div>
+        <h1 style="font-size:24px;margin-bottom:16px">Mis pedidos</h1>
+        <div class="order">
+          <div class="hd"><div><strong>MF-0042</strong> <span class="muted" style="font-size:12px">· 18 oct 2026 · ₲ 144.000</span></div><span class="badge b-env">Enviado</span></div>
+          <div class="muted" style="font-size:12px">Sauvage · Decant 10 ml × 1 &nbsp;·&nbsp; Good Girl · Decant 5 ml × 2</div>
+          <div class="track"><b class="on"></b><span class="on"></span><b class="on"></b><span class="on"></span><b class="on"></b><span class="on"></span><b class="on"></b><span></span><b></b></div>
+          <div class="tracklbl"><span>Pendiente</span><span>Confirmado</span><span>Preparando</span><span>Enviado</span><span>Entregado</span></div>
+        </div>
+        <div class="order">
+          <div class="hd"><div><strong>MF-0031</strong> <span class="muted" style="font-size:12px">· 2 oct 2026 · ₲ 70.000</span></div><span class="badge b-ent">Entregado</span></div>
+          <div class="muted" style="font-size:12px">Bleu de Chanel · Decant 10 ml × 1 &nbsp;·&nbsp; <span style="color:var(--sage);font-weight:600">Volver a pedir</span></div>
+        </div>
+        <div class="order">
+          <div class="hd"><div><strong>MF-0027</strong> <span class="muted" style="font-size:12px">· 21 sep 2026 · ₲ 35.000</span></div><span class="badge b-can">Cancelado</span></div>
+          <div class="muted" style="font-size:12px">Sauvage · Decant 5 ml × 1</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 14 ADMIN DASHBOARD -->
+<section class="screen" id="a1">
+  <h3>14 · Admin: Dashboard</h3>
+  <p class="why">Lo primero que ve el administrador: pedidos que esperan confirmación, ventas, decants más vendidos y stock crítico (épica "Métricas y Reportes").</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/admin</span></div>
+  <div class="adm">
+    <aside>
+      <img src="logo-mf.png" alt="">
+      <a class="on"><span><i class="ph-light ph-chart-bar"></i>Dashboard</span></a>
+      <div class="grp">VENTAS</div><a><span><i class="ph-light ph-package"></i>Pedidos</span> <em>4</em></a><a><span><i class="ph-light ph-users"></i>Clientes</span></a>
+      <div class="grp">CATÁLOGO</div><a><span><i class="ph-light ph-drop"></i>Productos</span></a><a><span><i class="ph-light ph-tag"></i>Marcas</span></a><a><span><i class="ph-light ph-squares-four"></i>Categorías</span></a><a><span><i class="ph-light ph-ruler"></i>Tamaños</span></a>
+      <div class="grp">STOCK</div><a><span><i class="ph-light ph-stack"></i>Inventario</span> <em>3</em></a>
+    </aside>
+    <main>
+      <div class="top"><h1>Hola, Matías</h1><span class="muted" style="font-size:12px">Hoy · sábado 18 de octubre</span></div>
+      <div class="kpis">
+        <div class="kpi"><small>Pedidos por confirmar</small><strong>4</strong><span class="d">los más viejos: hace 2 h</span></div>
+        <div class="kpi"><small>Ventas del mes</small><strong>₲ 4.820.000</strong><span class="d">62 pedidos</span></div>
+        <div class="kpi"><small>Decants vendidos</small><strong>148</strong><span class="d">5 ml es el 54%</span></div>
+        <div class="kpi warn"><small>Stock crítico</small><strong>3</strong><span class="d" style="color:#c2410c">presentaciones con ≤ 3 u.</span></div>
+      </div>
+      <div class="panels">
+        <div class="panel"><h4>Más vendidos este mes <a>Ver reporte</a></h4>
+          <div class="barrow"><span>Sauvage · 10 ml</span><div class="tr"><i style="width:92%"></i></div><span>34</span></div>
+          <div class="barrow"><span>Good Girl · 5 ml</span><div class="tr"><i style="width:76%"></i></div><span>28</span></div>
+          <div class="barrow"><span>Eros · 5 ml</span><div class="tr"><i style="width:58%"></i></div><span>21</span></div>
+          <div class="barrow"><span>Black Opium · 10 ml</span><div class="tr"><i style="width:44%"></i></div><span>16</span></div>
+          <div class="barrow"><span>Bleu de Chanel · 5 ml</span><div class="tr"><i style="width:30%"></i></div><span>11</span></div>
+        </div>
+        <div class="panel"><h4>Stock crítico <a>Ir a inventario</a></h4>
+          <div class="tbl"><table><tr><th>Perfume</th><th>Tamaño</th><th>Stock</th></tr>
+            <tr><td>Very Good Girl</td><td>10 ml</td><td class="low">0</td></tr>
+            <tr><td>Black Opium</td><td>10 ml</td><td class="low">2</td></tr>
+            <tr><td>Eros</td><td>10 ml</td><td class="low">3</td></tr></table></div>
+        </div>
+      </div>
+    </main>
+  </div></div>
+</section>
+
+<!-- 15 ADMIN PRODUCTOS -->
+<section class="screen" id="a2">
+  <h3>15 · Admin: Productos</h3>
+  <p class="why">Lista con el stock de cada tamaño a la vista: en una fila ves si el 5 ml y el 10 ml tienen existencias. Ya existe la pantalla en el proyecto; esto es cómo se vería con el estilo nuevo.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/admin/productos</span></div>
+  <div class="adm">
+    <aside><img src="logo-mf.png" alt=""><a><span><i class="ph-light ph-chart-bar"></i>Dashboard</span></a><div class="grp">VENTAS</div><a><span><i class="ph-light ph-package"></i>Pedidos</span> <em>4</em></a><a><span><i class="ph-light ph-users"></i>Clientes</span></a><div class="grp">CATÁLOGO</div><a class="on"><span><i class="ph-light ph-drop"></i>Productos</span></a><a><span><i class="ph-light ph-tag"></i>Marcas</span></a><a><span><i class="ph-light ph-squares-four"></i>Categorías</span></a><a><span><i class="ph-light ph-ruler"></i>Tamaños</span></a><div class="grp">STOCK</div><a><span><i class="ph-light ph-stack"></i>Inventario</span> <em>3</em></a></aside>
+    <main>
+      <div class="top"><h1>Productos</h1><span class="btn"><i class="ph-light ph-plus"></i>Nuevo perfume</span></div>
+      <div class="filters"><span class="on">Todos 89</span><span>Mujer 48</span><span>Hombre 41</span><span>Sin stock 3</span><span>Inactivos 2</span><span style="margin-left:auto">Buscar…</span></div>
+      <div class="tbl"><table>
+        <tr><th>Perfume</th><th>Marca</th><th>Género</th><th>5 ml</th><th>10 ml</th><th>Visible</th><th></th></tr>
+        <tr><td><b>Sauvage</b></td><td>Dior</td><td>Hombre</td><td>12</td><td>8</td><td><span class="tog"></span></td><td style="color:var(--sage)">Editar</td></tr>
+        <tr><td><b>Good Girl</b></td><td>Carolina Herrera</td><td>Mujer</td><td>20</td><td>9</td><td><span class="tog"></span></td><td style="color:var(--sage)">Editar</td></tr>
+        <tr><td><b>Bleu de Chanel</b></td><td>Chanel</td><td>Hombre</td><td>7</td><td>5</td><td><span class="tog"></span></td><td style="color:var(--sage)">Editar</td></tr>
+        <tr><td><b>Eros</b></td><td>Versace</td><td>Hombre</td><td>15</td><td class="low">3</td><td><span class="tog"></span></td><td style="color:var(--sage)">Editar</td></tr>
+        <tr><td><b>Black Opium</b></td><td>Yves Saint Laurent</td><td>Mujer</td><td>9</td><td>6</td><td><span class="tog off"></span></td><td style="color:var(--sage)">Editar</td></tr>
+      </table></div>
+    </main>
+  </div></div>
+</section>
+
+<!-- 16 ADMIN EDITAR -->
+<section class="screen" id="a3">
+  <h3>16 · Admin: Editar perfume (con sus decants)</h3>
+  <p class="why">Datos del perfume arriba (incluye el campo nuevo de género) y abajo una tabla con precio y stock por tamaño: así se carga en una sola pantalla lo que la tienda muestra en el detalle.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/admin/productos/1/editar</span></div>
+  <div class="adm">
+    <aside><img src="logo-mf.png" alt=""><a><span><i class="ph-light ph-chart-bar"></i>Dashboard</span></a><div class="grp">VENTAS</div><a><span><i class="ph-light ph-package"></i>Pedidos</span> <em>4</em></a><a><span><i class="ph-light ph-users"></i>Clientes</span></a><div class="grp">CATÁLOGO</div><a class="on"><span><i class="ph-light ph-drop"></i>Productos</span></a><a><span><i class="ph-light ph-tag"></i>Marcas</span></a><a><span><i class="ph-light ph-squares-four"></i>Categorías</span></a><a><span><i class="ph-light ph-ruler"></i>Tamaños</span></a><div class="grp">STOCK</div><a><span><i class="ph-light ph-stack"></i>Inventario</span> <em>3</em></a></aside>
+    <main>
+      <div class="top"><h1>Sauvage</h1><div><span class="btn ghost">Ver en la tienda</span>&nbsp;<span class="btn">Guardar cambios</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 200px;gap:16px;margin-bottom:16px">
+        <div class="form">
+          <div class="fld"><label>Nombre</label><div class="in">Sauvage</div></div>
+          <div class="fld"><label>Marca</label><div class="in">Dior <i class="ph-light ph-caret-down"></i></div></div>
+          <div class="fld"><label>Familia de aroma (categoría)</label><div class="in">Fresca <i class="ph-light ph-caret-down"></i></div></div>
+          <div class="fld"><label>Género</label><div class="seg"><span>Mujer</span><span class="on">Hombre</span><span>Unisex</span></div></div>
+          <div class="fld" style="grid-column:1/-1"><label>Descripción</label><div class="in" style="height:54px">Fresca y amaderada. Bergamota de Calabria, pimienta y ambroxan.</div></div>
+        </div>
+        <div class="imgdrop">Foto del frasco<br>(arrastrar o elegir)</div>
+      </div>
+      <div class="panel"><h4>Presentaciones <a><i class="ph-light ph-plus"></i>Agregar tamaño</a></h4>
+        <div class="tbl"><table>
+          <tr><th>Tamaño</th><th>Tipo</th><th>Precio (₲)</th><th>Stock</th><th>Activo</th></tr>
+          <tr><td>5 ml</td><td>Decant</td><td>35.000</td><td>12</td><td><span class="tog"></span></td></tr>
+          <tr><td>10 ml</td><td>Decant</td><td>60.000</td><td>8</td><td><span class="tog"></span></td></tr>
+          
+          
+        </table></div>
+        <div class="muted" style="font-size:12px;margin-top:8px">El stock se cambia desde Inventario para que cada entrada y salida quede registrada.</div>
+      </div>
+    </main>
+  </div></div>
+</section>
+
+<!-- 17 ADMIN PEDIDOS -->
+<section class="screen" id="a4">
+  <h3>17 · Admin: Pedidos</h3>
+  <p class="why">Todos los pedidos que llegaron por la web. Los "pendientes" son los que mandaron a WhatsApp y todavía no confirmaste. Filtro por estado arriba.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/admin/pedidos</span></div>
+  <div class="adm">
+    <aside><img src="logo-mf.png" alt=""><a><span><i class="ph-light ph-chart-bar"></i>Dashboard</span></a><div class="grp">VENTAS</div><a class="on"><span><i class="ph-light ph-package"></i>Pedidos</span> <em>4</em></a><a><span><i class="ph-light ph-users"></i>Clientes</span></a><div class="grp">CATÁLOGO</div><a><span><i class="ph-light ph-drop"></i>Productos</span></a><a><span><i class="ph-light ph-tag"></i>Marcas</span></a><a><span><i class="ph-light ph-squares-four"></i>Categorías</span></a><a><span><i class="ph-light ph-ruler"></i>Tamaños</span></a><div class="grp">STOCK</div><a><span><i class="ph-light ph-stack"></i>Inventario</span> <em>3</em></a></aside>
+    <main>
+      <div class="top"><h1>Pedidos</h1><span class="muted" style="font-size:12px">Buscar por número, nombre o teléfono…</span></div>
+      <div class="filters"><span>Todos</span><span class="on">Pendientes 4</span><span>Confirmados 3</span><span>Preparando 2</span><span>Enviados 5</span><span>Entregados</span><span>Cancelados</span></div>
+      <div class="tbl"><table>
+        <tr><th>Pedido</th><th>Fecha</th><th>Cliente</th><th>Entrega</th><th>Total</th><th>Estado</th><th></th></tr>
+        <tr><td><b>MF-0045</b></td><td>Hoy 16:40</td><td>Laura Benítez<br><span class="muted">0981 555 120</span></td><td>Asunción</td><td>₲ 95.000</td><td><span class="badge b-pend">Pendiente</span></td><td style="color:var(--sage)">Ver</td></tr>
+        <tr><td><b>MF-0044</b></td><td>Hoy 15:02</td><td>Diego Ortiz<br><span class="muted">0972 333 410</span></td><td>Interior · Encarnación</td><td>₲ 180.000</td><td><span class="badge b-pend">Pendiente</span></td><td style="color:var(--sage)">Ver</td></tr>
+        <tr><td><b>MF-0043</b></td><td>Hoy 11:15</td><td>Sofía Rojas<br><span class="muted">0985 210 778</span></td><td>Retiro</td><td>₲ 32.000</td><td><span class="badge b-pend">Pendiente</span></td><td style="color:var(--sage)">Ver</td></tr>
+        <tr><td><b>MF-0042</b></td><td>Hoy 14:25</td><td>María Paz Gutiérrez<br><span class="muted">0981 234 567</span></td><td>Lambaré</td><td>₲ 144.000</td><td><span class="badge b-pend">Pendiente</span></td><td style="color:var(--sage)">Ver</td></tr>
+      </table></div>
+    </main>
+  </div></div>
+</section>
+
+<!-- 18 ADMIN DETALLE PEDIDO -->
+<section class="screen" id="a5">
+  <h3>18 · Admin: Detalle del pedido</h3>
+  <p class="why">Lo que pidió, a dónde va y un botón para pasar al siguiente estado. Al confirmar, se descuenta el stock automáticamente (épica Inventario). "Escribir por WhatsApp" abre el chat con esa clienta.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/admin/pedidos/MF-0042</span></div>
+  <div class="adm">
+    <aside><img src="logo-mf.png" alt=""><a><span><i class="ph-light ph-chart-bar"></i>Dashboard</span></a><div class="grp">VENTAS</div><a class="on"><span><i class="ph-light ph-package"></i>Pedidos</span> <em>4</em></a><a><span><i class="ph-light ph-users"></i>Clientes</span></a><div class="grp">CATÁLOGO</div><a><span><i class="ph-light ph-drop"></i>Productos</span></a><a><span><i class="ph-light ph-tag"></i>Marcas</span></a><a><span><i class="ph-light ph-squares-four"></i>Categorías</span></a><a><span><i class="ph-light ph-ruler"></i>Tamaños</span></a><div class="grp">STOCK</div><a><span><i class="ph-light ph-stack"></i>Inventario</span> <em>3</em></a></aside>
+    <main>
+      <div class="top"><div><h1>Pedido MF-0042 <span class="badge b-pend" style="vertical-align:middle">Pendiente</span></h1><div class="muted" style="font-size:12px">Sábado 18 oct · 14:25 · desde la web</div></div><div><span class="btn ghost">Cancelar pedido</span>&nbsp;<span class="btn">Confirmar pedido</span></div></div>
+      <div class="detail">
+        <div class="panel"><h4>Productos</h4>
+          <div class="tbl"><table><tr><th>Perfume</th><th>Tamaño</th><th>Cant.</th><th>Precio</th><th>Subtotal</th></tr>
+          <tr><td>Sauvage · Dior</td><td>Decant 10 ml</td><td>1</td><td>60.000</td><td>60.000</td></tr>
+          <tr><td>Good Girl · C. Herrera</td><td>Decant 5 ml</td><td>2</td><td>32.000</td><td>64.000</td></tr>
+          <tr><td colspan="4" style="text-align:right">Envío Asunción</td><td>20.000</td></tr>
+          <tr><td colspan="4" style="text-align:right"><b>Total</b></td><td><b>₲ 144.000</b></td></tr></table></div>
+        </div>
+        <div>
+          <div class="panel" style="margin-bottom:12px"><h4>Cliente <a>Escribir por WhatsApp</a></h4>
+            <div><b>María Paz Gutiérrez</b></div><div class="muted">0981 234 567 · mariapaz@example.com</div>
+            <div style="margin-top:8px">Av. Cacique Lambaré 1234, Centro, Lambaré</div><div class="muted">Ref.: Portón negro, frente a la farmacia</div>
+          </div>
+          <div class="panel"><h4>Historial</h4>
+            <div class="tl"><div><b></b><span>Pendiente · enviado a WhatsApp · 14:25</span></div><div><b class="off"></b><span class="muted">Confirmado</span></div><div><b class="off"></b><span class="muted">Preparando</span></div><div><b class="off"></b><span class="muted">Enviado</span></div><div><b class="off"></b><span class="muted">Entregado</span></div></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div></div>
+</section>
+
+<!-- 19 ADMIN INVENTARIO -->
+<section class="screen" id="a6">
+  <h3>19 · Admin: Inventario (kardex)</h3>
+  <p class="why">Cada entrada y salida de stock con su motivo. Las ventas confirmadas aparecen solas; las compras al proveedor o los ajustes se cargan con "Registrar movimiento".</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/admin/inventario</span></div>
+  <div class="adm">
+    <aside><img src="logo-mf.png" alt=""><a><span><i class="ph-light ph-chart-bar"></i>Dashboard</span></a><div class="grp">VENTAS</div><a><span><i class="ph-light ph-package"></i>Pedidos</span> <em>4</em></a><a><span><i class="ph-light ph-users"></i>Clientes</span></a><div class="grp">CATÁLOGO</div><a><span><i class="ph-light ph-drop"></i>Productos</span></a><a><span><i class="ph-light ph-tag"></i>Marcas</span></a><a><span><i class="ph-light ph-squares-four"></i>Categorías</span></a><a><span><i class="ph-light ph-ruler"></i>Tamaños</span></a><div class="grp">STOCK</div><a class="on"><span><i class="ph-light ph-stack"></i>Inventario</span> <em>3</em></a></aside>
+    <main>
+      <div class="top"><h1>Inventario</h1><span class="btn"><i class="ph-light ph-plus"></i>Registrar movimiento</span></div>
+      <div class="filters"><span class="on">Todos</span><span>Entradas</span><span>Salidas</span><span>Stock crítico 3</span><span style="margin-left:auto">Perfume: todos <i class="ph-light ph-caret-down"></i></span></div>
+      <div class="tbl"><table>
+        <tr><th>Fecha</th><th>Perfume · tamaño</th><th>Movimiento</th><th>Cantidad</th><th>Stock después</th><th>Motivo</th><th>Usuario</th></tr>
+        <tr><td>18 oct 15:10</td><td>Eros · 10 ml</td><td class="out-mov">Salida</td><td>−2</td><td class="low">3</td><td>Venta MF-0039</td><td>Sistema</td></tr>
+        <tr><td>18 oct 09:00</td><td>Good Girl · 5 ml</td><td class="in-mov">Entrada</td><td>+20</td><td>20</td><td>Fraccionado de frasco 80 ml</td><td>Matías R.</td></tr>
+        <tr><td>17 oct 18:32</td><td>Very Good Girl · 10 ml</td><td class="out-mov">Salida</td><td>−1</td><td class="low">0</td><td>Venta MF-0036</td><td>Sistema</td></tr>
+        <tr><td>17 oct 10:05</td><td>Bleu de Chanel · 5 ml</td><td class="out-mov">Salida</td><td>−1</td><td>7</td><td>Ajuste: atomizador roto</td><td>Matías R.</td></tr>
+      </table></div>
+    </main>
+  </div></div>
+</section>
+
+<!-- 20 ADMIN MARCAS -->
+<section class="screen" id="a7">
+  <h3>20 · Admin: Marcas, categorías y tamaños</h3>
+  <p class="why">Las tres son listas simples con el mismo diseño: nombre, cuántos perfumes la usan y editar. Solo se puede eliminar una marca sin perfumes. Se muestra Marcas; Categorías (familias de aroma) y Tamaños (5 ml y 10 ml) son iguales.</p>
+  <div class="frame"><div class="bar"><i></i><i></i><i></i><span>marfragancias.com.py/admin/marcas</span></div>
+  <div class="adm" style="min-height:380px">
+    <aside><img src="logo-mf.png" alt=""><a><span><i class="ph-light ph-chart-bar"></i>Dashboard</span></a><div class="grp">VENTAS</div><a><span><i class="ph-light ph-package"></i>Pedidos</span> <em>4</em></a><a><span><i class="ph-light ph-users"></i>Clientes</span></a><div class="grp">CATÁLOGO</div><a><span><i class="ph-light ph-drop"></i>Productos</span></a><a class="on"><span><i class="ph-light ph-tag"></i>Marcas</span></a><a><span><i class="ph-light ph-squares-four"></i>Categorías</span></a><a><span><i class="ph-light ph-ruler"></i>Tamaños</span></a><div class="grp">STOCK</div><a><span><i class="ph-light ph-stack"></i>Inventario</span> <em>3</em></a></aside>
+    <main>
+      <div class="top"><h1>Marcas</h1><span class="btn"><i class="ph-light ph-plus"></i>Nueva marca</span></div>
+      <div class="tbl"><table>
+        <tr><th>Marca</th><th>Perfumes</th><th></th></tr>
+        <tr><td><b>Carolina Herrera</b></td><td>6</td><td style="color:var(--sage)">Editar</td></tr>
+        <tr><td><b>Chanel</b></td><td>4</td><td style="color:var(--sage)">Editar</td></tr>
+        <tr><td><b>Dior</b></td><td>5</td><td style="color:var(--sage)">Editar</td></tr>
+        <tr><td><b>Versace</b></td><td>4</td><td style="color:var(--sage)">Editar</td></tr>
+        <tr><td><b>Gucci</b></td><td class="muted">0</td><td style="color:var(--sage)">Editar · <span style="color:#991b1b">Eliminar</span></td></tr>
+      </table></div>
+    </main>
+  </div></div>
+</section>
+
+<script>
+const Z=[
+ {max:18,name:'Fresco o frío',c1:'#4f7fc2',c2:'#eef3fb',title:'Con frío: perfumes cálidos y envolventes',
+  text:'Con poco calor la piel evapora el perfume más despacio y se proyecta menos. Es el momento de las notas densas y dulces, que en verano serían demasiado.',
+  good:['vainilla','ámbar','oud','canela','tabaco','cuero','haba tonka'],bad:['cítricos solos','notas acuáticas'],dose:4,
+  picks:[['Tom Ford','Tobacco Vanille','₲ 58.000'],['Maison Francis Kurkdjian','Baccarat Rouge 540','₲ 62.000'],['Yves Saint Laurent','Black Opium','₲ 34.000']]},
+ {max:26,name:'Templado',c1:'#5f7a61',c2:'#f2f6f1',title:'Templado: el clima más versátil',
+  text:'Entre 19° y 26° casi todo funciona. Ideal para florales y aromáticos, que se abren bien sin cansar.',
+  good:['rosa','jazmín','iris','lavanda','almizcle','té'],bad:['oud muy intenso'],dose:3,
+  picks:[['Chanel','Coco Mademoiselle','₲ 40.000'],['Dior','Miss Dior','₲ 38.000'],['Guerlain','L’Homme Idéal','₲ 36.000']]},
+ {max:32,name:'Calor',c1:'#c98a1b',c2:'#fff7e8',title:'Con calor: frescura que dure',
+  text:'El calor acelera la evaporación: el perfume se siente más fuerte al principio y dura menos. Buscá notas frescas con una base que las sostenga.',
+  good:['bergamota','neroli','té verde','vetiver','pimienta rosa'],bad:['vainilla pesada','oud','canela'],dose:2,
+  picks:[['Dior','Sauvage','₲ 35.000'],['Chanel','Bleu de Chanel','₲ 38.000'],['Hermès','Terre d’Hermès','₲ 42.000']]},
+ {max:99,name:'Calor intenso',c1:'#c4521e',c2:'#fff1e8',title:'Más de 32°: liviano, limpio y en poca cantidad',
+  text:'Con calor fuerte las notas dulces y pesadas se vuelven empalagosas y molestan a los demás. Lo mejor son los cítricos, verdes y acuáticos, aplicados con moderación.',
+  good:['limón','pomelo','menta','sal marina','notas verdes','cardamomo'],bad:['vainilla','oud','ámbar','caramelo'],dose:1,
+  picks:[['Creed','Silver Mountain Water','₲ 52.000'],['Dior','Sauvage','₲ 35.000'],['Hermès','Un Jardin sur le Nil','₲ 40.000']]}
+];
+const M=[['Ene',35],['Feb',34],['Mar',33],['Abr',29],['May',25],['Jun',22],['Jul',22],['Ago',25],['Sep',27],['Oct',30],['Nov',32],['Dic',34]];
+let T=36,D='dia',H='hum';
+const $=id=>document.getElementById(id);
+function zoneFor(t){return Z.find(z=>t<=z.max)}
+function render(){
+  const z=zoneFor(T), el=$('to');
+  el.style.setProperty('--c1',z.c1); el.style.background=z.c2;
+  $('deg').textContent=T; $('zone').textContent=z.name; $('range').value=T;
+  $('knob').style.left=((T-10)/30*100)+'%';
+  let text=z.text, dose=z.dose;
+  if(D==='noche'){text+=' De noche podés subir un poco la intensidad: hay menos calor y más cercanía.';dose=Math.min(4,dose+1)}
+  if(H==='hum'){text+=' La humedad hace que el aroma "flote" y se sienta más: mejor una aplicación menos.';dose=Math.max(1,dose-1)}
+  $('advTitle').textContent=z.title; $('advText').textContent=text;
+  $('good').innerHTML=z.good.map(n=>`<span>${n}</span>`).join('');
+  $('bad').innerHTML=z.bad.map(n=>`<span>${n}</span>`).join('');
+  $('dose').innerHTML=[1,2,3,4].map(i=>`<b class="${i<=dose?'on':''}"></b>`).join('');
+  $('doseTxt').textContent=dose===1?'1 aplicación':dose+' aplicaciones';
+  $('picks').innerHTML=z.picks.map(p=>`<div class="pick"><div class="th"></div><div><div class="b">${p[0]}</div><div class="n">${p[1]}</div><div class="p">5 ml <b>${p[2]}</b></div></div></div>`).join('');
+  $('science').innerHTML=`<b>¿Por qué?</b> El perfume es una mezcla de aromas que se evaporan a distinta velocidad. A ${T}° ${T>28?'las notas de salida se van rápido y las pesadas se intensifican':'las notas se liberan despacio y las cálidas se sienten suaves'}.`;
+  ['dia','noche'].forEach(k=>$('d-'+k).classList.toggle('on',D===k));
+  ['seco','hum'].forEach(k=>$('h-'+k).classList.toggle('on',H===k));
+  $('months').innerHTML=M.map(([m,t])=>`<div style="background:${zoneFor(t).c1}" class="${t===T?'now':''}" onclick="setT(${t});document.getElementById('monthName').textContent='${m}: promedio ${t}° de máxima'">${m}<small>${t}°</small></div>`).join('');
+}
+function setT(t){T=t;render()} function setD(d){D=d;render()} function setH(h){H=h;render()}
+render();
+</script>
+</body></html>

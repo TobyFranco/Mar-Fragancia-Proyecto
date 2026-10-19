@@ -1,22 +1,8 @@
-@extends('layouts.app')
-
-@section('title', 'Iniciar sesión')
-
-@section('content')
-    <div class="card">
-        <h1>Iniciar sesión</h1>
-
-        @if ($errors->any())
-            <div class="alert-error">{{ $errors->first() }}</div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
-            <button type="submit" class="btn">Entrar</button>
-        </form>
-
-        <p style="margin-top:1rem">¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate</a></p>
-    </div>
-@endsection
+<x-tienda.auth-marco modo="ingresar">
+    <form class="auth-form" method="POST" action="{{ route('login') }}">
+        @csrf
+        <x-tienda.auth-campo nombre="email" etiqueta="Email" tipo="email" autocomplete="email" maximo="150" />
+        <x-tienda.auth-campo nombre="password" etiqueta="Contraseña" tipo="password" autocomplete="current-password" />
+        <button class="button" type="submit">Ingresar</button>
+    </form>
+</x-tienda.auth-marco>
