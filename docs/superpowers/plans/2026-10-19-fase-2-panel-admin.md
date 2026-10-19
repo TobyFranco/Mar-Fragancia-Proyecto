@@ -54,8 +54,8 @@
 - `Inventario::registrar(ProductoPresentacion $p, string $tipo, int $cantidad, string $motivo, ?Usuario $usuario = null): MovimientoInventario` — `$tipo` `entrada|salida`; `$cantidad > 0`; dentro de `DB::transaction` con `lockForUpdate()` sobre la presentación; actualiza `stock`, guarda `stock_resultante`, `usuario_id` y `fecha = now()`. Salida que deja stock < 0 → lanza `StockInsuficiente` (con presentación y disponible) y no cambia nada.
 - `Inventario::criticas(): Collection<ProductoPresentacion>` (activas con stock ≤ 3, con producto y tamaño cargados).
 
-- [ ] **Paso 1: tests que fallan:** `test_entrada_suma_y_registra_stock_resultante`; `test_salida_resta`; `test_salida_no_deja_stock_negativo` (stock 2, salida 3 → excepción, stock sigue 2, sin movimiento nuevo); `test_cantidad_invalida_se_rechaza` (0 y −1 → `InvalidArgumentException`); `test_tipo_invalido_se_rechaza`; `test_criticas_lista_stock_menor_o_igual_a_tres_solo_activas`.
-- [ ] **Pasos 2–4:** rojo → verde. **Paso 5:** Commit `feat(admin): servicio de inventario con kardex`.
+- [x] **Paso 1: tests que fallan:** `test_entrada_suma_y_registra_stock_resultante`; `test_salida_resta`; `test_salida_no_deja_stock_negativo` (stock 2, salida 3 → excepción, stock sigue 2, sin movimiento nuevo); `test_cantidad_invalida_se_rechaza` (0 y −1 → `InvalidArgumentException`); `test_tipo_invalido_se_rechaza`; `test_criticas_lista_stock_menor_o_igual_a_tres_solo_activas`.
+- [x] **Pasos 2–4:** rojo → verde. **Paso 5:** Commit `feat(admin): servicio de inventario con kardex`.
 
 ### Tarea 3: Servicio del ciclo de pedidos
 
