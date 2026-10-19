@@ -43,8 +43,8 @@
 - `movimientos_inventario`: + `usuario_id` nullable (FK `usuarios`), `stock_resultante` int nullable (los existentes quedan null)
 - Al crear un pedido desde el checkout (`CrearPedidoDesdeCarrito` de la Fase 1) se registra su estado inicial `pendiente` en `pedido_estados`.
 
-- [ ] **Paso 1: tests que fallan:** `test_transiciones_permitidas_segun_tabla` (recorre la tabla completa: permitidas → true, el resto → false); `test_pedido_creado_desde_checkout_registra_estado_pendiente`; `test_fecha_confirmacion_sale_del_historial`; `test_etiquetas_de_estado`.
-- [ ] **Paso 2:** FAIL. **Paso 3:** implementar. **Paso 4:** suite completa PASS. **Paso 5:** Commit `feat(admin): historial de estados de pedido y auditoría de movimientos`.
+- [x] **Paso 1: tests que fallan:** `test_transiciones_permitidas_segun_tabla` (recorre la tabla completa: permitidas → true, el resto → false); `test_pedido_creado_desde_checkout_registra_estado_pendiente`; `test_fecha_confirmacion_sale_del_historial`; `test_etiquetas_de_estado`.
+- [x] **Paso 2:** FAIL. **Paso 3:** implementar. **Paso 4:** suite completa PASS. **Paso 5:** Commit `feat(admin): historial de estados de pedido y auditoría de movimientos`.
 
 ### Tarea 2: Servicio de inventario
 
