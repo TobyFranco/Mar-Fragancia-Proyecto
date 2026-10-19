@@ -252,6 +252,38 @@ if (process.argv[2] === 'task10') {
   await capture(`maqueta-auth-${width}`);
  }
 }
+if (process.argv[2] === 'task11b') {
+ for (const width of [1440,375]) {
+  await navigate(baseUrl+'/como-funciona',width);
+  assert.ok((await metrics()).scroll <= width);
+  assert.equal(await evaluate(`document.querySelectorAll('.how-faq details').length`),4);
+  assert.equal(await evaluate(`getComputedStyle(document.querySelector('.how-steps section')).backgroundColor`),'rgb(244, 246, 243)','Tarjetas con fondo sage de la maqueta');
+  assert.equal(await evaluate(`getComputedStyle(document.querySelector('.how-steps section')).borderRadius`),'12px');
+  if (width === 1440) {
+   assert.equal(await evaluate(`document.querySelector('.info-links [aria-current="page"]')?.textContent`),'Cómo funciona','Se identifica la página actual');
+   assert.equal(await evaluate(`getComputedStyle(document.querySelector('.info-links [aria-current="page"]')).textDecorationLine`),'underline','Página informativa activa subrayada');
+  }
+  await capture(`como-funciona-${width}`);
+  await evaluate(`document.querySelector('.how-faq summary').focus()`);
+  await key('\uE007'); await settle();
+  assert.equal(await evaluate(`document.querySelector('.how-faq details').open`),true,'FAQ funciona por teclado');
+  assert.ok(await evaluate(`document.querySelector('.how-faq details p').textContent.includes('perfume original')`));
+  await capture(`como-funciona-faq-${width}`);
+  await navigate(baseUrl+'/pagina-inexistente',width);
+  assert.ok((await metrics()).scroll <= width);
+  assert.equal(await evaluate(`document.querySelector('h1').textContent.trim()`),'No encontramos esta página');
+  assert.equal(await evaluate(`document.querySelector('.not-found-page a').getAttribute('href')`),baseUrl);
+  await capture(`no-encontrada-${width}`);
+  console.log('Cómo funciona/404: FAQ con teclado, salidas y viewport',width);
+ }
+ for (const [section,index,name] of [['t2',0,'como-funciona'],['t4',0,'estados-vacios']]) {
+  for (const width of [1440,375]) {
+   await navigate(maqueta,width);
+   await evaluate(`(() => {const root=document.querySelectorAll('#${section} .mf')[${index}];for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}html{overflow-x:clip}';document.head.append(style)})()`);
+   await capture(`maqueta-${name}-${width}`);
+  }
+ }
+}
 if (process.argv[2] === 'task11a-estilos') {
  const errores=[];
  const check=(mensaje,actual,esperado)=>{try{assert.deepEqual(actual,esperado,mensaje)}catch(e){errores.push(e.message)}};
@@ -262,6 +294,7 @@ if (process.argv[2] === 'task11a-estilos') {
  await navigate(baseUrl+'/marcas/chanel',1440);
  check('Marca activa subrayada',await evaluate(`getComputedStyle(document.querySelector('[aria-controls="panel-chanel"]')).textDecorationLine`),'underline');
  await navigate(baseUrl+'/termometro-olfativo',1440);
+ check('Termómetro activo subrayado',await evaluate(`getComputedStyle(document.querySelector('.info-links [aria-current="page"]')).textDecorationLine`),'underline');
  for(const [t,color] of [[18,'rgb(238, 243, 251)'],[22,'rgb(242, 246, 241)'],[30,'rgb(255, 247, 232)'],[36,'rgb(255, 241, 232)']]) {
   await evaluate(`(() => {const e=document.querySelector('#temperatura');e.value=${t};e.dispatchEvent(new Event('input',{bubbles:true}))})()`); await settle();
   check('Fondo '+t,await evaluate(`getComputedStyle(document.querySelector('.thermometer-page')).backgroundColor`),color);
@@ -269,6 +302,16 @@ if (process.argv[2] === 'task11a-estilos') {
  check('Transición suave',await evaluate(`getComputedStyle(document.querySelector('.thermometer-page')).transitionDuration`),process.env.TIENDA_REDUCED_MOTION ? '0s' : '0.2s');
  if(process.env.TIENDA_REDUCED_MOTION) check('Preferencia reducida activa',await evaluate(`matchMedia('(prefers-reduced-motion: reduce)').matches`),true);
  if(errores.length) throw new Error(errores.join('\n'));
+ if (!process.env.TIENDA_REDUCED_MOTION) {
+  for (const width of [1440,375]) {
+   await navigate(baseUrl+'/termometro-olfativo',width);
+   for (const [temperatura,zona] of [[18,'frio'],[22,'templado'],[30,'calor'],[36,'calor-intenso']]) {
+    await evaluate(`(() => {const e=document.querySelector('#temperatura');e.value=${temperatura};e.dispatchEvent(new Event('input',{bubbles:true}))})()`); await settle();
+    assert.ok((await metrics()).scroll <= width);
+    await capture(`termometro-${zona}-${width}`);
+   }
+  }
+ }
  console.log('Retoques CSS: desktop/móvil, marca y cuatro fondos correctos');
 }
 if (process.argv[2] === 'task11a-busqueda') {
@@ -289,6 +332,7 @@ if (process.argv[2] === 'task11a-busqueda') {
   console.log('Búsqueda incremental por marca/nota/perfume, resaltado y Enter',width);
  }
 }
+assert.deepEqual(browserErrors, [], 'Sin errores de consola durante el recorrido');
 } finally {
  await call('session.end');
  ws.close();

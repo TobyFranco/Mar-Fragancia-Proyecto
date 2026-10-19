@@ -132,7 +132,7 @@ Fixture base: Sauvage 10 ml ×1 a60.000 y Good Girl 5 ml ×2 a32.000, stock5 cad
 
 ## Evidencia y cierre
 
-Última corrida al completar el documento (2026-10-19): `php artisan test --compact` → **150 tests aprobados, 1012 assertions, 0 fallos**. Pint correcto. El cierre visual y la corrida final de Fase 1 se registran en la Tarea 11e del plan; si cambian estas cifras, se actualiza este apartado.
+Corrida final de Fase 1 (2026-10-19): `php artisan test` → **150 tests aprobados, 1012 assertions, 0 fallos**, 6,50 s. `vendor/bin/pint --dirty --format agent` y `npm run build` correctos. Once recorridos Firefox verdes (diez normales y uno con movimiento reducido), a375/1440 px, sin errores de consola. Detalle de comparación y decisiones en Tarea 11e del plan.
 
 Auditoría: `AuditoriaVistasTest::test_vistas_publicas_no_contienen_emojis_ni_simbolos_icono` recorre las vistas públicas recursivamente. Se probó su fallo con una vista temporal no enrutada que contenía seis caracteres prohibidos; detectó las seis líneas. La fixture se retiró antes del verde y no se versionó.
 

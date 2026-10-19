@@ -26,7 +26,7 @@
                     class="brand-link" data-activa="{{ $marcaActiva === $marca->id ? 'true' : 'false' }}">{{ $marca->nombre }}</a>
             @endforeach
             <a class="all-brands" href="{{ url('/marcas') }}">Todas las marcas</a>
-            <div class="info-links"><a href="{{ url('/termometro-olfativo') }}">Termómetro olfativo</a><a href="{{ url('/como-funciona') }}">Cómo funciona</a></div>
+            <div class="info-links"><a href="{{ route('tienda.termometro') }}" @if (request()->routeIs('tienda.termometro')) aria-current="page" @endif>Termómetro olfativo</a><a href="{{ route('tienda.como-funciona') }}" @if (request()->routeIs('tienda.como-funciona')) aria-current="page" @endif>Cómo funciona</a></div>
         </div>
         @foreach ($marcasMenu as $marca)
             <x-tienda.panel-marca :marca="$marca" />
