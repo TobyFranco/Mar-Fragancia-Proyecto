@@ -82,8 +82,8 @@
 
 **Interfaces producidas:** `MetricasAdmin::resumen(?Carbon $mes = null): array` → `['pendientes' => int, 'pendiente_mas_viejo' => ?Carbon, 'ventas_mes' => int, 'pedidos_mes' => int, 'decants_mes' => int, 'porcentaje_5ml' => int, 'mas_vendidos' => Collection<['presentacion','unidades']> (top 5), 'criticas' => Collection]`. Cuenta pedidos cuya **confirmación** cayó en el mes y que no están `cancelado`.
 
-- [ ] **Paso 1: tests que fallan:** `test_dashboard_requiere_admin` (invitado → login, cliente → 403); `test_menu_muestra_grupos_y_contadores` (ve VENTAS, CATÁLOGO, STOCK, contador de pendientes y de stock crítico); `test_metricas_cuentan_por_fecha_de_confirmacion` (pedido creado el 31/10 y confirmado el 1/11 cuenta en noviembre); `test_metricas_excluyen_cancelados_y_pendientes`; `test_mas_vendidos_top_5_por_unidades`; `test_porcentaje_de_5ml`.
-- [ ] **Paso 2–4:** rojo → verde, comparando con la pantalla 14 a 1440 px y 768 px (el admin no necesita ser mobile-first, pero no debe romperse en tablet). **Paso 5:** Commit `feat(admin): layout nuevo y dashboard con métricas`.
+- [x] **Paso 1: tests que fallan:** `test_dashboard_requiere_admin` (invitado → login, cliente → 403); `test_menu_muestra_grupos_y_contadores` (ve VENTAS, CATÁLOGO, STOCK, contador de pendientes y de stock crítico); `test_metricas_cuentan_por_fecha_de_confirmacion` (pedido creado el 31/10 y confirmado el 1/11 cuenta en noviembre); `test_metricas_excluyen_cancelados_y_pendientes`; `test_mas_vendidos_top_5_por_unidades`; `test_porcentaje_de_5ml`.
+- [x] **Paso 2–4:** rojo → verde, comparando con la pantalla 14 a 1440 px y 768 px (el admin no necesita ser mobile-first, pero no debe romperse en tablet). **Paso 5:** Commit `feat(admin): layout nuevo y dashboard con métricas`.
 
 ### Tarea 5: Pedidos y detalle de pedido
 

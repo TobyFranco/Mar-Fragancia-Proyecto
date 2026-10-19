@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
@@ -42,9 +43,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Panel administrador
 Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('marcas', MarcaController::class)->except(['show'])->scoped(['marca' => 'id']);
     Route::resource('categorias', CategoriaController::class)->except(['show']);

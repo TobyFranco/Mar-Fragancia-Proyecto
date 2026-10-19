@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\View\Composers\AdminMenuComposer;
 use App\View\Composers\CarritoComposer;
 use App\View\Composers\EncabezadoComposer;
 use Illuminate\Support\Facades\View;
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        View::composer('components.admin.layout', AdminMenuComposer::class);
         View::composer('components.tienda.encabezado', EncabezadoComposer::class);
         View::composer('components.tienda.carrito-panel', CarritoComposer::class);
     }
