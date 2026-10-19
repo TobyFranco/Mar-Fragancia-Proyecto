@@ -53,7 +53,7 @@ Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->name('admin.'
 
     Route::resource('marcas', MarcaController::class)->except(['show'])->scoped(['marca' => 'id']);
     Route::resource('categorias', CategoriaController::class)->except(['show']);
-    Route::resource('tamanos', TamanoController::class)->except(['show']);
+    Route::resource('tamanos', TamanoController::class)->only(['index']);
     Route::resource('productos', ProductoController::class)->except(['show'])->scoped(['producto' => 'id']);
 });
 

@@ -622,3 +622,4 @@
     .admin-presentations-table td:first-child, .admin-presentations-table td:nth-child(2) { white-space: nowrap; }
 }
 @layer components { .admin-in { color: var(--color-sage); font-weight: 600; } }
+@layer components { .admin-brand-preview { width: 220px; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; } }

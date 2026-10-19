@@ -130,8 +130,8 @@
 
 **Archivos:** Modificar `MarcaController`, `CategoriaController`, `TamanoController` y sus vistas (pasar a `<x-admin.layout>`), `routes/web.php` (`tamanos` solo `index`; borrar las vistas `tamanos/create|edit`). Test: `tests/Feature/Admin/CatalogoAdminTest.php`.
 
-- [ ] **Paso 1: tests que fallan:** `test_marcas_muestran_cantidad_de_perfumes`; `test_marca_gestiona_destacada_orden_menu_e_imagen` (y el menú de la tienda refleja el cambio); `test_no_permite_mas_de_ocho_marcas_destacadas`; `test_no_elimina_marca_o_categoria_con_perfumes`; `test_elimina_marca_sin_perfumes`; `test_tamanos_es_solo_lectura` (`index` 200; `create`, `store`, `edit`, `update`, `destroy` ya no existen → 404/405).
-- [ ] **Pasos 2–4:** rojo → verde, comparando con la pantalla 20. **Paso 5:** Commit `feat(admin): marcas, categorías y tamaños`.
+- [x] **Paso 1: tests que fallan:** `test_marcas_muestran_cantidad_de_perfumes`; `test_marca_gestiona_destacada_orden_menu_e_imagen` (y el menú de la tienda refleja el cambio); `test_no_permite_mas_de_ocho_marcas_destacadas`; `test_no_elimina_marca_o_categoria_con_perfumes`; `test_elimina_marca_sin_perfumes`; `test_tamanos_es_solo_lectura` (`index` 200; `create`, `store`, `edit`, `update`, `destroy` ya no existen → 404/405).
+- [x] **Pasos 2–4:** rojo → verde, comparando con la pantalla 20. **Paso 5:** Commit `feat(admin): marcas, categorías y tamaños`.
 
 ### Tarea 9: Cierre de la Fase 2
 
