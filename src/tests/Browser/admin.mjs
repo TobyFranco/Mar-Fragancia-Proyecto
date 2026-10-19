@@ -49,7 +49,7 @@ try {
  await navigate(baseUrl+'/login',1440);
  await evaluate(`document.querySelector('[name=email]').value='admin@marfragancia.com';document.querySelector('[name=password]').value='password123';document.querySelector('form[action$="/login"]').requestSubmit()`);
  await until(`location.pathname === '/admin/dashboard'`);
- const pages = process.argv[2] === 'task4' ? [['/admin/dashboard','dashboard','a1']] : process.argv[2] === 'task5' ? [['/admin/pedidos','pedidos','a4'],['/admin/pedidos/1','pedido','a5']] : [['/admin/productos','productos','a2'],['/admin/productos/1/edit','producto','a3'],['/admin/productos/create','producto-nuevo','a3']];
+ const pages = process.argv[2] === 'task7' ? [['/admin/inventario','inventario','a6'],['/admin/inventario/create','movimiento-nuevo',null]] : process.argv[2] === 'task8' ? [['/admin/marcas','marcas','a7'],['/admin/categorias','categorias','a7'],['/admin/tamanos','tamanos','a7']] : process.argv[2] === 'task4' ? [['/admin/dashboard','dashboard','a1']] : process.argv[2] === 'task5' ? [['/admin/pedidos','pedidos','a4'],['/admin/pedidos/1','pedido','a5']] : [['/admin/productos','productos','a2'],['/admin/productos/1/edit','producto','a3'],['/admin/productos/create','producto-nuevo','a3']];
  for(const [url,name,section] of pages) {
   for(const width of [1440,768]) {
    await navigate(baseUrl+url,width);
@@ -61,7 +61,7 @@ try {
    if(name === 'producto-nuevo' && width === 768) assert.equal(await evaluate(`(() => {const r=document.createRange();r.selectNodeContents(document.querySelector('.admin-presentations-table tbody tr td:nth-child(2)'));return r.getClientRects().length})()`),1,'Decant no se corta en tablet');
    await capture(`admin-${name}-${width}`);
    console.log(name,width,await metrics());
-   if(name !== 'producto-nuevo') {
+   if(name !== 'producto-nuevo' && section) {
     await navigate(maqueta,width);
     await evaluate(`(() => {const root=document.querySelector('#${section} .adm');for(const style of [...document.querySelectorAll('style,link[rel="stylesheet"]')])document.head.append(style);document.body.replaceChildren(root);const style=document.createElement('style');style.textContent='body{margin:0!important;padding:0!important}';document.head.append(style)})()`);
     await capture(`maqueta-admin-${name}-${width}`);

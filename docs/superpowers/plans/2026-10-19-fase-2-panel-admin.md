@@ -123,8 +123,8 @@
 
 **Archivos:** Crear `app/Http/Controllers/Admin/InventarioController.php` (`index`, `create`, `store`), vistas `admin/inventario/{index,create}.blade.php`. Rutas `admin.inventario.index` `GET /admin/inventario`, `admin.inventario.create`, `admin.inventario.store`. Test: `tests/Feature/Admin/InventarioTest.php`.
 
-- [ ] **Paso 1: tests que fallan:** `test_kardex_muestra_movimientos_con_stock_resultante_y_usuario` ("Sistema" cuando `usuario_id` es null); `test_filtros_entradas_salidas_criticos_y_perfume`; `test_registrar_movimiento_manual` (motivo requerido); `test_movimiento_manual_que_deja_stock_negativo_se_rechaza`.
-- [ ] **Pasos 2–4:** rojo → verde, comparando con la pantalla 19. **Paso 5:** Commit `feat(admin): inventario tipo kardex`.
+- [x] **Paso 1: tests que fallan:** `test_kardex_muestra_movimientos_con_stock_resultante_y_usuario` ("Sistema" cuando `usuario_id` es null); `test_filtros_entradas_salidas_criticos_y_perfume`; `test_registrar_movimiento_manual` (motivo requerido); `test_movimiento_manual_que_deja_stock_negativo_se_rechaza`.
+- [x] **Pasos 2–4:** rojo → verde, comparando con la pantalla 19. **Paso 5:** Commit `feat(admin): inventario tipo kardex`.
 
 ### Tarea 8: Marcas, categorías y tamaños
 
@@ -134,6 +134,8 @@
 - [ ] **Pasos 2–4:** rojo → verde, comparando con la pantalla 20. **Paso 5:** Commit `feat(admin): marcas, categorías y tamaños`.
 
 ### Tarea 9: Cierre de la Fase 2
+
+- [ ] **Pendiente del orquestador:** configurar `APP_TIMEZONE` / `config(app.timezone)` como `America/Asuncion` (también `.env.example`) y probar que una fecha persistida se muestra en hora de Asunción en detalle de pedido y kardex. Conservar interpretación de fechas históricas para evitar desplazarlas dos veces.
 
 - [ ] **Paso 1:** cambiar `Recomendador::masProbados` para contar por **fecha de confirmación** (como pide la spec) con su test `test_mas_probados_usa_fecha_de_confirmacion`.
 - [ ] **Paso 2:** extender el test de auditoría sin emojis a `resources/views/admin` y `components/admin`.

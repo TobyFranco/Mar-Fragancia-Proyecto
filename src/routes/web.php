@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InventarioController;
 use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
@@ -45,6 +46,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
+    Route::resource('inventario', InventarioController::class)->only(['index', 'create', 'store']);
     Route::get('/pedidos', [App\Http\Controllers\Admin\PedidoController::class, 'index'])->name('pedidos.index');
     Route::get('/pedidos/{pedido}', [App\Http\Controllers\Admin\PedidoController::class, 'show'])->name('pedidos.show');
     Route::post('/pedidos/{pedido}/estado', [App\Http\Controllers\Admin\PedidoController::class, 'transicion'])->name('pedidos.transicion');

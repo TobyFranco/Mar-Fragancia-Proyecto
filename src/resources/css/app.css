@@ -621,3 +621,4 @@
 @layer components {
     .admin-presentations-table td:first-child, .admin-presentations-table td:nth-child(2) { white-space: nowrap; }
 }
+@layer components { .admin-in { color: var(--color-sage); font-weight: 600; } }

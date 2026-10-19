@@ -27,7 +27,7 @@
             @endforeach
             <h2>STOCK</h2>
             @if(Route::has('admin.inventario.index'))
-                <a href="{{ route('admin.inventario.index') }}"><x-phosphor-stack-light />Inventario <span class="admin-count" aria-label="{{ $criticasMenu }} presentaciones críticas">{{ $criticasMenu }}</span></a>
+                <a href="{{ route('admin.inventario.index') }}" @if(request()->routeIs('admin.inventario.*')) aria-current="page" @endif><x-phosphor-stack-light />Inventario <span class="admin-count" aria-label="{{ $criticasMenu }} presentaciones críticas">{{ $criticasMenu }}</span></a>
             @else
                 <span class="admin-nav-pending"><x-phosphor-stack-light />Inventario <span class="admin-count" aria-label="{{ $criticasMenu }} presentaciones críticas">{{ $criticasMenu }}</span></span>
             @endif
