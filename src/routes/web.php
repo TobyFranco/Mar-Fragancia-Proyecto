@@ -45,6 +45,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
+    Route::get('/pedidos', [App\Http\Controllers\Admin\PedidoController::class, 'index'])->name('pedidos.index');
+    Route::get('/pedidos/{pedido}', [App\Http\Controllers\Admin\PedidoController::class, 'show'])->name('pedidos.show');
+    Route::post('/pedidos/{pedido}/estado', [App\Http\Controllers\Admin\PedidoController::class, 'transicion'])->name('pedidos.transicion');
+
     Route::resource('marcas', MarcaController::class)->except(['show'])->scoped(['marca' => 'id']);
     Route::resource('categorias', CategoriaController::class)->except(['show']);
     Route::resource('tamanos', TamanoController::class)->except(['show']);

@@ -543,7 +543,7 @@
     .admin-bar-row { display: grid; grid-template-columns: minmax(100px,150px) minmax(40px,1fr) 24px; align-items: center; gap: 10px; margin-block: 14px; font-size: 12px; }
     .admin-bar-row meter { width: 100%; height: 10px; background: var(--color-sage-bg); border: 0; border-radius: 5px; }
     .admin-bar-row meter::-moz-meter-bar { background: var(--color-sage); border-radius: 5px; }
-    .admin-table-wrap { overflow-x: auto; border: 1px solid var(--color-line); border-radius: 10px; }
+    .admin-table-wrap { position: relative; overflow-x: auto; border: 1px solid var(--color-line); border-radius: 10px; }
     .admin-main table { width: 100%; border-collapse: collapse; background: white; font-size: 12px; }
     .admin-main th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--color-ink-soft); background: var(--color-admin-bg); }
     .admin-main th, .admin-main td { padding: 12px; border-bottom: 1px solid var(--color-line); }
@@ -555,3 +555,29 @@
     @media (max-width: 800px) { .admin-shell { grid-template-columns: 168px minmax(0,1fr); } .admin-sidebar { padding-inline: 8px; } .admin-main { padding: 22px 18px; } .admin-top { flex-wrap: wrap; } }
     @media (max-width: 540px) { .admin-shell { grid-template-columns: 1fr; } .admin-sidebar { position: static; } .admin-sidebar nav { display: flex; flex-wrap: wrap; } .admin-sidebar nav h2 { width: 100%; } .admin-sidebar nav a, .admin-nav-pending { width: auto; } .admin-kpis { grid-template-columns: 1fr; } }
 }
+@layer components {
+    .admin-search { display: flex; border: 1px solid var(--color-line); border-radius: 6px; background: white; }
+    .admin-search input { width: 240px; min-width: 0; border: 0; background: transparent; padding: 10px; font-size: 13px; }
+    .admin-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .admin-filters a { display: inline-flex; align-items: center; min-height: 44px; border: 1px solid var(--color-line); border-radius: 999px; padding: 8px 13px; font-size: 12px; background: white; }
+    .admin-filters a[aria-current] { background: var(--color-navy); border-color: var(--color-navy); color: white; }
+    .admin-badge { display: inline-block; font: 600 11px var(--font-sans); border-radius: 999px; padding: 4px 10px; vertical-align: middle; white-space: nowrap; }
+    .b-pend { background: var(--color-status-pend-bg); color: var(--color-status-pend); }
+    .b-conf { background: var(--color-status-conf-bg); color: var(--color-status-conf); }
+    .b-prep { background: var(--color-status-prep-bg); color: var(--color-status-prep); }
+    .b-env { background: var(--color-status-env-bg); color: var(--color-status-env); }
+    .b-ent { background: var(--color-status-ent-bg); color: var(--color-status-ent); }
+    .b-can { background: var(--color-status-can-bg); color: var(--color-status-can); }
+    .admin-money { white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .admin-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .admin-detail { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; align-items: start; }
+    .admin-detail-side { display: grid; gap: 16px; min-width: 0; }
+    .admin-detail p { font-size: 13px; overflow-wrap: anywhere; }
+    .admin-address { margin-top: 12px; }
+    .admin-timeline { padding-left: 18px; border-left: 1px solid var(--color-line); font-size: 12px; }
+    .admin-timeline li { padding-bottom: 18px; }
+    .admin-pagination { margin-top: 20px; }
+    @media(max-width:1100px) { .admin-detail { grid-template-columns: 1fr; } }
+}
+
+@layer components { .admin-orders-table { min-width: 800px; } .admin-orders-table td:first-child, .admin-orders-table td:last-child { white-space: nowrap; } }

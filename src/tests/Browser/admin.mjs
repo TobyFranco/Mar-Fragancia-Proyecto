@@ -57,6 +57,7 @@ try {
    assert.ok((await metrics()).scroll <= width,JSON.stringify(await metrics()));
    assert.ok(await evaluate(`getComputedStyle(document.querySelector('h1')).fontFamily.includes('Montserrat')`));
    assert.ok(await evaluate(`Array.from(document.querySelectorAll('a,button,input:not([type=hidden]):not([type=checkbox]),select')).filter(e=>e.getClientRects().length && e.closest('.admin-sidebar')).every(e=>e.getBoundingClientRect().height>=44)`),'Objetivos del menú44px');
+   if(name === 'pedidos' && width === 768) assert.ok(await evaluate(`document.querySelector('.admin-table-wrap table').getBoundingClientRect().width >= 780`),'Tabla de pedidos legible con scroll local');
    await capture(`admin-${name}-${width}`);
    console.log(name,width,await metrics());
    if(name !== 'producto-nuevo') {

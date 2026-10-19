@@ -31,6 +31,11 @@ class Pedido extends Model
         });
     }
 
+    protected function casts(): array
+    {
+        return ['fecha' => 'datetime'];
+    }
+
     public function puedePasarA(string $estado): bool
     {
         return in_array($estado, self::TRANSICIONES[$this->estado] ?? [], true);

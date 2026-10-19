@@ -89,8 +89,8 @@
 
 **Archivos:** Crear `app/Http/Controllers/Admin/PedidoController.php` (`index`, `show`, `transicion`), vistas `admin/pedidos/index.blade.php`, `admin/pedidos/show.blade.php`. Rutas `admin.pedidos.index` `GET /admin/pedidos`, `admin.pedidos.show` `GET /admin/pedidos/{pedido}`, `admin.pedidos.transicion` `POST /admin/pedidos/{pedido}/estado` (campo `estado`). El `PedidoController` vacío de la raíz de controladores se elimina si nada lo usa. Test: `tests/Feature/Admin/PedidosTest.php`.
 
-- [ ] **Paso 1: tests que fallan:** `test_lista_filtra_por_estado_con_contadores`; `test_busca_por_numero_nombre_o_telefono`; `test_detalle_muestra_productos_totales_cliente_e_historial`; `test_detalle_tiene_enlace_whatsapp_a_la_clienta` (`https://wa.me/595981234567` a partir de `0981234567`); `test_boton_confirmar_cambia_estado_y_descuenta_stock`; `test_error_de_stock_se_muestra_con_el_perfume_y_tamano`; `test_transicion_invalida_vuelve_con_error`; `test_solo_se_muestran_botones_de_transiciones_validas`.
-- [ ] **Pasos 2–4:** rojo → verde, comparando con las pantallas 17 y 18. **Paso 5:** Commit `feat(admin): pedidos y detalle con ciclo de estados`.
+- [x] **Paso 1: tests que fallan:** `test_lista_filtra_por_estado_con_contadores`; `test_busca_por_numero_nombre_o_telefono`; `test_detalle_muestra_productos_totales_cliente_e_historial`; `test_detalle_tiene_enlace_whatsapp_a_la_clienta` (`https://wa.me/595981234567` a partir de `0981234567`); `test_boton_confirmar_cambia_estado_y_descuenta_stock`; `test_error_de_stock_se_muestra_con_el_perfume_y_tamano`; `test_transicion_invalida_vuelve_con_error`; `test_solo_se_muestran_botones_de_transiciones_validas`.
+- [x] **Pasos 2–4:** rojo → verde, comparando con las pantallas 17 y 18. **Paso 5:** Commit `feat(admin): pedidos y detalle con ciclo de estados`.
 
 ### Tarea 6: Productos con decants, género y notas
 
