@@ -58,6 +58,7 @@ try {
    assert.ok(await evaluate(`getComputedStyle(document.querySelector('h1')).fontFamily.includes('Montserrat')`));
    assert.ok(await evaluate(`Array.from(document.querySelectorAll('a,button,input:not([type=hidden]):not([type=checkbox]),select')).filter(e=>e.getClientRects().length && e.closest('.admin-sidebar')).every(e=>e.getBoundingClientRect().height>=44)`),'Objetivos del menú44px');
    if(name === 'pedidos' && width === 768) assert.ok(await evaluate(`document.querySelector('.admin-table-wrap table').getBoundingClientRect().width >= 780`),'Tabla de pedidos legible con scroll local');
+   if(name === 'producto-nuevo' && width === 768) assert.equal(await evaluate(`(() => {const r=document.createRange();r.selectNodeContents(document.querySelector('.admin-presentations-table tbody tr td:nth-child(2)'));return r.getClientRects().length})()`),1,'Decant no se corta en tablet');
    await capture(`admin-${name}-${width}`);
    console.log(name,width,await metrics());
    if(name !== 'producto-nuevo') {

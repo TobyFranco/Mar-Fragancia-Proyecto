@@ -15,5 +15,5 @@
             <td class="admin-money">{{ \App\Support\Moneda::gs($pedido->total) }}</td><td><span class="admin-badge {{ $pedido->claseInsignia() }}">{{ $pedido->etiquetaEstado() }}</span></td><td><a class="text-link" href="{{ route('admin.pedidos.show', $pedido->id) }}">Ver<span class="sr-only"> {{ $pedido->numero }}</span></a></td>
         </tr>@empty<tr><td colspan="7">No hay pedidos que coincidan con estos filtros.</td></tr>@endforelse
     </tbody></table></div>
-    <div class="admin-pagination">{{ $pedidos->links() }}</div>
+    <div class="admin-pagination">{{ $pedidos->links('admin.paginacion') }}</div>
 </x-admin.layout>

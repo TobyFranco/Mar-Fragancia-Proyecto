@@ -143,7 +143,7 @@ class PedidosTest extends TestCase
     public function test_valida_estado_sin_cambios(array $datos): void
     {
         $p = $this->pedido();
-        $this->actingAs($this->admin())->from('/admin/pedidos/'.$p->id)->post('/admin/pedidos/'.$p->id.'/estado', $datos)->assertRedirect('/admin/pedidos/'.$p->id)->assertSessionHasErrors('estado');
+        $this->actingAs($this->admin())->from('/admin/pedidos/'.$p->id)->post('/admin/pedidos/'.$p->id.'/estado', $datos)->assertRedirect('/admin/pedidos/'.$p->id)->assertSessionHasErrors(['estado' => 'Elegí un estado válido.']);
         $this->assertSame('pendiente', $p->fresh()->estado);
     }
 

@@ -581,3 +581,43 @@
 }
 
 @layer components { .admin-orders-table { min-width: 800px; } .admin-orders-table td:first-child, .admin-orders-table td:last-child { white-space: nowrap; } }
+@layer components {
+    .admin-products-table { min-width: 720px; }
+    .admin-products-table td:last-child { white-space: nowrap; }
+    .admin-toggle { display: inline-block; width: 30px; height: 17px; border-radius: 10px; background: var(--color-ink-soft); vertical-align: middle; }
+    .admin-toggle::after { content: ''; display: block; width: 13px; height: 13px; background: white; border-radius: 50%; margin: 2px; }
+    .admin-toggle.is-on { background: var(--color-sage); }
+    .admin-toggle.is-on::after { transform: translateX(13px); }
+    .admin-product-fields { display: grid; grid-template-columns: minmax(0,1fr) 220px; gap: 24px; margin-bottom: 24px; }
+    .admin-form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+    .admin-full { grid-column: 1 / -1; }
+    .admin-field { min-width: 0; }
+    .admin-field label { display: block; font-size: 12px; font-weight: 500; margin-bottom: 6px; }
+    .admin-field input, .admin-field select, .admin-field textarea, .admin-presentations-table input[type=number] { width: 100%; border: 1px solid var(--color-line); border-radius: 6px; padding: 10px; background: white; font-size: 14px; min-height: 44px; }
+    .admin-field select[multiple] { height: 132px; }
+    .admin-field .admin-muted { margin-top: 6px; }
+    .admin-check { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; font-size: 13px; }
+    .admin-check input[type=checkbox] { width: 20px; height: 20px; }
+    .admin-photo { border: 1px dashed var(--color-ink-soft); border-radius: 10px; background: white; padding: 20px; display: flex; flex-direction: column; gap: 12px; align-items: center; align-self: start; min-width: 0; }
+    .admin-photo img { width: 140px; height: 150px; object-fit: contain; }
+    .admin-photo input { width: 100%; font-size: 12px; }
+    .admin-photo label { font-size: 13px; }
+    .admin-presentations-table { min-width: 490px; }
+    .admin-presentations-table input[type=number] { max-width: 160px; }
+    .admin-stock-help { margin-top: 12px; }
+    .admin-delete { display: flex; gap: 16px; align-items: center; margin-top: 24px; }
+    @media (max-width: 1100px) { .admin-product-fields { grid-template-columns: 1fr; } .admin-photo { max-width: 320px; } .admin-top:has(.admin-filters) { flex-wrap: wrap; } }
+    @media (max-width: 700px) { .admin-form-grid { grid-template-columns: 1fr; } .admin-delete { flex-wrap: wrap; } }
+}
+
+@layer components {
+    .admin-pager { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+    .admin-page-links { display: flex; flex-wrap: wrap; }
+    .admin-page-links a, .admin-page-links > span { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 8px; background: white; border: 1px solid var(--color-line); font-size: 13px; }
+    .admin-page-links [aria-current] { background: var(--color-navy); color: white; }
+    .admin-page-links svg { width: 16px; height: 16px; }
+    .admin-page-disabled { color: var(--color-ink-soft); }
+}
+@layer components {
+    .admin-presentations-table td:first-child, .admin-presentations-table td:nth-child(2) { white-space: nowrap; }
+}

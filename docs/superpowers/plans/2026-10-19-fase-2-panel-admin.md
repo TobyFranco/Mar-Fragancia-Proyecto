@@ -27,7 +27,7 @@
 2. **Salida manual mayor que el stock** o cantidad 0/negativa/texto: se rechaza y el stock no cambia. → Tarea 2, `test_salida_no_deja_stock_negativo` y `test_cantidad_invalida_se_rechaza`.
 3. **Formulario de producto que envía `stock` manipulado**: se ignora; el stock solo cambia por movimientos. → Tarea 6, `test_editar_producto_ignora_stock_enviado`.
 4. **Cancelar un pedido `enviado` o `entregado`**, o saltar de `pendiente` a `enviado`: se rechaza con mensaje, sin cambios. → Tarea 3, `test_transiciones_invalidas_se_rechazan`.
-5. **Eliminar un perfume que ya tiene pedidos**: no se borra (rompería el historial); se ofrece ocultarlo (`activo = false`). → Tarea 6, `test_no_elimina_producto_con_pedidos`.
+5. **Eliminar un perfume que ya tiene pedidos o movimientos de inventario**: no se borra (rompería el historial); se ofrece ocultarlo (`activo = false`). → Tarea 6, `test_no_elimina_producto_con_pedidos` y `test_no_elimina_producto_con_movimientos` (regla ampliada por el orquestador).
 
 ---
 
@@ -96,15 +96,28 @@
 
 **Archivos:** Mover a `app/Http/Controllers/Admin/ProductoController.php` (o reescribir el existente conservando las rutas `admin.productos.*`), crear `app/Http/Requests/Admin/ProductoRequest.php`, reescribir vistas `admin/productos/{index,create,edit}.blade.php`. Test: `tests/Feature/Admin/ProductosTest.php` (y adaptar los tests existentes que dependan de las vistas viejas).
 
-- [ ] **Paso 1: tests que fallan:**
+- [x] **Paso 1: tests que fallan:**
   - `test_lista_muestra_stock_de_5_y_10_ml_y_marca_criticos`
   - `test_filtros_genero_sin_stock_inactivos_y_busqueda`
   - `test_crear_perfume_con_genero_notas_y_precios` (crea notas nuevas escritas a mano y reutiliza existentes sin duplicar; precios de 5 y 10 ml)
   - `test_stock_inicial_se_registra_como_entrada` (al crear, `stock_inicial` de cada tamaño > 0 genera movimiento `entrada` "Stock inicial")
   - `test_editar_producto_ignora_stock_enviado`
   - `test_validaciones` (nombre, marca, categoría y género requeridos; género fuera de la lista; precio ≥ 0; al menos un tamaño con precio)
-  - `test_no_elimina_producto_con_pedidos` (vuelve con mensaje y ofrece ocultarlo); `test_elimina_producto_sin_pedidos`
-- [ ] **Pasos 2–4:** rojo → verde, comparando con las pantallas 15 y 16. **Paso 5:** Commit `feat(admin): productos con género, notas y decants`.
+  - `test_no_elimina_producto_con_pedidos` (vuelve con mensaje y ofrece ocultarlo); `test_no_elimina_producto_con_movimientos`; `test_elimina_producto_sin_pedidos` (sin movimientos tampoco)
+- [x] **Pasos 2–4:** rojo → verde, comparando con las pantallas 15 y 16. **Paso 5:** Commit `feat(admin): productos con género, notas y decants`.
+
+**Notas del bloque 2 (Tareas 4–6):**
+- RED → GREEN por tarea. Suite: 246 tests / 1500 assertions; Pint y build correctos. Sin migraciones nuevas ni cambios a las anteriores.
+- Métricas: límites del mes de Asunción convertidos a UTC; pruebas del segundo anterior y posterior a ambos límites. Pedidos sin historial de confirmación no se cuentan como ventas.
+- Pantallas 14–18 comparadas a 1440 y 768 px. En tablet: KPI en dos columnas, paneles/detalle apilados, foto debajo del formulario y tablas con scroll local; sin overflow de página ni errores de consola. Capturas y logs en `.superpowers/sdd/2026-10-19-fase-2-panel-admin/`. Datos visuales sintéticos en SQLite separada, sin tocar la BD de desarrollo.
+- Menú habilita Pedidos en T5; Inventario queda como texto hasta su ruta en T7. Clientes y Ver reporte no se agregaron (fuera de alcance). Se respetan IDs de admin y nombres de rutas existentes.
+- El orquestador amplió expresamente la protección de eliminación: pedidos **o movimientos** bloquean el borrado y ofrecen ocultar; solo sin ambos se elimina. Test `test_no_elimina_producto_con_movimientos` verificado RED → GREEN; se conserva kardex.
+- Notas: selección múltiple existente más campo de nuevas notas separadas por coma/salto, reutilizadas sin duplicar mediante normalización. Tamaños permitidos por nombre 5 ml/10 ml. Precio cero válido. Si se vacía precio de una presentación existente, se desactiva conservando precio/stock/historial; stock inicial positivo requiere precio. No se modifica stock al editar, incluso si se envía `stock_inicial` manipulado.
+- Foto: validación, almacenamiento y conservación al editar; una excepción en la transacción limpia la nueva subida. Eliminación comprueba relaciones bajo bloqueo antes de borrar nada.
+- Paginación compartida y mensajes de validación nuevos en español; no se cambió el locale global heredado. Búsqueda normalizada en PHP como Fase1 para equivalencia SQLite/MySQL; implica filtrar candidatos en memoria al buscar.
+- Revisión independiente del bloque: sin hallazgos críticos/importantes. Dos menores diferidos: buscar el texto literal `0` omite el filtro (por truthiness de PHP); al deseleccionar todas las notas y fallar otra validación, el formulario puede restaurar las notas persistidas. Corregir con regresiones en el próximo bloque si el orquestador lo incorpora.
+- Se mantiene el contrato heredado de precios con hasta dos decimales. La revisión señaló que la tienda redondea al mostrar y el carrito trunca al calcular; no se cambió esta regla heredada ni se restringió a enteros sin decisión del orquestador. Antes de cargar precios fraccionarios hay que unificar ese criterio.
+- Pendiente: concurrencia real con MySQL y tareas 7–9. Los controles nativos de archivo usan el idioma del navegador. El detector visual solo señaló la ilustración mini-vial pública ya aprobada; no hubo hallazgos nuevos.
 
 ### Tarea 7: Inventario (kardex)
 

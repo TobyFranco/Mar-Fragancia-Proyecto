@@ -42,7 +42,7 @@ class PedidoController extends Controller
 
     public function transicion(Request $request, Pedido $pedido, CicloPedido $ciclo): RedirectResponse
     {
-        $datos = $request->validate(['estado' => ['required', 'string', Rule::in(Pedido::ESTADOS)]]);
+        $datos = $request->validate(['estado' => ['bail', 'required', 'string', Rule::in(Pedido::ESTADOS)]], ['estado.*' => 'Elegí un estado válido.']);
         try {
             $ciclo->pasarA($pedido, $datos['estado'], $request->user());
         } catch (StockInsuficiente|TransicionInvalida $e) {

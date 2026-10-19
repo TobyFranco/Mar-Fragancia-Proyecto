@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
-use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\TamanoController;
 use App\Http\Controllers\Tienda\BusquedaController;
 use App\Http\Controllers\Tienda\CarritoController;
