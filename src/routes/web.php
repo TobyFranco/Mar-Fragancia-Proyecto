@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InventarioController;
+use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcaController;
-use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\TamanoController;
 use App\Http\Controllers\Tienda\BusquedaController;
 use App\Http\Controllers\Tienda\CarritoController;
@@ -42,13 +44,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Panel administrador
 Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    Route::resource('inventario', InventarioController::class)->only(['index', 'create', 'store']);
+    Route::get('/pedidos', [App\Http\Controllers\Admin\PedidoController::class, 'index'])->name('pedidos.index');
+    Route::get('/pedidos/{pedido}', [App\Http\Controllers\Admin\PedidoController::class, 'show'])->name('pedidos.show');
+    Route::post('/pedidos/{pedido}/estado', [App\Http\Controllers\Admin\PedidoController::class, 'transicion'])->name('pedidos.transicion');
 
     Route::resource('marcas', MarcaController::class)->except(['show'])->scoped(['marca' => 'id']);
     Route::resource('categorias', CategoriaController::class)->except(['show']);
-    Route::resource('tamanos', TamanoController::class)->except(['show']);
+    Route::resource('tamanos', TamanoController::class)->only(['index']);
     Route::resource('productos', ProductoController::class)->except(['show'])->scoped(['producto' => 'id']);
 });
 

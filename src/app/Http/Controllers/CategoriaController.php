@@ -3,55 +3,59 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class CategoriaController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $categorias = Categoria::orderBy('nombre')->paginate(10);
-        return view('admin.categorias.index', compact('categorias'));
+        return view('admin.categorias.index', ['registros' => Categoria::withCount('productos')->orderBy('nombre')->paginate(15), 'tipo' => 'categorias', 'titulo' => 'Categorías']);
     }
 
-    public function create()
+    public function create(): View
     {
-        return view('admin.categorias.create');
+        return view('admin.categorias.create', ['registro' => new Categoria, 'tipo' => 'categorias', 'titulo' => 'Nueva categoría']);
     }
 
-    public function store(Request $request)
+    public function edit(Categoria $categoria): View
     {
-        $data = $request->validate([
-            'nombre' => ['required', 'string', 'max:100', 'unique:categorias,nombre'],
-        ]);
-
-        Categoria::create($data);
-
-        return redirect()->route('admin.categorias.index')->with('success', 'Categoría creada correctamente.');
+        return view('admin.categorias.edit', ['registro' => $categoria, 'tipo' => 'categorias', 'titulo' => 'Editar categoría']);
     }
 
-    public function edit(Categoria $categoria)
+    public function store(Request $request): RedirectResponse
     {
-        return view('admin.categorias.edit', compact('categoria'));
+        Categoria::create($this->datos($request));
+
+        return to_route('admin.categorias.index')->with('success', 'Categoría guardada.');
     }
 
-    public function update(Request $request, Categoria $categoria)
+    public function update(Request $request, Categoria $categoria): RedirectResponse
     {
-        $data = $request->validate([
-            'nombre' => ['required', 'string', 'max:100', 'unique:categorias,nombre,' . $categoria->id],
-        ]);
+        $categoria->update($this->datos($request, $categoria));
 
-        $categoria->update($data);
-
-        return redirect()->route('admin.categorias.index')->with('success', 'Categoría actualizada correctamente.');
+        return to_route('admin.categorias.index')->with('success', 'Categoría guardada.');
     }
 
-    public function destroy(Categoria $categoria)
+    private function datos(Request $request, ?Categoria $categoria = null): array
     {
-        if ($categoria->productos()->exists()) {
-            return back()->with('error', 'No se puede eliminar: tiene productos asociados.');
-        }
+        return $request->validate(['nombre' => ['required', 'string', 'max:100', Rule::unique('categorias', 'nombre')->ignore($categoria?->id)]], ['nombre.required' => 'Escribí el nombre de la categoría.', 'nombre.unique' => 'Ya existe una categoría con ese nombre.']);
+    }
 
-        $categoria->delete();
-        return redirect()->route('admin.categorias.index')->with('success', 'Categoría eliminada.');
+    public function destroy(Categoria $categoria): RedirectResponse
+    {
+        $eliminada = DB::transaction(function () use ($categoria): bool {
+            $actual = Categoria::whereKey($categoria->id)->lockForUpdate()->firstOrFail();
+            if ($actual->productos()->exists()) {
+                return false;
+            }
+
+            return $actual->delete();
+        });
+
+        return $eliminada ? to_route('admin.categorias.index')->with('success', 'Categoría eliminada.') : to_route('admin.categorias.index')->withErrors(['categoria' => 'No se puede eliminar la categoría: tiene perfumes asociados.']);
     }
 }

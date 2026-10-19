@@ -35,6 +35,7 @@ class CrearPedidoDesdeCarrito
             $envio = $datos['metodo_entrega'] === 'asuncion' ? (int) config('tienda.envio_asuncion') : 0;
             $pedido = Pedido::create([...$datos, 'cliente_id' => $cliente?->id, 'fecha' => now(), 'estado' => 'pendiente', 'subtotal' => $subtotal, 'costo_envio' => $envio, 'total' => $subtotal + $envio]);
             $pedido->detalles()->createMany($detalles);
+            $pedido->estados()->create(['estado' => 'pendiente', 'usuario_id' => $cliente?->usuario_id, 'created_at' => now()]);
 
             return $pedido;
         });

@@ -55,7 +55,7 @@ class CatalogoTest extends TestCase
 
         $respuesta = $this->get('/perfumes?marca[]=chanel&marca[]=dior&orden=nombre')->assertOk();
 
-        $this->assertCount(6, $respuesta->viewData('productos'));
-        $this->assertSame(['1957', 'Bleu de Chanel', 'Coco Mademoiselle', 'Gris Dior', 'J’adore', 'Sauvage'], $respuesta->viewData('productos')->pluck('nombre')->all());
+        $this->assertCount(18, $respuesta->viewData('productos'));
+        $this->assertSame(['1957', 'Allure Homme Sport', 'Bleu de Chanel', 'Chance Eau Tendre', 'Coco Mademoiselle', 'Coromandel', 'Dior Homme Intense', 'Égoïste Platinum', 'Fahrenheit', 'Gabrielle', 'Gris Dior', 'Hypnotic Poison', 'J’adore', 'Miss Dior', 'N°5', 'Oud Ispahan', 'Sauvage', 'Sauvage Elixir'], $respuesta->viewData('productos')->pluck('nombre')->all());
     }
 }
