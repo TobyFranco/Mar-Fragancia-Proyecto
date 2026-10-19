@@ -25,7 +25,7 @@ class RetoquesTest extends TestCase
     public function test_sugerencias_agrupan_perfumes_marcas_y_notas_con_resaltado(): void
     {
         $this->seed();
-        $this->get('/buscar?q=hermes&sugerencias=1')->assertOk()->assertDontSee('<header', false)->assertSee('<mark>Hermès</mark>', false)->assertSeeText(['Perfumes (3)', 'Terre d’Hermès']);
+        $this->get('/buscar?q=hermes&sugerencias=1')->assertOk()->assertDontSee('<header', false)->assertSee('<mark>Hermès</mark>', false)->assertSeeText(['Perfumes (8)', 'Terre d’Hermès']);
         $this->get('/buscar?q=vainilla&sugerencias=1')->assertOk()->assertSee('<mark>vainilla</mark>', false)->assertSeeText('Black Opium');
         $this->get('/buscar?q=sau&sugerencias=1')->assertOk()->assertSee('<mark>Sau</mark>vage', false);
         $this->get('/buscar?q=sau')->assertOk()->assertSee('<header', false)->assertSeeText('Sauvage');

@@ -18,10 +18,10 @@ class BusquedaTest extends TestCase
         $nota = $this->get('/buscar?q=vainilla')->assertOk();
         $perfume = $this->get('/buscar?q=SAUVAGE')->assertOk();
 
-        $this->assertSame(3, $marca->viewData('productos')->count());
+        $this->assertSame(8, $marca->viewData('productos')->count());
         $this->assertTrue($marca->viewData('productos')->pluck('nombre')->contains('Terre d’Hermès'));
         $this->assertTrue($nota->viewData('productos')->pluck('nombre')->contains('Black Opium'));
-        $this->assertSame(['Sauvage'], $perfume->viewData('productos')->pluck('nombre')->all());
+        $this->assertSame(['Sauvage', 'Sauvage Elixir'], $perfume->viewData('productos')->pluck('nombre')->sort()->values()->all());
     }
 
     public function test_busqueda_sin_resultados_muestra_estado_vacio_con_whatsapp(): void
@@ -34,7 +34,7 @@ class BusquedaTest extends TestCase
         $this->seed();
         Producto::where('nombre', 'Sauvage')->update(['activo' => false]);
 
-        $this->assertCount(0, $this->get('/buscar?q=sauvage')->assertOk()->viewData('productos'));
+        $this->assertSame(['Sauvage Elixir'], $this->get('/buscar?q=sauvage')->assertOk()->viewData('productos')->pluck('nombre')->all());
         $this->get('/buscar?'.http_build_query(['q' => '<script>alert(1)</script>']))->assertOk()->assertDontSee('<script>', false)->assertSee('<script>alert(1)</script>');
     }
 

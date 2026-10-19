@@ -9,6 +9,7 @@ use App\Models\Rol;
 use App\Models\Tamano;
 use App\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SeedersTest extends TestCase
@@ -52,6 +53,27 @@ class SeedersTest extends TestCase
             $this->assertTrue($cinco->disponible());
         }
         $this->assertTrue(ProductoPresentacion::whereHas('tamano', fn ($q) => $q->where('nombre', '10 ml'))->where('stock', 0)->where('activo', true)->exists());
+    }
+
+    public function test_cada_producto_tiene_su_foto_en_el_disco_publico(): void
+    {
+        Storage::fake('public');
+
+        $this->seed();
+
+        foreach (Producto::all() as $producto) {
+            $this->assertSame("productos/{$producto->slug}.jpg", $producto->imagen, $producto->nombre);
+            Storage::disk('public')->assertExists($producto->imagen);
+        }
+    }
+
+    public function test_cada_marca_tiene_variedad_de_perfumes(): void
+    {
+        $this->seed();
+
+        foreach (Marca::withCount(['productos' => fn ($q) => $q->visibles()])->get() as $marca) {
+            $this->assertGreaterThanOrEqual($marca->destacada ? 7 : 3, $marca->productos_count, $marca->nombre);
+        }
     }
 
     public function test_marcas_destacadas_tienen_perfumes_para_cada_genero(): void
