@@ -15,10 +15,10 @@ class MarcasTest extends TestCase
         $this->seed();
         Producto::where('nombre', 'Sauvage')->update(['activo' => false]);
 
-        $respuesta = $this->get('/marcas')->assertOk()->assertSee(['Marcas', 'Dior', '2 perfumes', '#letra-D'], false)->assertDontSeeText('1 perfumes');
+        $respuesta = $this->get('/marcas')->assertOk()->assertSee(['Marcas', 'Dior', '8 perfumes', '#letra-D'], false)->assertDontSeeText('1 perfumes');
 
         $this->assertTrue($respuesta->viewData('grupos')->has('D'));
-        $this->assertSame(2, $respuesta->viewData('grupos')['D']->firstWhere('nombre', 'Dior')->productos_count);
+        $this->assertSame(8, $respuesta->viewData('grupos')['D']->firstWhere('nombre', 'Dior')->productos_count);
     }
 
     public function test_pagina_de_marca_filtra_por_genero(): void
@@ -27,7 +27,7 @@ class MarcasTest extends TestCase
 
         $respuesta = $this->get('/marcas/chanel?genero=hombre')->assertOk()->assertSee(['Todos', 'Mujer', 'Hombre', 'Para compartir'])->assertDontSeeText('1 perfumes');
 
-        $this->assertSame(['Bleu de Chanel'], $respuesta->viewData('productos')->pluck('nombre')->all());
+        $this->assertSame(['Allure Homme Sport', 'Bleu de Chanel', 'Égoïste Platinum'], $respuesta->viewData('productos')->pluck('nombre')->sort()->values()->all());
         $this->assertStringNotContainsString('Coco Mademoiselle', $this->resultados($respuesta->getContent()));
         $this->assertStringContainsString('Bleu de Chanel', $this->resultados($respuesta->getContent()));
     }
