@@ -100,5 +100,5 @@ Los tests usan SQLite en memoria y no necesitan una base de datos configurada. E
 |---|---|
 | Scrum Master / Project Manager | José Fernández |
 | Backend & Architect Lead | Matías Romero · Tobías Franco |
-| DevOps & Cloud Engineer | Matías Amarilla |
+| DevOps & Cloud Engineer | Matías Amarilla · Jonathan Valdez|
 | Frontend & QA Engineer | María Paz Gutiérrez |
