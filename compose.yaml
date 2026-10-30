@@ -1,0 +1,55 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: mar_fragancia_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: mar_fragancia
+      DB_USERNAME: laravel
+      DB_PASSWORD: password
+
+  webserver:
+    image: nginx:alpine
+    container_name: mar_fragancia_web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "8000:80"
+    volumes:
+      - ./src:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: mar_fragancia_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: mar_fragancia
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  db_data:
