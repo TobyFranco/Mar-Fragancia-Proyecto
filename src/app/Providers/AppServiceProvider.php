@@ -9,6 +9,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('api-login', function ($request) {
+            $email = $request->input('email');
+
+            return Limit::perMinute(5)->by($request->ip().'|'.(is_string($email) ? Str::lower(trim($email)) : ''));
+        });
         RateLimiter::for('api', fn ($request) => Limit::perMinute(60)->by($request->user()?->id ?? $request->ip()));
 
         View::composer('components.admin.layout', AdminMenuComposer::class);
