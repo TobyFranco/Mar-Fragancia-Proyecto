@@ -18,19 +18,32 @@ if ! grep -qE '^APP_KEY=.+$' src/.env; then
     docker compose exec -T app-a php artisan key:generate
 fi
 
-bd_nueva=false
-if ! docker compose exec -T app-a php artisan migrate:status >/dev/null 2>&1; then
-    bd_nueva=true
-fi
+# El código 10 identifica una base sin tabla de migraciones; otro error aborta.
+estado_bd=0
+docker compose exec -T app-a php -r '
+try {
+    require "vendor/autoload.php";
+    $app = require "bootstrap/app.php";
+    $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+    exit($app->make("migrator")->repositoryExists() ? 0 : 10);
+} catch (Throwable $error) {
+    fwrite(STDERR, $error->getMessage().PHP_EOL);
+    exit(1);
+}
+' || estado_bd=$?
+case "$estado_bd" in
+    0|10) ;;
+    *) echo "No se pudo comprobar la base de datos; se cancela la inicialización." >&2; exit "$estado_bd" ;;
+esac
 
 echo "Aplicando migraciones desde app-a..."
 docker compose exec -T app-a php artisan migrate --force
-if [[ "$bd_nueva" == true ]]; then
+if [[ "$estado_bd" == 10 ]]; then
     echo "Cargando datos de ejemplo en la base nueva..."
     docker compose exec -T app-a php artisan db:seed --force
 fi
 
-docker compose exec -T app-a php artisan storage:link --relative --force
+docker compose exec -T app-a php artisan storage:link --force
 docker compose exec -T app-a npm ci --no-audit --no-fund
 docker compose exec -T app-a npm run build
 docker compose exec -T app-a sh -c 'mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache'

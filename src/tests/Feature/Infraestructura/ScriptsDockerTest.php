@@ -18,7 +18,20 @@ class ScriptsDockerTest extends TestCase
         mkdir($this->workspace.'/bin', 0700, true);
         mkdir($this->workspace.'/src');
         mkdir($this->workspace.'/docker/scripts', 0700, true);
+        mkdir($this->workspace.'/src/public');
+        mkdir($this->workspace.'/src/storage/app/public', 0700, true);
         file_put_contents($this->workspace.'/src/.env.example', "APP_KEY=\n");
+        file_put_contents($this->workspace.'/storage-link.php', <<<'PHP'
+<?php
+$src = getenv('SRC_REAL');
+require $src.'/vendor/autoload.php';
+$app = require $src.'/bootstrap/app.php';
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel->bootstrap();
+$target = $app['config']->get('filesystems.links')[$app->publicPath('storage')];
+$app['config']->set('filesystems.links', [getenv('PRUEBA_DIR').'/src/public/storage' => $target]);
+exit($kernel->call('storage:link '.implode(' ', array_slice($argv, 1))));
+PHP);
 
         $this->crearComando('sleep', "#!/bin/sh\nexit 0\n");
         $this->crearComando('docker', <<<'BASH'
@@ -28,7 +41,14 @@ printf '%s\n' "$*" >> "$PRUEBA_DIR/comandos"
 case "$*" in
     'compose stop web-a') echo caido > "$PRUEBA_DIR/estado" ;;
     'compose start web-a') echo recuperado > "$PRUEBA_DIR/estado" ;;
-    'compose exec -T app-a php artisan migrate:status') exit "${BD_NUEVA:-0}" ;;
+    'compose exec -T app-a php -r '*)
+        if [[ "${BD_NUEVA:-0}" == 1 ]]; then exit 10; fi
+        exit "${BD_NUEVA:-0}"
+        ;;
+    'compose exec -T app-a php artisan storage:link'*)
+        shift 7
+        exec "$PHP_REAL" "$PRUEBA_DIR/storage-link.php" "$@"
+        ;;
     'compose down'*) exit 99 ;;
 esac
 BASH);
@@ -50,7 +70,7 @@ fi
 if [[ "${SIN_CABECERA:-0}" == 1 ]]; then
     printf 'HTTP/1.1 200 OK\r\n\r\n'
 else
-    printf 'HTTP/1.1 200 OK\r\nX-Servido-Por: %s\r\n\r\n' "$nodo"
+    printf 'HTTP/1.1 %s Demo\r\nX-Servido-Por: %s\r\n\r\n' "${CODIGO_HTTP:-200}" "$nodo"
 fi
 BASH);
     }
@@ -89,6 +109,14 @@ BASH);
         $this->assertSame('', $this->comandos());
     }
 
+    public function test_demo_rechaza_redireccion_aunque_identifique_el_nodo(): void
+    {
+        $proceso = $this->ejecutar('docker/scripts/demo-failover.sh', ['CODIGO_HTTP' => '302']);
+
+        $this->assertFalse($proceso->isSuccessful());
+        $this->assertSame('', $this->comandos());
+    }
+
     public function test_setup_conserva_entorno_y_datos_existentes(): void
     {
         $entorno = "APP_KEY=base64:clave-existente\nTIENDA_WHATSAPP=595981234567\n";
@@ -122,6 +150,27 @@ BASH);
         $this->assertStringNotContainsString('exec -T app-b', $comandos);
     }
 
+    public function test_setup_crea_enlace_storage_resoluble_en_el_checkout_compartido(): void
+    {
+        $proceso = $this->ejecutar('setup.sh');
+
+        $this->assertTrue($proceso->isSuccessful(), $proceso->getErrorOutput().$proceso->getOutput());
+        $this->assertSame(
+            realpath($this->workspace.'/src/storage/app/public'),
+            realpath($this->workspace.'/src/public/storage'),
+            $proceso->getErrorOutput().$proceso->getOutput().$this->comandos(),
+        );
+    }
+
+    public function test_setup_aborta_sin_migrar_ni_sembrar_si_falla_el_diagnostico(): void
+    {
+        $proceso = $this->ejecutar('setup.sh', ['BD_NUEVA' => '2']);
+
+        $this->assertFalse($proceso->isSuccessful());
+        $this->assertStringNotContainsString('php artisan migrate --force', $this->comandos());
+        $this->assertStringNotContainsString('php artisan db:seed', $this->comandos());
+    }
+
     private function crearComando(string $nombre, string $contenido): void
     {
         file_put_contents($this->workspace.'/bin/'.$nombre, $contenido);
@@ -137,6 +186,8 @@ BASH);
         $proceso = new Process(['bash', $this->workspace.'/'.$script], $this->workspace, array_merge([
             'PATH' => $this->workspace.'/bin:'.getenv('PATH'),
             'PRUEBA_DIR' => $this->workspace,
+            'SRC_REAL' => base_path(),
+            'PHP_REAL' => PHP_BINARY,
         ], $entorno));
         $proceso->setTimeout(10);
         $proceso->run();

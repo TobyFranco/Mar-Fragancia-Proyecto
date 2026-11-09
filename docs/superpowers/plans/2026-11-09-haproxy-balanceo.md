@@ -89,8 +89,17 @@ Test nuevo en `src/tests/Feature/Infraestructura/BalanceoTest.php`. Escribirlo p
 - [x] Tarea 3: HAProxy y Stats. Parser nativo HAProxy 2.9.15 acepta la configuración con contraseña de entorno y aliases locales para los nombres Docker. No equivale a levantar el stack.
 - [x] Tarea 4: inicialización y demo de failover. RED → GREEN: 5 tests de scripts con dobles de docker/curl/sleep. Comprueban éxito, error HTTP, cabecera ausente, recuperación y setup inicial/repetido. Suite 278 tests / 2589 assertions.
 - [x] Tarea 5: limpieza y documentación. Dockerfile Node, Compose debug que lo referenciaba y nginx viejo sin consumidores retirados. README incluye inicialización, URLs, credenciales de Stats, demo, prueba manual de sesión y condiciones para Portainer/Git.
-- [ ] Verificación final.
+- [x] Verificación final: Pint, `php artisan test --compact` (281 tests / 2599 assertions), `bash -n` y `git diff --check` correctos. Revisión independiente cerrada con regresiones para sus tres hallazgos.
 
 **Decisiones técnicas:** `setup.sh` conserva `.env`, APP_KEY y volúmenes; usa `composer install`, `npm ci` y `migrate --force`. Si no existe tabla de migraciones, carga seeders una sola vez desde `app-a`; no vuelve a sembrar una BD existente. Crea el enlace de storage relativo para que funcione dentro y fuera del contenedor. La demo comprueba HTTP 200 y ambos nodos, espera los health checks y tiene recuperación de `web-a` ante errores/interrupciones. Los tests con dobles no prueban Docker ni continuidad real de sesiones.
 
 **Portainer:** el Stack Git requiere preparar el entorno y resolver los bind mounts relativos en el host Docker. La función automática de volúmenes relativos es de Business Edition; se documenta esa condición sin afirmar un despliegue real no ejecutado.
+
+**Correcciones de la revisión final (RED → GREEN):**
+- Se configura el destino relativo del enlace en `config/filesystems.php` y se usa `storage:link --force`: `--relative` requería `symfony/filesystem`, que no está instalado. El test ejecuta ahora la operación real de Laravel sobre un checkout temporal y comprueba que el enlace resuelve al storage compartido. No se agregó ninguna dependencia.
+- La consulta inicial de la base distingue repositorio de migraciones existente (0), ausencia confirmada (10) y errores (otros códigos). Un fallo de conexión/ejecución aborta sin migrar ni sembrar. Se comprobaron los tres estados con Laravel real sobre SQLite aislada y se agregó regresión del script; MySQL sigue pendiente.
+- La demo exige el estado HTTP 200 además de `X-Servido-Por`; una redirección 302 ahora falla. Se trata como corrección del contrato de la demo, aunque la revisión la calificó menor.
+
+**Verificación nativa adicional:** HAProxy 2.9.15 compilado temporalmente fuera de los archivos versionados. Parser sobre el cfg real válido; prueba de ejecución con backends HTTP de prueba y puertos/direcciones locales adaptados: roundrobin A/B, Stats 401 sin clave / 200 con la clave del entorno, caída de A deja respuestas 200 de B y recuperación reincorpora A. No sustituye Docker.
+
+**No verificado:** construcción/arranque del stack Docker, permisos y comunicación reales nginx/PHP/MySQL, continuidad de sesión/carrito entre nodos y despliegue Portainer. A/B permanecen idénticas por decisión explícita del plan; TLS y rendimiento bajo carga quedan fuera de este avance. No se hicieron push ni cambios a migraciones existentes.

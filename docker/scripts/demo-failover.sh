@@ -16,9 +16,14 @@ trap 'exit 130' INT
 trap 'exit 143' TERM
 
 consultar_nodo() {
-    local cabeceras nodo
+    local cabeceras nodo codigo
     cabeceras=$(curl --fail --silent --show-error --connect-timeout 2 --max-time 10 \
         --dump-header - --output /dev/null http://localhost/up) || return 1
+    codigo=$(printf '%s\n' "$cabeceras" | awk '/^HTTP\// {codigo=$2} END {gsub("\r", "", codigo); print codigo}')
+    if [[ "$codigo" != 200 ]]; then
+        echo "Se esperaba HTTP 200; se recibió HTTP $codigo." >&2
+        return 1
+    fi
     nodo=$(printf '%s\n' "$cabeceras" | awk 'tolower($1) == "x-servido-por:" {gsub("\r", "", $2); print $2}')
     case "$nodo" in
         arq-a|arq-b) printf '%s\n' "$nodo" ;;
