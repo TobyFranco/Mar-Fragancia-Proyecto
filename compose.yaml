@@ -1,12 +1,12 @@
 services:
-  app-a:
+  app-fpm:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
     restart: unless-stopped
     working_dir: /var/www
     volumes:
-      - ./src:/var/www
+    - ./src:/var/www
     depends_on:
       db:
         condition: service_healthy
@@ -19,16 +19,27 @@ services:
       DB_PASSWORD: password
       SESSION_DRIVER: database
       CACHE_STORE: database
-      APP_NODE: arq-a
-
-  app-b:
+      APP_NODE: nginx-php-fpm
+  web-nginx:
+    image: nginx:alpine
+    hostname: nginx-php-fpm
+    restart: unless-stopped
+    environment:
+      PHP_UPSTREAM: app-fpm
+      NGINX_ENVSUBST_FILTER: ^PHP_UPSTREAM$$
+    volumes:
+    - ./src:/var/www:ro
+    - ./docker/nginx/templates:/etc/nginx/templates:ro
+    depends_on:
+    - app-fpm
+  apache-php:
     build:
       context: .
-      dockerfile: docker/php/Dockerfile
+      dockerfile: docker/apache/Dockerfile
     restart: unless-stopped
     working_dir: /var/www
     volumes:
-      - ./src:/var/www
+    - ./src:/var/www
     depends_on:
       db:
         condition: service_healthy
@@ -41,49 +52,21 @@ services:
       DB_PASSWORD: password
       SESSION_DRIVER: database
       CACHE_STORE: database
-      APP_NODE: arq-b
-
-  web-a:
-    image: nginx:alpine
-    hostname: arq-a
-    restart: unless-stopped
-    environment:
-      PHP_UPSTREAM: app-a
-      NGINX_ENVSUBST_FILTER: '^PHP_UPSTREAM$$'
-    volumes:
-      - ./src:/var/www:ro
-      - ./docker/nginx/templates:/etc/nginx/templates:ro
-    depends_on:
-      - app-a
-
-  web-b:
-    image: nginx:alpine
-    hostname: arq-b
-    restart: unless-stopped
-    environment:
-      PHP_UPSTREAM: app-b
-      NGINX_ENVSUBST_FILTER: '^PHP_UPSTREAM$$'
-    volumes:
-      - ./src:/var/www:ro
-      - ./docker/nginx/templates:/etc/nginx/templates:ro
-    depends_on:
-      - app-b
-
+      APP_NODE: apache-mod-php
   haproxy:
     image: haproxy:2.9-alpine
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "8000:80"
-      - "8404:8404"
+    - 80:80
+    - 8000:80
+    - 8404:8404
     environment:
       HAPROXY_STATS_PASSWORD: ${HAPROXY_STATS_PASSWORD:-marfragancias-demo}
     volumes:
-      - ./docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    - ./docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
-      - web-a
-      - web-b
-
+    - web-nginx
+    - apache-php
   db:
     image: mysql:8.0
     container_name: mar_fragancia_db
@@ -94,14 +77,21 @@ services:
       MYSQL_USER: laravel
       MYSQL_PASSWORD: password
     ports:
-      - "3306:3306"
+    - 3306:3306
     volumes:
-      - db_data:/var/lib/mysql
+    - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      test:
+      - CMD
+      - mysqladmin
+      - ping
+      - -h
+      - localhost
+      - -u
+      - root
+      - -proot
       interval: 5s
       timeout: 5s
       retries: 10
-
 volumes:
-  db_data:
+  db_data: null
