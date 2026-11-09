@@ -51,7 +51,9 @@ def measure(writer, arch, host, endpoint, concurrency, name, warm=False, failove
     args += ['http://' + host + endpoint]
     path = RAW / (name + '.txt')
     print('Midiendo', name, flush=True)
-    before = stats('stats-pre-failover.csv') if failover else 0
+    if failover:
+        wait_healthy()
+    before = stats('stats-pre-failover.csv') if failover else {}
     with path.open('w') as log:
         process = subprocess.Popen(args, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, text=True)
         try:
@@ -61,7 +63,7 @@ def measure(writer, arch, host, endpoint, concurrency, name, warm=False, failove
                     current = stats('stats-carga-iniciada.csv')
                     if process.poll() is not None:
                         raise RuntimeError('La carga terminó antes de provocar la caída')
-                    if current > before:
+                    if int(current['nginx-php-fpm']['stot']) > int(before['nginx-php-fpm']['stot']):
                         break
                     if time.monotonic() >= deadline:
                         raise RuntimeError('No se observó tráfico activo en Stats')
@@ -88,7 +90,18 @@ def stats(name):
     result = docker('exec', '-T', 'app-fpm', 'curl', '--fail', '--silent', '--show-error', '-u', 'admin:' + password, 'http://haproxy:8404/;csv', capture_output=True)
     (RAW / name).write_text(result.stdout)
     data = csv.DictReader(result.stdout.lstrip('# ').splitlines())
-    return sum(int(row['stot'] or 0) for row in data if row['svname'] in ('nginx-php-fpm', 'apache-mod-php'))
+    return {row['svname']: row for row in data if row['svname'] in ('nginx-php-fpm', 'apache-mod-php')}
+
+
+def wait_healthy():
+    deadline = time.monotonic() + float(os.environ.get('BENCHMARK_HEALTH_TIMEOUT', '30'))
+    while True:
+        rows = stats('stats-salud.csv')
+        if len(rows) == 2 and all(row['status'] == 'UP' for row in rows.values()):
+            return
+        if time.monotonic() >= deadline:
+            raise RuntimeError('Se requieren ambas arquitecturas UP en Stats')
+        time.sleep(1)
 
 
 def verify_opcache():
@@ -115,6 +128,7 @@ def main():
     metadata = {'fecha_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), 'host': platform.platform(), 'requests': N, 'herramienta': 'ApacheBench httpd:2.4.65-alpine', 'opcache_web': 'activo en ambos', 'docker': docker('images', '--format', 'json', capture_output=True).stdout}
     (OUTPUT / 'entorno.json').write_text(json.dumps(metadata, indent=2))
     try:
+        wait_healthy()
         artisan('config:cache', True)
         artisan('route:cache')
         artisan('view:cache')
@@ -135,7 +149,7 @@ def main():
     finally:
         # No modificar .env ni regenerar la clave. Restaurar incluso ante error.
         failures = []
-        for operation in [lambda: docker('start', 'web-nginx'), *[lambda c=c: artisan(c) for c in ('config:clear', 'route:clear', 'view:clear')]]:
+        for operation in [lambda: docker('start', 'web-nginx'), *[lambda c=c: artisan(c) for c in ('config:clear', 'route:clear', 'view:clear')], wait_healthy]:
             try:
                 operation()
             except Exception as error:
