@@ -1,80 +1,152 @@
 # Benchmark de arquitecturas · 9 de noviembre de 2026
 
+Comparación de rendimiento entre la **Arquitectura A** (`nginx-php-fpm`: Nginx + PHP-FPM) y la **Arquitectura B** (`apache-mod-php`: Apache prefork + mod_php) de la tienda Mar Fragancias. Además se mide el balanceo y el failover con HAProxy.
+
+## Resumen
+
+Con la misma cantidad de procesos PHP en las dos arquitecturas (20 cada una), **Nginx + PHP-FPM rinde algo mejor en las páginas dinámicas**. Los números son con 50 solicitudes concurrentes:
+
+| Página | A: Nginx + PHP-FPM | B: Apache + mod_php | Diferencia a favor de A |
+|---|---:|---:|---:|
+| `/up` | 456,68 RPS · p95 161 ms | 434,43 RPS · p95 158 ms | +5 % RPS, p95 similar |
+| Catálogo `/perfumes` | 87,33 RPS · p95 713 ms | 80,87 RPS · p95 794 ms | +8 % RPS, −10 % p95 |
+| Ficha `/perfumes/coromandel` | 110,52 RPS · p95 563 ms | 102,84 RPS · p95 605 ms | +7 % RPS, −7 % p95 |
+
+- En archivos estáticos, las dos sirven unas 8.300 a 8.900 solicitudes por segundo. No hay diferencia concluyente.
+- No hubo errores en ninguna de las 48.000 solicitudes directas.
+- A través de HAProxy, la carga se repartió exactamente 1000 / 1000 entre las dos arquitecturas.
+- Al apagar Nginx durante la carga, HAProxy siguió respondiendo sin errores. El costo fue latencia: el p95 subió de 1194 a 3193 ms durante la caída.
+
+La ventaja de A es chica (5 a 8 %) y sale de una sola corrida por punto, así que hay que leerla como tendencia, no como diferencia definitiva.
+
 ## Entorno
 
-AMD Ryzen 5 5500 (6 núcleos, 12 hilos), 16 624 160 768 bytes RAM (~15,48 GiB), Docker 29.1.3 sobre Linux 7.0.0-38-generic, una sola máquina. PHP 8.4.27 y OPcache habilitado y comprobado en ambos SAPI web. Nginx 1.31.8 + PHP-FPM frente a Apache 2.4.69 + mod_php; HAProxy 2.9.15 y MySQL 8.0. La configuración HAProxy incorpora resolución DNS Docker para recuperar direcciones después de stop/start. Antes de medir y al restaurar se exige ambos UP en Stats. Las versiones y los identificadores de imágenes reales están en [versiones](versiones.txt), [imágenes](imagenes.json) y [host](host.txt).
+**Hardware y software:**
 
-Se mantienen las configuraciones del stack: PHP-FPM `pm=dynamic`, `pm.max_children=5`; Apache prefork `MaxRequestWorkers=150`, StartServers=5. Sin cuotas equivalentes de CPU/RAM por arquitectura. Esta es una comparación de esos despliegues, no una demostración de superioridad universal de un servidor.
+- Máquina: AMD Ryzen 5 5500 (6 núcleos, 12 hilos) y unos 15,5 GiB de RAM, todo en una sola máquina.
+- Contenedores: Docker 29.1.3 sobre Linux 7.0.0-38-generic.
+- PHP: 8.4.27, con OPcache habilitado y comprobado en el SAPI web de las dos arquitecturas.
+- Servidores: Nginx 1.31.8 + PHP-FPM, Apache 2.4.69 + mod_php, HAProxy 2.9.15 y MySQL 8.0.
+
+Las versiones exactas y los identificadores de imágenes están en [versiones](versiones.txt), [imágenes](imagenes.json), [host](host.txt) y [entorno](entorno.json).
+
+**Configuración igualada para que la comparación sea justa.** Las dos arquitecturas tienen el mismo número fijo de procesos PHP:
+
+| | A: PHP-FPM | B: Apache prefork |
+|---|---|---|
+| Archivo | `docker/php/procesos.conf` | `docker/apache/mpm_prefork.conf` |
+| Configuración | `pm = static`, `pm.max_children = 20` | `StartServers`, `MinSpareServers`, `MaxSpareServers`, `ServerLimit` y `MaxRequestWorkers` en 20 |
+
+El valor 20 sale de los 12 hilos de CPU más un margen para el tiempo en que cada proceso espera a MySQL. Un test (`ProcesosPhpTest`) verifica que los dos archivos coincidan.
+
+No se asignaron cuotas de CPU ni de RAM por arquitectura: las dos comparten la máquina.
+
+## Primera corrida, con la configuración de fábrica
+
+La primera medición se hizo con los valores por defecto de cada imagen:
+
+- PHP-FPM: `pm = dynamic` con `pm.max_children = 5`.
+- Apache: `MaxRequestWorkers = 150`.
+
+Con 5 procesos contra 150, la comparación no era justa. Nginx se quedaba en unos 57 RPS en el catálogo aunque subiera la concurrencia, porque las solicitudes esperaban en la cola de FPM. Apache conseguía más RPS, pero con una latencia de cola mucho peor.
+
+| Página (concurrencia 50) | A de fábrica | A igualada | B de fábrica | B igualada |
+|---|---:|---:|---:|---:|
+| `/up` | 341,4 RPS · p95 156 ms | 456,68 RPS · p95 161 ms | 435,27 RPS · p95 171 ms | 434,43 RPS · p95 158 ms |
+| `/perfumes` | 57,59 RPS · p95 913 ms | 87,33 RPS · p95 713 ms | 80,82 RPS · p95 1273 ms | 80,87 RPS · p95 794 ms |
+| `/perfumes/coromandel` | 72,4 RPS · p95 716 ms | 110,52 RPS · p95 563 ms | 103,26 RPS · p95 1077 ms | 102,84 RPS · p95 605 ms |
+
+Al igualar los procesos:
+
+- **A** subió entre 34 y 53 % de RPS.
+- **B** mantuvo el throughput pero bajó mucho su p95, porque 20 procesos compiten menos por la CPU que 150.
+
+La configuración de los procesos pesa más que la elección del servidor web. Los datos de esa corrida se conservan en [resultados-fabrica.csv](resultados-fabrica.csv) y [resultados-fabrica/](resultados-fabrica/), con los gráficos con prefijo `fabrica-`.
 
 ## Metodología y reproducción
 
-Ejecutar desde la raíz `sg docker -c './docker/scripts/benchmark.sh'`. Requiere Bash, Python3 y Docker; no instala generadores de carga en el host. `BENCHMARK_REQUESTS` ajusta el número de solicitudes por punto (mínimo 100; valor predeterminado 2000). `BENCHMARK_OUTPUT` cambia la carpeta de salida. La corrida reemplaza los resultados de esa carpeta.
+Ejecutar desde la raíz:
 
-Se eligió **ApacheBench 2.3 de httpd:2.4.65-alpine**, una imagen con versión fija, por sus contadores y percentiles sin instalar nada en el host. Se ejecuta como servicio de perfil `benchmark` dentro de la red Compose; los nodos no publican puertos. Los parámetros comunes son `-l -r -s 60 -n 2000`, concurrencias 10/50/100, sin keepalive. `-l` evita contar como fallo las diferencias de longitud del HTML dinámico (por ejemplo tokens de sesión); no elimina los errores de conexión ni las respuestas no 2xx. [Referencia oficial de ApacheBench](https://httpd.apache.org/docs/2.4/programs/ab.html).
+```bash
+sg docker -c './docker/scripts/benchmark.sh'
+```
 
-Laravel se prepara con APP_ENV=production y APP_DEBUG=false, config:cache, route:cache y view:cache, compartidos por los nodos. Se hacen 30 solicitudes de calentamiento por endpoint/nodo, descartadas de las tablas. Se midió primero Nginx y después Apache, siempre /up, catálogo, ficha Coromandel y el mismo CSS compilado. No se usan cookies ni login. GET con sesiones y caché database puede escribir datos operativos; no se ejecutaron migraciones, seeders ni modificaciones de stock, productos o pedidos.
+- **Requisitos:** Bash, Python 3 y Docker. No instala generadores de carga en el host.
+- **Variables:** `BENCHMARK_REQUESTS` ajusta las solicitudes por punto (mínimo 100, 2000 por defecto) y `BENCHMARK_OUTPUT` cambia la carpeta de salida.
+- **Herramienta:** ApacheBench 2.3, de la imagen fija `httpd:2.4.65-alpine`. Corre como servicio de perfil `benchmark` dentro de la red Compose y le pega directo a cada arquitectura, porque los nodos no publican puertos.
+- **Parámetros:** `-l -r -s 60 -n 2000`, concurrencias 10, 50 y 100, sin keepalive. `-l` evita contar como fallo las diferencias de longitud del HTML dinámico, como los tokens de sesión. No oculta errores de conexión ni respuestas que no sean 2xx. [Referencia de ApacheBench](https://httpd.apache.org/docs/2.4/programs/ab.html).
+- **Preparación:** Laravel en modo producción (`APP_ENV=production`, `APP_DEBUG=false`) con `config:cache`, `route:cache` y `view:cache`. Antes de cada endpoint se hacen 30 solicitudes de calentamiento, que no entran en las tablas. No se usan cookies ni login.
+- **Orden:** primero Nginx y después Apache, siempre en el orden `/up`, catálogo, ficha y CSS.
+- **Métricas:** RPS de ab, latencia media de la fila Total, percentiles 50/95/99 en milisegundos enteros, y errores = Failed requests + Non-2xx responses.
+- **Restauración:** al terminar, o ante cualquier error, el script vuelve a encender `web-nginx`, limpia las cachés de configuración, rutas y vistas, y exige las dos arquitecturas UP en Stats. No toca `.env`, `APP_KEY` ni datos de productos o pedidos.
 
-Cada fila usa RPS de ab, latencia media de la fila Total (ms), percentiles 50/95/99 y errores=Failed requests + Non-2xx responses (no es necesariamente un conteo único si una respuesta cae en ambas categorías). La salida original, incluidos calentamientos, se conserva en [resultados/](resultados/); el [CSV consolidado](resultados.csv) mantiene los números emitidos por ab. Los percentiles de ab se imprimen en milisegundos enteros; no se inventa precisión adicional.
-
-La restauración siempre intenta iniciar web-nginx y limpiar configuración, rutas y vistas compiladas, incluso ante errores o interrupciones. No cambia .env ni APP_KEY. Regresa al entorno local de desarrollo, con ambos nodos activos.
+La salida cruda de ab, incluidos los calentamientos, está en [resultados/](resultados/), y el consolidado en [resultados.csv](resultados.csv).
 
 ## Resultados directos
 
 ### /up
 
+Respuesta mínima de Laravel: mide el costo de cada pila sin base de datos.
+
 | Arquitectura | Concurrencia | RPS | Media ms | p50 ms | p95 ms | p99 ms | Errores / solicitudes |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| nginx-php-fpm | 10 | 305.81 | 33.0 | 29.0 | 49.0 | 69.0 | 0 / 2000 |
-| nginx-php-fpm | 50 | 341.4 | 144.0 | 145.0 | 156.0 | 162.0 | 0 / 2000 |
-| nginx-php-fpm | 100 | 321.95 | 302.0 | 298.0 | 361.0 | 369.0 | 0 / 2000 |
-| apache-mod-php | 10 | 429.02 | 23.0 | 23.0 | 28.0 | 32.0 | 0 / 2000 |
-| apache-mod-php | 50 | 435.27 | 114.0 | 108.0 | 171.0 | 217.0 | 0 / 2000 |
-| apache-mod-php | 100 | 424.73 | 232.0 | 182.0 | 563.0 | 721.0 | 0 / 2000 |
+| nginx-php-fpm | 10 | 431.88 | 23.0 | 23.0 | 30.0 | 38.0 | 0 / 2000 |
+| nginx-php-fpm | 50 | 456.68 | 108.0 | 100.0 | 161.0 | 185.0 | 0 / 2000 |
+| nginx-php-fpm | 100 | 457.27 | 213.0 | 211.0 | 262.0 | 283.0 | 0 / 2000 |
+| apache-mod-php | 10 | 419.63 | 24.0 | 24.0 | 30.0 | 34.0 | 0 / 2000 |
+| apache-mod-php | 50 | 434.43 | 114.0 | 109.0 | 158.0 | 179.0 | 0 / 2000 |
+| apache-mod-php | 100 | 434.0 | 225.0 | 224.0 | 273.0 | 290.0 | 0 / 2000 |
 
 ### /perfumes
 
+Catálogo: consultas a MySQL y render de Blade con 96 productos.
+
 | Arquitectura | Concurrencia | RPS | Media ms | p50 ms | p95 ms | p99 ms | Errores / solicitudes |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| nginx-php-fpm | 10 | 58.25 | 171.0 | 169.0 | 191.0 | 203.0 | 0 / 2000 |
-| nginx-php-fpm | 50 | 57.59 | 856.0 | 862.0 | 913.0 | 947.0 | 0 / 2000 |
-| nginx-php-fpm | 100 | 56.97 | 1709.0 | 1744.0 | 1809.0 | 1838.0 | 0 / 2000 |
-| apache-mod-php | 10 | 79.44 | 125.0 | 125.0 | 140.0 | 149.0 | 0 / 2000 |
-| apache-mod-php | 50 | 80.82 | 613.0 | 540.0 | 1273.0 | 1495.0 | 0 / 2000 |
-| apache-mod-php | 100 | 81.57 | 1209.0 | 1059.0 | 2626.0 | 2986.0 | 0 / 2000 |
+| nginx-php-fpm | 10 | 83.87 | 119.0 | 119.0 | 131.0 | 140.0 | 0 / 2000 |
+| nginx-php-fpm | 50 | 87.33 | 565.0 | 553.0 | 713.0 | 796.0 | 0 / 2000 |
+| nginx-php-fpm | 100 | 86.28 | 1130.0 | 1132.0 | 1309.0 | 1396.0 | 0 / 2000 |
+| apache-mod-php | 10 | 78.36 | 127.0 | 127.0 | 141.0 | 149.0 | 0 / 2000 |
+| apache-mod-php | 50 | 80.87 | 611.0 | 595.0 | 794.0 | 875.0 | 0 / 2000 |
+| apache-mod-php | 100 | 81.31 | 1199.0 | 1201.0 | 1385.0 | 1473.0 | 0 / 2000 |
 
 ### /perfumes/coromandel
 
+Ficha de un producto, con decants y recomendaciones por notas.
+
 | Arquitectura | Concurrencia | RPS | Media ms | p50 ms | p95 ms | p99 ms | Errores / solicitudes |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| nginx-php-fpm | 10 | 72.94 | 136.0 | 135.0 | 151.0 | 166.0 | 0 / 2000 |
-| nginx-php-fpm | 50 | 72.4 | 681.0 | 685.0 | 716.0 | 744.0 | 0 / 2000 |
-| nginx-php-fpm | 100 | 72.0 | 1352.0 | 1383.0 | 1426.0 | 1456.0 | 0 / 2000 |
-| apache-mod-php | 10 | 100.76 | 99.0 | 99.0 | 111.0 | 122.0 | 0 / 2000 |
-| apache-mod-php | 50 | 103.26 | 479.0 | 423.0 | 1077.0 | 1266.0 | 0 / 2000 |
-| apache-mod-php | 100 | 102.58 | 961.0 | 868.0 | 2060.0 | 2416.0 | 0 / 2000 |
+| nginx-php-fpm | 10 | 105.71 | 94.0 | 94.0 | 105.0 | 114.0 | 0 / 2000 |
+| nginx-php-fpm | 50 | 110.52 | 447.0 | 440.0 | 563.0 | 618.0 | 0 / 2000 |
+| nginx-php-fpm | 100 | 110.38 | 883.0 | 889.0 | 1017.0 | 1087.0 | 0 / 2000 |
+| apache-mod-php | 10 | 99.5 | 100.0 | 100.0 | 111.0 | 118.0 | 0 / 2000 |
+| apache-mod-php | 50 | 102.84 | 480.0 | 469.0 | 605.0 | 656.0 | 0 / 2000 |
+| apache-mod-php | 100 | 103.19 | 945.0 | 950.0 | 1087.0 | 1152.0 | 0 / 2000 |
 
 ### /build/assets/app-DUsGpcYZ.css
 
+Archivo estático servido directamente por el servidor web, sin PHP.
+
 | Arquitectura | Concurrencia | RPS | Media ms | p50 ms | p95 ms | p99 ms | Errores / solicitudes |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| nginx-php-fpm | 10 | 8105.07 | 1.0 | 1.0 | 1.0 | 1.0 | 0 / 2000 |
-| nginx-php-fpm | 50 | 8301.96 | 6.0 | 6.0 | 6.0 | 7.0 | 0 / 2000 |
-| nginx-php-fpm | 100 | 8565.42 | 11.0 | 12.0 | 13.0 | 14.0 | 0 / 2000 |
-| apache-mod-php | 10 | 7801.19 | 1.0 | 1.0 | 1.0 | 2.0 | 0 / 2000 |
-| apache-mod-php | 50 | 7866.43 | 6.0 | 6.0 | 7.0 | 7.0 | 0 / 2000 |
-| apache-mod-php | 100 | 7712.36 | 13.0 | 13.0 | 14.0 | 15.0 | 0 / 2000 |
+| nginx-php-fpm | 10 | 8543.39 | 1.0 | 1.0 | 1.0 | 1.0 | 0 / 2000 |
+| nginx-php-fpm | 50 | 8416.87 | 6.0 | 6.0 | 6.0 | 7.0 | 0 / 2000 |
+| nginx-php-fpm | 100 | 8875.44 | 11.0 | 11.0 | 12.0 | 13.0 | 0 / 2000 |
+| apache-mod-php | 10 | 8399.87 | 1.0 | 1.0 | 1.0 | 1.0 | 0 / 2000 |
+| apache-mod-php | 50 | 8486.77 | 6.0 | 6.0 | 7.0 | 8.0 | 0 / 2000 |
+| apache-mod-php | 100 | 8307.51 | 12.0 | 12.0 | 13.0 | 14.0 | 0 / 2000 |
 
 ## Gráficos
 
-Generados mediante `python3 -I docs/benchmark/graficos.py` (en esta máquina con `/tmp/mar-benchmark-venv/bin/python -I`, matplotlib 3.11.2 en venv temporal). Paleta salvia; escala lineal con cero.
+Se generan con `docs/benchmark/graficos.py`, usando matplotlib en un venv temporal: `/tmp/mar-benchmark-venv/bin/python -I docs/benchmark/graficos.py`. Usan la paleta salvia de la marca y escala lineal desde cero.
 
-![RPS up](up-rps.png)
+![RPS /up](up-rps.png)
 
-![p95 up](up-p95_ms.png)
+![p95 /up](up-p95_ms.png)
 
-![RPS catalogo](catalogo-rps.png)
+![RPS catálogo](catalogo-rps.png)
 
-![p95 catalogo](catalogo-p95_ms.png)
+![p95 catálogo](catalogo-p95_ms.png)
 
 ![RPS ficha](ficha-rps.png)
 
@@ -82,34 +154,53 @@ Generados mediante `python3 -I docs/benchmark/graficos.py` (en esta máquina con
 
 ## HAProxy y caída bajo carga
 
-| Escenario | Concurrencia | RPS | Media ms | p95 ms | p99 ms | Errores / solicitudes |
-|---|---:|---:|---:|---:|---:|---:|
-| haproxy | 50 | 78.32 | 626.0 | 1163.0 | 1212.0 | 0 / 2000 |
-| haproxy-failover | 50 | 63.55 | 757.0 | 3174.0 | 5079.0 | 0 / 954 |
+| Escenario | Concurrencia | RPS | Media ms | p50 ms | p95 ms | p99 ms | Errores / solicitudes |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| haproxy | 50 | 78.18 | 633.0 | 588.0 | 1194.0 | 1403.0 | 0 / 2000 |
+| haproxy-failover | 50 | 61.53 | 785.0 | 584.0 | 3193.0 | 4881.0 | 0 / 924 |
 
-La corrida normal utiliza 2000 solicitudes. La variante de failover usa `-t 15 -n 1000000` (límite de 15 segundos) para que la carga siga activa mientras se detiene nginx durante 3 segundos y se reinicia; no tiene igual número de solicitudes y no se presenta como una comparación A/B de carga fija. La caída se inicia solo después de observar aumento de sesiones por servidor en Stats y confirmar que el generador sigue activo. La restauración conserva el nodo aunque falle la prueba. Dos ensayos iniciales de failover se descartaron (uno sin barrera de inicio y otro con Nginx previamente DOWN por una IP Docker cambiada): sus salidas crudas se conservan con prefijo descartado y no se usa en el CSV consolidado ni en estas conclusiones. HAProxy usa fall 3/rise 2/inter 2s; puede seguir marcando A disponible durante parte de la caída y reasignar conexiones fallidas.
+**Corrida normal.** 2000 solicitudes a `/perfumes` a través de HAProxy con `roundrobin`.
+
+Da menos RPS que cualquiera de las dos arquitecturas por separado. Hay dos motivos:
+
+- Las dos arquitecturas y MySQL comparten la misma CPU, así que balancear no agrega capacidad. Al contrario, 40 procesos PHP compiten por 12 hilos.
+- HAProxy agrega un salto de red.
+
+En una sola máquina el balanceador aporta **disponibilidad, no throughput**. Con cada arquitectura en su propio servidor, la capacidad sí se sumaría.
+
+**Failover.** La carga corre con un límite de 15 segundos (`-t 15 -n 1000000`). Cuando Stats muestra que el tráfico ya está activo, se detiene `web-nginx` durante 3 segundos y se vuelve a encender.
+
+- **Resultado:** 924 solicitudes, 0 errores.
+- **Costo:** mientras A estaba caída, el p95 subió de 1194 a 3193 ms y el p99 de 1403 a 4881 ms.
+- **Por qué no hubo errores:** HAProxy (`check inter 2s fall 3 rise 2`, `option redispatch`, `retries 3`) reintentó las conexiones fallidas contra Apache hasta marcar a Nginx como caído.
+
+Como esta corrida no tiene el mismo número de solicitudes que la normal, no se compara con ella como A/B.
 
 ### Tráfico real en Stats
 
-Snapshots completos de `http://haproxy:8404/;csv`, con autenticación admin, guardados antes de la corrida y tras normal/failover. La tabla son diferencias de contadores por servidor (stot, bin y bout), no valores absolutos históricos. Consultar `http://localhost:8404/` para ver el dashboard activo.
+Las diferencias de contadores por servidor salen de los snapshots de `http://haproxy:8404/;csv` tomados antes y después de cada fase. El dashboard en vivo está en `http://localhost:8404/`.
 
-| Fase | Servidor | Δ sesiones stot | Δ bytes entrada | Δ bytes salida | Estado al snapshot |
+| Fase | Servidor | Δ sesiones | Δ bytes entrada | Δ bytes salida | Estado al final |
 |---|---|---:|---:|---:|---|
 | Normal | nginx-php-fpm | 1000 | 86000 | 181874000 | UP |
 | Normal | apache-mod-php | 1000 | 86000 | 181904000 | UP |
-| Failover | nginx-php-fpm | 539 | 36034 | 75905771 | UP |
-| Failover | apache-mod-php | 543 | 46526 | 98006528 | UP |
+| Failover | nginx-php-fpm | 514 | 37926 | 79529625 | UP |
+| Failover | apache-mod-php | 518 | 42054 | 88817056 | UP |
+
+En el failover, las sesiones contadas pueden superar las solicitudes completadas por los reintentos de conexión.
 
 ## Conclusiones
 
-- /up, concurrencia 50: Nginx 341.4 RPS y p95 156.0ms; Apache 435.27 RPS y p95 171.0ms.
-- /perfumes, concurrencia 50: Nginx 57.59 RPS y p95 913.0ms; Apache 80.82 RPS y p95 1273.0ms.
-- /perfumes/coromandel, concurrencia 50: Nginx 72.4 RPS y p95 716.0ms; Apache 103.26 RPS y p95 1077.0ms.
+1. **Con recursos iguales, Nginx + PHP-FPM es entre 5 y 8 % más rápido que Apache + mod_php** en las páginas dinámicas, y tiene igual o menor latencia p95. En archivos estáticos no hay diferencia concluyente.
+2. **La configuración de procesos pesa más que el servidor web.** Con los valores de fábrica, A parecía 30 % más lenta. Al darle los mismos 20 procesos que a B, pasó adelante.
+3. **El cuello de botella es PHP + MySQL, no el servidor web.** Pasar de 10 a 100 usuarios concurrentes casi no cambia el RPS, que se mantiene en unos 85 en el catálogo, y la latencia crece en proporción. Las solicitudes esperan en cola.
+4. **HAProxy cumple su función de alta disponibilidad.** Reparte la carga en partes iguales y, ante la caída de una arquitectura, mantiene la tienda sin errores, a cambio de unos segundos de latencia mayor.
 
-En HAProxy normal se completaron 2000 solicitudes a 78.32 RPS, con 0 errores y 1000 sesiones por servidor en Stats. En failover se completaron 954 solicitudes a 63.55 RPS con 0 errores; el p95 subió de 1163 a 3174ms y el p99 de 1212 a 5079ms. La disponibilidad se conservó con un costo observable de latencia. Ambos servidores terminaron UP, respaldados por stats-final.csv. Los contadores de sesiones de failover pueden superar las solicitudes completadas por reintentos de conexión.
+## Limitaciones
 
-El resultado depende de los límites de procesos y del costo de Laravel/SQL; aumentar concurrencia puede aumentar la cola y la latencia sin aumentar proporcionalmente el throughput. En los puntos donde una arquitectura logra más RPS pero peor p95/p99 no hay una ganadora en todos los criterios: throughput y latencia de cola describen aspectos distintos. Los datos de archivos estáticos no representan el trabajo PHP ni SQL. El escenario con balanceador añade distribución entre ambas configuraciones, no permite sumar automáticamente los RPS directos. Los errores y percentiles se reportan tal como aparecieron, sin descartar los puntos desfavorables.
-
-## Limitaciones y pendientes
-
-Una sola corrida por punto, en orden fijo, sin intervalos de confianza ni aleatorización. Una máquina compartida para servidores, MySQL y generador; CPU, memoria, caché del SO y estado de conexiones cambian durante el ensayo. El generador y el arranque de contenedores consumen recursos; el RPS de ab excluye el tiempo de arrancar su contenedor. El failover es una caída controlada breve, no una prueba prolongada de disponibilidad. Sin TLS, red externa, usuarios autenticados ni prueba de continuidad de carrito/sesión. No incluye Portainer ni garantiza rendimiento de producción. Las pruebas estáticas de 2000 solicitudes duran una fracción de segundo y son especialmente sensibles al ruido; no permiten afirmar diferencias pequeñas como concluyentes. El warm-up es pequeño y Apache prefork puede seguir aumentando procesos al comenzar una concurrencia mayor.
+- **Una sola corrida por punto**, en orden fijo, sin intervalos de confianza. Diferencias del 5 al 8 % pueden estar dentro del ruido.
+- **Una sola máquina** para las dos arquitecturas, MySQL y el generador de carga. El generador compite por CPU con lo que mide.
+- **Archivos estáticos:** 2000 solicitudes duran una fracción de segundo, así que esas filas son muy sensibles al ruido.
+- **Sin escenarios reales de uso:** no hay TLS, red externa, usuarios autenticados ni prueba de continuidad del carrito.
+- **Failover acotado:** es una caída controlada de 3 segundos, no una prueba prolongada de disponibilidad.
+- **Sin Portainer:** no incluye el despliegue en Portainer ni garantiza rendimiento de producción.

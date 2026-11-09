@@ -109,7 +109,7 @@ HAProxy reparte mediante `roundrobin` entre dos arquitecturas distintas:
 | A: Nginx + PHP-FPM | `web-nginx` → `app-fpm` | `nginx-php-fpm` |
 | B: Apache + mod_php | `apache-php` (PHP 8.4 integrado en Apache) | `apache-mod-php` |
 
-Ambas comparten código, `.env`, `APP_KEY`, storage y MySQL; sesiones y caché usan la base centralizada. Apache usa `/var/www/public`, rewrite y AllowOverride para las rutas Laravel. Los nodos web/PHP no publican puertos. El setup prepara storage y bootstrap/cache para www-data antes de iniciar los frontales. Al detener cualquiera de los servidores web, el otro sigue atendiendo.
+Para que la comparación sea justa, las dos tienen **20 procesos PHP fijos** (`docker/php/procesos.conf` y `docker/apache/mpm_prefork.conf`). Ambas comparten código, `.env`, `APP_KEY`, storage y MySQL; sesiones y caché usan la base centralizada. Apache usa `/var/www/public`, rewrite y AllowOverride para las rutas Laravel. Los nodos web/PHP no publican puertos. El setup prepara storage y bootstrap/cache para www-data antes de iniciar los frontales. Al detener cualquiera de los servidores web, el otro sigue atendiendo.
 
 ### Demo de failover
 
@@ -135,7 +135,7 @@ sg docker -c 'BENCHMARK_REQUESTS=2000 ./docker/scripts/benchmark.sh'
 
 La carga usa ApacheBench en `httpd:2.4.65-alpine`, dentro de la red Compose, directamente contra cada arquitectura. Mide cuatro endpoints con concurrencias 10/50/100, una corrida por HAProxy y una caída de nginx bajo carga. Guarda salida cruda, Stats y CSV en `docs/benchmark/`; una nueva ejecución reemplaza esos resultados. Prepara producción temporalmente y limpia config/rutas/vistas al terminar, sin cambiar `.env`, clave ni datos comerciales. Las sesiones y la caché centralizadas sí generan escrituras operativas normales. No ejecutar migraciones ni la suite de tests simultáneamente con el benchmark: la configuración compilada de producción es compartida.
 
-Resultados, entorno, gráficos y limitaciones: [informe de benchmark](docs/benchmark/informe-benchmark.md). Para regenerar PNG: `python3 -I docs/benchmark/graficos.py`, con matplotlib disponible (puede usarse un venv temporal).
+Resultado: con los mismos 20 procesos PHP, Nginx + PHP-FPM es entre 5 y 8 % más rápido que Apache + mod_php en las páginas dinámicas. Resultados, corrida con configuración de fábrica, gráficos y limitaciones: [informe de benchmark](docs/benchmark/informe-benchmark.md). Para regenerar PNG: `python3 -I docs/benchmark/graficos.py`, con matplotlib disponible (puede usarse un venv temporal).
 
 ### Portainer
 

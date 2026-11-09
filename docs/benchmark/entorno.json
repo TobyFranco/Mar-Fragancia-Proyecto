@@ -1,7 +1,8 @@
 {
-  "fecha_utc": "2026-11-09T18:17:08Z",
-  "requests_directos": 2000,
+  "fecha_utc": "2026-11-09T18:24:33Z",
+  "host": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "requests": 2000,
+  "herramienta": "ApacheBench httpd:2.4.65-alpine",
   "opcache_web": "activo en ambos",
-  "dns": "HAProxy resolvers Docker activo; repetidos ambos escenarios HAProxy",
-  "generador": "httpd:2.4.65-alpine ApacheBench2.3"
+  "docker": "[{\"ID\":\"sha256:7dcddc01f13bab2f15cde676d44d01f61fc9f99fe7785e86196dfc07d358ae2b\",\"ContainerName\":\"mar_fragancia_db\",\"Repository\":\"mysql\",\"Tag\":\"8.0\",\"Platform\":\"linux/amd64\",\"Size\":233594134,\"LastTagTime\":\"2026-11-09T17:24:55.394718123Z\"},{\"ID\":\"sha256:9fdc7a1548028da5bda5d75f4f6ef83e957d6440b618cdc41c15c577e64b0b38\",\"ContainerName\":\"mar-fragancia-proyecto-app-fpm-1\",\"Repository\":\"mar-fragancia-proyecto-app-fpm\",\"Tag\":\"latest\",\"Platform\":\"linux/amd64\",\"Size\":282021192,\"LastTagTime\":\"2026-11-09T18:24:16.361838023Z\"},{\"ID\":\"sha256:a5f84f2668b6fc23674227a8b5325974a9791d5437035c85c6ed46d0a61d8079\",\"ContainerName\":\"mar-fragancia-proyecto-apache-php-1\",\"Repository\":\"mar-fragancia-proyecto-apache-php\",\"Tag\":\"latest\",\"Platform\":\"linux/amd64\",\"Size\":204764737,\"LastTagTime\":\"2026-11-09T18:24:16.315135553Z\"},{\"ID\":\"sha256:3e29449a6beed63262e36104adf531b4e41b359f61937303f5ea8607987b3748\",\"ContainerName\":\"mar-fragancia-proyecto-haproxy-1\",\"Repository\":\"haproxy\",\"Tag\":\"2.9-alpine\",\"Platform\":\"linux/amd64\",\"Size\":12696997,\"LastTagTime\":\"2026-11-09T17:26:48.865348956Z\"},{\"ID\":\"sha256:713fc2ebfd92e8217db451477182ee91944b123d2b1ee9fd5a8c6e91ca6c3a11\",\"ContainerName\":\"mar-fragancia-proyecto-web-nginx-1\",\"Repository\":\"nginx\",\"Tag\":\"alpine\",\"Platform\":\"linux/amd64\",\"Size\":26368486,\"LastTagTime\":\"2026-11-09T17:26:48.864414805Z\"}]\n\n"
 }

@@ -1,0 +1,53 @@
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking apache-php (be patient)
+Completed 200 requests
+Completed 400 requests
+Completed 600 requests
+Completed 800 requests
+Completed 1000 requests
+Completed 1200 requests
+Completed 1400 requests
+Completed 1600 requests
+Completed 1800 requests
+Completed 2000 requests
+Finished 2000 requests
+
+
+Server Software:        Apache/2.4.69
+Server Hostname:        apache-php
+Server Port:            80
+
+Document Path:          /perfumes
+Document Length:        Variable
+
+Concurrency Level:      50
+Time taken for tests:   24.731 seconds
+Complete requests:      2000
+Failed requests:        0
+Total transferred:      366274000 bytes
+HTML transferred:       363892000 bytes
+Requests per second:    80.87 [#/sec] (mean)
+Time per request:       618.270 [ms] (mean)
+Time per request:       12.365 [ms] (mean, across all concurrent requests)
+Transfer rate:          14463.33 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   1.0      0       8
+Processing:    95  610  97.7    595     995
+Waiting:       86  608  97.7    592     993
+Total:         95  611  97.5    595     995
+
+Percentage of the requests served within a certain time (ms)
+  50%    595
+  66%    635
+  75%    664
+  80%    683
+  90%    740
+  95%    794
+  98%    842
+  99%    875
+ 100%    995 (longest request)
