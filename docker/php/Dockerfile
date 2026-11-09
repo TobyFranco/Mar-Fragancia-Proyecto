@@ -9,6 +9,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY docker/php/procesos.conf /usr/local/etc/php-fpm.d/zz-procesos.conf
 
 WORKDIR /var/www
 
