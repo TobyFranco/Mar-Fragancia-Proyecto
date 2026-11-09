@@ -123,6 +123,20 @@ La demo consulta `/up` en bucle, muestra ambos nodos, detiene `web-nginx`, esper
 
 La demo comprueba disponibilidad, no continuidad de sesiones. Para esa verificación, iniciá sesión en el navegador, agregá un decant al carrito y ejecutá la demo: al recargar mientras solo B responde y cuando A vuelve, deben conservarse la cuenta y el carrito. No hay afinidad por cookie; esa continuidad depende de la base y la clave compartidas.
 
+### Benchmark A vs B
+
+Con el stack inicializado, ejecutar desde la raíz:
+
+```bash
+sg docker -c './docker/scripts/benchmark.sh'
+# Opcional: ajustar solicitudes por punto (predeterminado: 2000).
+sg docker -c 'BENCHMARK_REQUESTS=2000 ./docker/scripts/benchmark.sh'
+```
+
+La carga usa ApacheBench en `httpd:2.4.65-alpine`, dentro de la red Compose, directamente contra cada arquitectura. Mide cuatro endpoints con concurrencias 10/50/100, una corrida por HAProxy y una caída de nginx bajo carga. Guarda salida cruda, Stats y CSV en `docs/benchmark/`; una nueva ejecución reemplaza esos resultados. Prepara producción temporalmente y limpia config/rutas/vistas al terminar, sin cambiar `.env`, clave ni datos comerciales. Las sesiones y la caché centralizadas sí generan escrituras operativas normales. No ejecutar migraciones ni la suite de tests simultáneamente con el benchmark: la configuración compilada de producción es compartida.
+
+Resultados, entorno, gráficos y limitaciones: [informe de benchmark](docs/benchmark/informe-benchmark.md). Para regenerar PNG: `python3 -I docs/benchmark/graficos.py`, con matplotlib disponible (puede usarse un venv temporal).
+
 ### Portainer
 
 `compose.yaml` se puede desplegar como **Stack desde el repositorio Git** en Portainer sobre Docker Standalone: **Stacks → Add stack → Git Repository**, seleccionar la referencia revisada y usar `compose.yaml` como Compose path. Configurar allí `HAPROXY_STATS_PASSWORD`.

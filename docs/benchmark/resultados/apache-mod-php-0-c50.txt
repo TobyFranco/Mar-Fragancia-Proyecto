@@ -1,0 +1,53 @@
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking apache-php (be patient)
+Completed 200 requests
+Completed 400 requests
+Completed 600 requests
+Completed 800 requests
+Completed 1000 requests
+Completed 1200 requests
+Completed 1400 requests
+Completed 1600 requests
+Completed 1800 requests
+Completed 2000 requests
+Finished 2000 requests
+
+
+Server Software:        Apache/2.4.69
+Server Hostname:        apache-php
+Server Port:            80
+
+Document Path:          /up
+Document Length:        Variable
+
+Concurrency Level:      50
+Time taken for tests:   4.595 seconds
+Complete requests:      2000
+Failed requests:        0
+Total transferred:      4240174 bytes
+HTML transferred:       3656174 bytes
+Requests per second:    435.27 [#/sec] (mean)
+Time per request:       114.871 [ms] (mean)
+Time per request:       2.297 [ms] (mean, across all concurrent requests)
+Transfer rate:          901.19 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.7      0       5
+Processing:    22  113  32.8    107     270
+Waiting:       20  112  31.9    106     270
+Total:         22  114  32.7    108     270
+
+Percentage of the requests served within a certain time (ms)
+  50%    108
+  66%    123
+  75%    132
+  80%    139
+  90%    155
+  95%    171
+  98%    194
+  99%    217
+ 100%    270 (longest request)

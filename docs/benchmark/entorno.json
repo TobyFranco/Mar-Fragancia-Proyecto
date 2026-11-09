@@ -1,0 +1,7 @@
+{
+  "fecha_utc": "2026-11-09T18:17:08Z",
+  "requests_directos": 2000,
+  "opcache_web": "activo en ambos",
+  "dns": "HAProxy resolvers Docker activo; repetidos ambos escenarios HAProxy",
+  "generador": "httpd:2.4.65-alpine ApacheBench2.3"
+}

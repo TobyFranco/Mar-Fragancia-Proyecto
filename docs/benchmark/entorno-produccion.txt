@@ -1,0 +1,8 @@
+   INFO  The application environment is [production].
+  app.debug ............................................................ false
+extension_dir => /usr/local/lib/php/extensions/no-debug-non-zts-20240924 => /usr/local/lib/php/extensions/no-debug-non-zts-20240924
+report_zend_debug => Off => Off
+Loaded plugins => mysqlnd,debug_trace,auth_plugin_mysql_native_password,auth_plugin_mysql_clear_password,auth_plugin_caching_sha2_password,auth_plugin_sha256_password
+opcache.enable => On => On
+opcache.jit_debug => 0 => 0
+opcache.opt_debug_level => 0 => 0

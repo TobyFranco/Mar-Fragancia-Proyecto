@@ -1,0 +1,2 @@
+arquitectura,endpoint,concurrencia,rps,latencia_media_ms,p50_ms,p95_ms,p99_ms,errores,requests
+haproxy-failover,/perfumes,50,74.6,647.0,592.0,1292.0,1515.0,0,1119
