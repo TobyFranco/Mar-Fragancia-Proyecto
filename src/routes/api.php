@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CatalogoController;
+use App\Http\Controllers\Api\V1\InventarioAdminController;
 use App\Http\Controllers\Api\V1\MisPedidosController;
 use App\Http\Controllers\Api\V1\PedidosAdminController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,8 @@ Route::prefix('v1')->middleware('throttle:api')->group(function () {
     Route::post('/auth/login', [AuthController::class, 'login'])->middleware('throttle:api-login');
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('admin')->middleware('rol:administrador')->group(function () {
+            Route::get('/inventario/stock-critico', [InventarioAdminController::class, 'critico']);
+            Route::post('/inventario/movimientos', [InventarioAdminController::class, 'store']);
             Route::get('/pedidos', [PedidosAdminController::class, 'index']);
             Route::get('/pedidos/{pedido}', [PedidosAdminController::class, 'show']);
             Route::patch('/pedidos/{pedido}/estado', [PedidosAdminController::class, 'estado']);

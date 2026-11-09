@@ -58,6 +58,6 @@ class CatalogoController extends Controller
 
     public function show(string $slug): ProductoResource
     {
-        return new ProductoResource($this->productos()->where('slug',$slug)->firstOrFail());
+        return new ProductoResource($this->productos()->where('slug', $slug)->firstOrFail());
     }
 }

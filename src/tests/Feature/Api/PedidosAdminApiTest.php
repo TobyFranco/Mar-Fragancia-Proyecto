@@ -48,6 +48,6 @@ class PedidosAdminApiTest extends ApiTestCase
         $this->patchJson('/api/v1/admin/pedidos/'.$p->id.'/estado', [])->assertUnprocessable();
         $this->assertSame('pendiente', $p->fresh()->estado);
         $this->assertSame(1, $a->fresh()->stock);
-        $this->assertDatabaseCount('movimientos_inventario',0);
+        $this->assertDatabaseCount('movimientos_inventario', 0);
     }
 }
