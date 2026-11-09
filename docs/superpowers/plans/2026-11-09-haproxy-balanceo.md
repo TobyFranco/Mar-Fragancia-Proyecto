@@ -81,3 +81,12 @@ Test nuevo en `src/tests/Feature/Infraestructura/BalanceoTest.php`. Escribirlo p
 - Revisar `compose.yaml` y `haproxy.cfg` a mano: nombres de servicio coherentes y ningún puerto publicado fuera de HAProxy y MySQL.
 - Commits chicos en español, en la rama `feature/haproxy`, **sin atribución a IA**. No pushear.
 - Al terminar, resumí qué cambió y qué no pudiste verificar por no tener Docker.
+
+## Registro de ejecución
+
+- [x] Tarea 1: proxy y health check. RED: la URL ignoraba HTTPS y host reenviados. GREEN: 2 tests nuevos; suite 273 tests / 2559 assertions. Pint correcto.
+- [ ] Tarea 2: dos nodos web y MySQL compartido.
+- [ ] Tarea 3: HAProxy y Stats.
+- [ ] Tarea 4: inicialización y demo de failover.
+- [ ] Tarea 5: limpieza y documentación.
+- [ ] Verificación final.
