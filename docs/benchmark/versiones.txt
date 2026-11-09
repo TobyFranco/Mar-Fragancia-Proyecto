@@ -1,0 +1,17 @@
+PHP 8.4.27 (cli) (built: Nov  5 2026 07:23:48) (NTS)
+Copyright (c) The PHP Group
+Built by https://github.com/docker-library/php
+Zend Engine v4.4.27, Copyright (c) Zend Technologies
+    with Zend OPcache v8.4.27, Copyright (c), by Zend Technologies
+Server version: Apache/2.4.69 (Debian)
+Server built:   2026-10-01T16:54:08
+nginx version: nginx/1.31.8
+HAProxy version 2.9.15-e872a3f 2025/03/21 - https://haproxy.org/
+Status: End of life - please upgrade to branch 3.0.
+Known bugs: http://www.haproxy.org/bugs/bugs-2.9.15.html
+Running on: Linux 7.0.0-38-generic #38~24.04.4-Ubuntu SMP PREEMPT_DYNAMIC Mon Sep 14 16:37:11 UTC 2 x86_64
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+mysql  Ver 8.0.46 for Linux on x86_64 (MySQL Community Server - GPL)

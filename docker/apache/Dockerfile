@@ -7,5 +7,6 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY docker/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY docker/apache/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
 
 WORKDIR /var/www

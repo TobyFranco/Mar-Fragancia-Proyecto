@@ -1,0 +1,43 @@
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking haproxy (be patient)
+Finished 924 requests
+
+
+Server Software:        Apache/2.4.69
+Server Hostname:        haproxy
+Server Port:            80
+
+Document Path:          /perfumes
+Document Length:        Variable
+
+Concurrency Level:      50
+Time taken for tests:   15.016 seconds
+Complete requests:      924
+Failed requests:        0
+Total transferred:      168127760 bytes
+HTML transferred:       167023164 bytes
+Requests per second:    61.53 [#/sec] (mean)
+Time per request:       812.547 [ms] (mean)
+Time per request:       16.251 [ms] (mean, across all concurrent requests)
+Transfer rate:          10934.26 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.5      0       4
+Processing:    77  785 868.7    584    5472
+Waiting:       77  782 868.8    580    5470
+Total:         78  785 868.7    584    5472
+
+Percentage of the requests served within a certain time (ms)
+  50%    584
+  66%    709
+  75%    799
+  80%    873
+  90%   1148
+  95%   3193
+  98%   4641
+  99%   4881
+ 100%   5472 (longest request)

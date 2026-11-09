@@ -1,0 +1,42 @@
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking web-nginx (be patient).....done
+
+
+Server Software:        nginx/1.31.8
+Server Hostname:        web-nginx
+Server Port:            80
+
+Document Path:          /perfumes/coromandel
+Document Length:        Variable
+
+Concurrency Level:      1
+Time taken for tests:   1.809 seconds
+Complete requests:      30
+Failed requests:        0
+Total transferred:      2188140 bytes
+HTML transferred:       2153430 bytes
+Requests per second:    16.58 [#/sec] (mean)
+Time per request:       60.303 [ms] (mean)
+Time per request:       60.303 [ms] (mean, across all concurrent requests)
+Transfer rate:          1181.18 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:    57   60   1.8     60      64
+Waiting:       57   60   1.8     60      63
+Total:         57   60   1.8     60      64
+
+Percentage of the requests served within a certain time (ms)
+  50%     60
+  66%     61
+  75%     62
+  80%     62
+  90%     63
+  95%     63
+  98%     64
+  99%     64
+ 100%     64 (longest request)

@@ -67,6 +67,10 @@ services:
     depends_on:
     - web-nginx
     - apache-php
+  benchmark:
+    image: httpd:2.4.65-alpine
+    profiles: [benchmark]
+    entrypoint: [ab]
   db:
     image: mysql:8.0
     container_name: mar_fragancia_db

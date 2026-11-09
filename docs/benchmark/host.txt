@@ -1,0 +1,19 @@
+CPU=12 RAM=16624160768 Kernel=7.0.0-38-generic Docker=29.1.3
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           48 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  12
+On-line CPU(s) list:                     0-11
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD Ryzen 5 5500
+CPU family:                              25
+Model:                                   80
+Thread(s) per core:                      2
+Core(s) per socket:                      6
+Socket(s):                               1
+Stepping:                                0
+Frequency boost:                         enabled
+CPU(s) scaling MHz:                      99%
+CPU max MHz:                             4268.5718
+CPU min MHz:                             411.4290
