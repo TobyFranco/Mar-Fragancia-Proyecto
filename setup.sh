@@ -6,21 +6,21 @@ if [[ ! -f src/.env ]]; then
     cp src/.env.example src/.env
 fi
 
-echo "Levantando MySQL y los dos servicios PHP..."
-docker compose up -d --build --remove-orphans db app-a app-b
+echo "Levantando MySQL y PHP-FPM..."
+docker compose up -d --build --remove-orphans db app-fpm
 
 echo "Instalando las dependencias desde los archivos lock..."
-docker compose exec -T app-a composer install --no-interaction --prefer-dist --optimize-autoloader
-docker compose exec -T app-a php artisan config:clear
+docker compose exec -T app-fpm composer install --no-interaction --prefer-dist --optimize-autoloader
+docker compose exec -T app-fpm php artisan config:clear
 
 # Los dos nodos comparten esta clave; no cambiarla en cada despliegue.
 if ! grep -qE '^APP_KEY=.+$' src/.env; then
-    docker compose exec -T app-a php artisan key:generate
+    docker compose exec -T app-fpm php artisan key:generate
 fi
 
 # El código 10 identifica una base sin tabla de migraciones; otro error aborta.
 estado_bd=0
-docker compose exec -T app-a php -r '
+docker compose exec -T app-fpm php -r '
 try {
     require "vendor/autoload.php";
     $app = require "bootstrap/app.php";
@@ -36,19 +36,19 @@ case "$estado_bd" in
     *) echo "No se pudo comprobar la base de datos; se cancela la inicialización." >&2; exit "$estado_bd" ;;
 esac
 
-echo "Aplicando migraciones desde app-a..."
-docker compose exec -T app-a php artisan migrate --force
+echo "Aplicando migraciones desde app-fpm..."
+docker compose exec -T app-fpm php artisan migrate --force
 if [[ "$estado_bd" == 10 ]]; then
     echo "Cargando datos de ejemplo en la base nueva..."
-    docker compose exec -T app-a php artisan db:seed --force
+    docker compose exec -T app-fpm php artisan db:seed --force
 fi
 
-docker compose exec -T app-a php artisan storage:link --force
-docker compose exec -T app-a npm ci --no-audit --no-fund
-docker compose exec -T app-a npm run build
-docker compose exec -T app-a sh -c 'mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache'
+docker compose exec -T app-fpm php artisan storage:link --force
+docker compose exec -T app-fpm npm ci --no-audit --no-fund
+docker compose exec -T app-fpm npm run build
+docker compose exec -T app-fpm sh -c 'mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache'
 
-echo "Levantando nginx y HAProxy..."
+echo "Levantando nginx, Apache y HAProxy..."
 docker compose up -d --remove-orphans
 echo "Tienda: http://localhost o http://localhost:8000"
 echo "HAProxy Stats: http://localhost:8404 (usuario admin)"

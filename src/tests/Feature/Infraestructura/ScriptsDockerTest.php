@@ -39,13 +39,13 @@ PHP);
 set -eu
 printf '%s\n' "$*" >> "$PRUEBA_DIR/comandos"
 case "$*" in
-    'compose stop web-a') echo caido > "$PRUEBA_DIR/estado" ;;
-    'compose start web-a') echo recuperado > "$PRUEBA_DIR/estado" ;;
-    'compose exec -T app-a php -r '*)
+    'compose stop web-nginx') echo caido > "$PRUEBA_DIR/estado" ;;
+    'compose start web-nginx') echo recuperado > "$PRUEBA_DIR/estado" ;;
+    'compose exec -T app-fpm php -r '*)
         if [[ "${BD_NUEVA:-0}" == 1 ]]; then exit 10; fi
         exit "${BD_NUEVA:-0}"
         ;;
-    'compose exec -T app-a php artisan storage:link'*)
+    'compose exec -T app-fpm php artisan storage:link'*)
         shift 7
         exec "$PHP_REAL" "$PRUEBA_DIR/storage-link.php" "$@"
         ;;
@@ -63,9 +63,9 @@ fi
 contador=$(cat "$PRUEBA_DIR/contador" 2>/dev/null || echo 0)
 contador=$((contador + 1))
 echo "$contador" > "$PRUEBA_DIR/contador"
-nodo=arq-b
+nodo=apache-mod-php
 if [[ "$estado" != caido && $((contador % 2)) == 1 ]]; then
-    nodo=arq-a
+    nodo=nginx-php-fpm
 fi
 if [[ "${SIN_CABECERA:-0}" == 1 ]]; then
     printf 'HTTP/1.1 200 OK\r\n\r\n'
@@ -87,9 +87,9 @@ BASH);
         $proceso = $this->ejecutar('docker/scripts/demo-failover.sh');
 
         $this->assertTrue($proceso->isSuccessful(), $proceso->getErrorOutput().$proceso->getOutput());
-        $this->assertStringContainsString('arq-a', $proceso->getOutput());
-        $this->assertStringContainsString('arq-b', $proceso->getOutput());
-        $this->assertSame("compose stop web-a\ncompose start web-a\n", $this->comandos());
+        $this->assertStringContainsString('nginx-php-fpm', $proceso->getOutput());
+        $this->assertStringContainsString('apache-mod-php', $proceso->getOutput());
+        $this->assertSame("compose stop web-nginx\ncompose start web-nginx\n", $this->comandos());
     }
 
     public function test_demo_falla_ante_error_http_y_restaura_el_nodo(): void
@@ -97,8 +97,8 @@ BASH);
         $proceso = $this->ejecutar('docker/scripts/demo-failover.sh', ['FALLO_HTTP' => '1']);
 
         $this->assertFalse($proceso->isSuccessful());
-        $this->assertStringContainsString('compose stop web-a', $this->comandos());
-        $this->assertStringContainsString('compose start web-a', $this->comandos());
+        $this->assertStringContainsString('compose stop web-nginx', $this->comandos());
+        $this->assertStringContainsString('compose start web-nginx', $this->comandos());
     }
 
     public function test_demo_rechaza_respuestas_sin_identificacion_del_nodo(): void
@@ -132,22 +132,22 @@ BASH);
         $this->assertStringNotContainsString('composer update', $comandos);
         $this->assertStringNotContainsString('key:generate', $comandos);
         $this->assertStringNotContainsString('db:seed', $comandos);
-        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-a php artisan migrate --force'));
-        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-a php artisan storage:link'));
-        $this->assertStringNotContainsString('exec -T app-b', $comandos);
+        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-fpm php artisan migrate --force'));
+        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-fpm php artisan storage:link'));
+        $this->assertStringNotContainsString('exec -T apache-php', $comandos);
     }
 
-    public function test_setup_inicial_siembra_y_genera_clave_una_vez_desde_app_a(): void
+    public function test_setup_inicial_siembra_y_genera_clave_una_vez_desde_app_fpm(): void
     {
         $proceso = $this->ejecutar('setup.sh', ['BD_NUEVA' => '1']);
 
         $this->assertTrue($proceso->isSuccessful(), $proceso->getErrorOutput().$proceso->getOutput());
         $comandos = $this->comandos();
-        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-a php artisan key:generate'));
-        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-a php artisan migrate --force'));
-        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-a php artisan db:seed --force'));
-        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-a php artisan storage:link'));
-        $this->assertStringNotContainsString('exec -T app-b', $comandos);
+        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-fpm php artisan key:generate'));
+        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-fpm php artisan migrate --force'));
+        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-fpm php artisan db:seed --force'));
+        $this->assertSame(1, substr_count($comandos, 'compose exec -T app-fpm php artisan storage:link'));
+        $this->assertStringNotContainsString('exec -T apache-php', $comandos);
     }
 
     public function test_setup_crea_enlace_storage_resoluble_en_el_checkout_compartido(): void
