@@ -87,6 +87,8 @@ Test nuevo en `src/tests/Feature/Infraestructura/BalanceoTest.php`. Escribirlo p
 - [x] Tarea 1: proxy y health check. RED: la URL ignoraba HTTPS y host reenviados. GREEN: 2 tests nuevos; suite 273 tests / 2559 assertions. Pint correcto.
 - [x] Tarea 2: dos nodos web y MySQL compartido. YAML parseado, dependencias/montajes revisados y template renderizado para ambos upstreams conservando las variables de nginx. Solo HAProxy/MySQL publican puertos.
 - [x] Tarea 3: HAProxy y Stats. Parser nativo HAProxy 2.9.15 acepta la configuración con contraseña de entorno y aliases locales para los nombres Docker. No equivale a levantar el stack.
-- [ ] Tarea 4: inicialización y demo de failover.
+- [x] Tarea 4: inicialización y demo de failover. RED → GREEN: 5 tests de scripts con dobles de docker/curl/sleep. Comprueban éxito, error HTTP, cabecera ausente, recuperación y setup inicial/repetido. Suite 278 tests / 2589 assertions.
 - [ ] Tarea 5: limpieza y documentación.
 - [ ] Verificación final.
+
+**Decisiones técnicas:** `setup.sh` conserva `.env`, APP_KEY y volúmenes; usa `composer install`, `npm ci` y `migrate --force`. Si no existe tabla de migraciones, carga seeders una sola vez desde `app-a`; no vuelve a sembrar una BD existente. Crea el enlace de storage relativo para que funcione dentro y fuera del contenedor. La demo comprueba HTTP 200 y ambos nodos, espera los health checks y tiene recuperación de `web-a` ante errores/interrupciones. Los tests con dobles no prueban Docker ni continuidad real de sesiones.
