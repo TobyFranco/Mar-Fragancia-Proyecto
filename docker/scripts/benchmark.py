@@ -51,10 +51,21 @@ def measure(writer, arch, host, endpoint, concurrency, name, warm=False, failove
     args += ['http://' + host + endpoint]
     path = RAW / (name + '.txt')
     print('Midiendo', name, flush=True)
+    before = stats('stats-pre-failover.csv') if failover else 0
     with path.open('w') as log:
         process = subprocess.Popen(args, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, text=True)
         try:
             if failover:
+                deadline = time.monotonic() + 30
+                while True:
+                    current = stats('stats-carga-iniciada.csv')
+                    if process.poll() is not None:
+                        raise RuntimeError('La carga terminó antes de provocar la caída')
+                    if current > before:
+                        break
+                    if time.monotonic() >= deadline:
+                        raise RuntimeError('No se observó tráfico activo en Stats')
+                    time.sleep(0.1)
                 docker('stop', 'web-nginx')
                 time.sleep(HOLD)
                 docker('start', 'web-nginx')
@@ -76,6 +87,8 @@ def stats(name):
     password = docker('exec', '-T', 'haproxy', 'printenv', 'HAPROXY_STATS_PASSWORD', capture_output=True).stdout.strip()
     result = docker('exec', '-T', 'app-fpm', 'curl', '--fail', '--silent', '--show-error', '-u', 'admin:' + password, 'http://haproxy:8404/;csv', capture_output=True)
     (RAW / name).write_text(result.stdout)
+    data = csv.DictReader(result.stdout.lstrip('# ').splitlines())
+    return sum(int(row['stot'] or 0) for row in data if row['svname'] in ('nginx-php-fpm', 'apache-mod-php'))
 
 
 def verify_opcache():

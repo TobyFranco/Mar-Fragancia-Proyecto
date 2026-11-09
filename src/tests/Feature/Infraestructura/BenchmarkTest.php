@@ -26,12 +26,13 @@ class BenchmarkTest extends TestCase
 #!/bin/bash
 printf '%s\n' "$*" >> "$BENCHMARK_OUTPUT/comandos"
 if [[ "$*" == 'compose stop web-nginx' ]]; then
+ [[ -e "$BENCHMARK_OUTPUT/carga-iniciada" ]] || exit 3
  touch "$BENCHMARK_OUTPUT/caido"
 elif [[ "$*" == 'compose start web-nginx' && "${FALLAR:-0}" == 1 && -e "$BENCHMARK_OUTPUT/caido" ]]; then
  rm "$BENCHMARK_OUTPUT/caido"
  exit 2
 elif [[ "$*" == *'run --rm --no-deps benchmark'* ]]; then
- if [[ "$*" == *' -t '* && "${FALLAR:-0}" == 1 ]]; then exit 2; fi
+ if [[ "$*" == *' -t '* ]]; then sleep 0.2; touch "$BENCHMARK_OUTPUT/carga-iniciada"; sleep 1; fi
  cat <<'AB'
 Complete requests:      2000
 Failed requests:        0
@@ -44,7 +45,9 @@ AB
 elif [[ "$*" == *benchmark-opcache* ]]; then
  printf OPCACHE_OK
 elif [[ "$*" == *curl* ]]; then
- printf '# pxname,svname,stot,bin,bout,status\nnodos_web,nginx-php-fpm,10,20,30,UP\nnodos_web,apache-mod-php,10,20,30,UP\n'
+ total=10
+ [[ ! -e "$BENCHMARK_OUTPUT/carga-iniciada" ]] || total=20
+ printf '# pxname,svname,stot,bin,bout,status\nnodos_web,nginx-php-fpm,%s,20,30,UP\nnodos_web,apache-mod-php,%s,20,30,UP\n' "$total" "$total"
 fi
 BASH);
         chmod($dir.'/bin/docker', 0700);
