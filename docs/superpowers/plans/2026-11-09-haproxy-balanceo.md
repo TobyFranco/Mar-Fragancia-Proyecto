@@ -85,8 +85,8 @@ Test nuevo en `src/tests/Feature/Infraestructura/BalanceoTest.php`. Escribirlo p
 ## Registro de ejecución
 
 - [x] Tarea 1: proxy y health check. RED: la URL ignoraba HTTPS y host reenviados. GREEN: 2 tests nuevos; suite 273 tests / 2559 assertions. Pint correcto.
-- [ ] Tarea 2: dos nodos web y MySQL compartido.
-- [ ] Tarea 3: HAProxy y Stats.
+- [x] Tarea 2: dos nodos web y MySQL compartido. YAML parseado, dependencias/montajes revisados y template renderizado para ambos upstreams conservando las variables de nginx. Solo HAProxy/MySQL publican puertos.
+- [x] Tarea 3: HAProxy y Stats. Parser nativo HAProxy 2.9.15 acepta la configuración con contraseña de entorno y aliases locales para los nombres Docker. No equivale a levantar el stack.
 - [ ] Tarea 4: inicialización y demo de failover.
 - [ ] Tarea 5: limpieza y documentación.
 - [ ] Verificación final.
