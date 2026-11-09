@@ -85,7 +85,7 @@ export HAPROXY_STATS_PASSWORD='elegi-una-clave'
 ./setup.sh
 ```
 
-El script construye y levanta MySQL y los dos servicios PHP, instala las versiones de `composer.lock` y `package-lock.json`, configura Laravel y compila los assets. Migraciones, seeders y enlace de storage se ejecutan solo desde `app-a`. Conserva `.env`, la clave de aplicación y los volúmenes existentes; los datos de ejemplo se cargan automáticamente solo cuando todavía no existe la tabla de migraciones. Para una base que ya tiene migraciones pero quedó sin datos iniciales, ejecutar explícitamente `docker compose exec -T app-a php artisan db:seed --force`.
+El script construye y levanta MySQL y PHP-FPM; después inicializa Laravel y levanta nginx, Apache y HAProxy, instala las versiones de `composer.lock` y `package-lock.json`, configura Laravel y compila los assets. Migraciones, seeders y enlace de storage se ejecutan solo desde `app-fpm`. Conserva `.env`, la clave de aplicación y los volúmenes existentes; los datos de ejemplo se cargan automáticamente solo cuando todavía no existe la tabla de migraciones. Para una base que ya tiene migraciones pero quedó sin datos iniciales, ejecutar explícitamente `docker compose exec -T app-fpm php artisan db:seed --force`.
 
 Después de la primera inicialización, para volver a levantar los servicios:
 
@@ -102,7 +102,14 @@ docker compose ps
 
 La contraseña de Stats sale de `HAPROXY_STATS_PASSWORD`; si no se define, es **`marfragancias-demo`**. Se puede exportar en la terminal, definir en un `.env` en la raíz para Compose o configurar como variable del Stack en Portainer. Ese archivo de Compose es distinto del `.env` de Laravel en `src/`. La configuración del frontal es HTTP; TLS requiere configuración adicional.
 
-HAProxy reparte mediante `roundrobin` entre `web-a` → `app-a` (**arq-a**) y `web-b` → `app-b` (**arq-b**). **Por ahora A y B son idénticas: nginx + PHP-FPM**, hasta que el profesor asigne las arquitecturas comparativas. Los dos nodos comparten el código, `.env`, `APP_KEY`, archivos de storage y MySQL; sesiones y caché usan la base centralizada. Los nodos web/PHP no publican puertos. Las respuestas muestran `X-Servido-Por: arq-a|arq-b` y `X-Nodo` para identificar el origen.
+HAProxy reparte mediante `roundrobin` entre dos arquitecturas distintas:
+
+| Arquitectura | Servicios | X-Servido-Por / X-Nodo |
+|---|---|---|
+| A: Nginx + PHP-FPM | `web-nginx` → `app-fpm` | `nginx-php-fpm` |
+| B: Apache + mod_php | `apache-php` (PHP 8.4 integrado en Apache) | `apache-mod-php` |
+
+Ambas comparten código, `.env`, `APP_KEY`, storage y MySQL; sesiones y caché usan la base centralizada. Apache usa `/var/www/public`, rewrite y AllowOverride para las rutas Laravel. Los nodos web/PHP no publican puertos. El setup prepara storage y bootstrap/cache para www-data antes de iniciar los frontales. Al detener cualquiera de los servidores web, el otro sigue atendiendo.
 
 ### Demo de failover
 
@@ -112,7 +119,7 @@ Esperá a que ambos nodos aparezcan disponibles en Stats y ejecutá:
 ./docker/scripts/demo-failover.sh
 ```
 
-La demo consulta `/up` en bucle, muestra ambos nodos, detiene `web-a`, espera su baja por los health checks y exige respuestas HTTP 200 solo de B. Luego inicia A, espera su recuperación y comprueba que ambos vuelven a responder. Si falla después de detener A o se interrumpe con Ctrl+C, intenta volver a iniciarlo. El balanceador comprueba `/up` cada 2 segundos; baja un nodo tras 3 fallos y lo recupera tras 2 aciertos.
+La demo consulta `/up` en bucle, muestra ambos nodos, detiene `web-nginx`, espera su baja por los health checks y exige respuestas HTTP 200 solo de B. Luego inicia A, espera su recuperación y comprueba que ambos vuelven a responder. Si falla después de detener A o se interrumpe con Ctrl+C, intenta volver a iniciarlo. El balanceador comprueba `/up` cada 2 segundos; baja un nodo tras 3 fallos y lo recupera tras 2 aciertos.
 
 La demo comprueba disponibilidad, no continuidad de sesiones. Para esa verificación, iniciá sesión en el navegador, agregá un decant al carrito y ejecutá la demo: al recargar mientras solo B responde y cuando A vuelve, deben conservarse la cuenta y el carrito. No hay afinidad por cookie; esa continuidad depende de la base y la clave compartidas.
 
