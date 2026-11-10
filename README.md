@@ -178,7 +178,18 @@ Guía con todos los endpoints, autenticación y ejemplos: [`docs/api/README.md`]
 | Plan de implementación · Fase 1 | [`docs/superpowers/plans/2026-10-18-fase-1-tienda-publica.md`](docs/superpowers/plans/2026-10-18-fase-1-tienda-publica.md) |
 | Plan de pruebas (PI-13) | [`docs/pruebas/plan-de-pruebas-auth-catalogo.md`](docs/pruebas/plan-de-pruebas-auth-catalogo.md) |
 | API REST v1 | [`docs/api/README.md`](docs/api/README.md) · [`openapi.yaml`](docs/api/openapi.yaml) |
+| MER / DER conceptual y lógico | [`docs/datos/der.md`](docs/datos/der.md) · [SVG para presentación](docs/datos/der-logico.svg) |
+| Diccionario del esquema MySQL | [`docs/datos/diccionario-de-datos.md`](docs/datos/diccionario-de-datos.md) |
+| Evaluación de normalización | [`docs/datos/normalizacion.md`](docs/datos/normalizacion.md) |
 | Benchmark A vs B | [`docs/benchmark/informe-benchmark.md`](docs/benchmark/informe-benchmark.md) |
+
+El diccionario se regenera desde el esquema MySQL real, con el stack y sus migraciones ya aplicados:
+
+```bash
+sg docker -c "docker compose exec -T app-fpm php artisan docs:diccionario"
+```
+
+El servicio `app-fpm` monta `./docs` en `/var/docs` para leer `docs/datos/descripciones.php` y escribir el Markdown del repositorio. Si el contenedor se creó antes de ese montaje, recrearlo con `docker compose up -d --no-deps app-fpm` y reiniciar `web-nginx` para resolver su upstream de nuevo. El comando no migra ni cambia datos; rechaza SQLite para no publicar tipos incorrectos. Al agregar una tabla o columna, completar sus descripciones, regenerar desde MySQL y correr los tests de documentación. Estos tests comparan nombres contra las migraciones SQLite, mientras que tipos, índices y acciones de FK del documento se extraen de MySQL.
 
 ## Equipo
 

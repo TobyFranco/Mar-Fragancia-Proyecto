@@ -103,4 +103,9 @@ Así, si alguien agrega una columna y no la documenta, el test falla.
 - [x] Tarea 2: DER conceptual y lógico,14 entidades/99 atributos/15 FK, cardinalidades por nullability y UQ. SVG real exportado con Mermaid CLI11.12.0, Node24.22.0. Ruta Node del plan ausente: se usó ~/.local/bin; Puppeteer requirió --no-sandbox solo para el archivo local. Suite320/2822 verde.
 - [x] Tarea 3: evaluación1FN/2FN/3FN por cada tabla, snapshots y saldos históricos, excepciones de importes derivados y pendientes de unicidad/integridad. No se certifica3FN estricta de todo el esquema ni se modifica SQL. Suite320/2822 verde.
 - [x] Tarea 4: DiccionarioDatosTest verifica descripciones de cada tabla/columna migrada y encabezados de todas las tablas de negocio. Fixture negativo retiró productos.genero: test y generador fallaron con esa columna, sin sobrescribir el diccionario previo; restaurada la descripción, todo verde.
-- [ ] Tarea 5: README y cierre.
+- [x] Tarea 5: enlaces al DER/diccionario/normalización y regeneración Docker en README. Regeneración MySQL idéntica; ambos nodos UP. Pint y suite final322/3346 verdes.
+
+
+**Cierre técnico:**14 tablas de negocio y8 de infraestructura existentes (22 en total,148 columnas,15 FK). password_reset_tokens no existe. No se modificaron migraciones, esquema ni registros. El diccionario se regeneró en MySQL8.0.46 y no produjo diferencias. Las cardinalidades se derivaron de las FK reales, nulabilidad y UQ; no se presume UNIQUE en el par producto/tamaño.
+
+**Normalización:** no se afirma3FN estricta global: subtotal de línea y total de pedido son cálculos persistidos. Precio/contacto/entrega son snapshots históricos y stock_resultante saldo de auditoría; se explican por separado de las dependencias del estado actual. Cambios de esquema y limpieza de datos quedan solo propuestos, no ejecutados.
