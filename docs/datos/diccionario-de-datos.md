@@ -157,7 +157,7 @@ Kardex de entradas y salidas por presentación.
 
 **Reglas y semántica de aplicación**
 
-- Inventario y MovimientoInventarioRequest: tipo entrada/salida, cantidad entera positiva hasta2147483647, motivo no vacío y presentación de5/10ml. No son enum/CHECK SQL.
+- Inventario y MovimientoInventarioRequest: tipo entrada/salida, cantidad entera positiva hasta 2147483647, motivo no vacío y presentación de 5/10 ml. No son enum/CHECK SQL.
 - Inventario modifica stock y crea kardex en la misma transacción. stock_resultante es auditoría histórica; no debe confundirse con el stock actual.
 
 ### nota_producto
@@ -323,7 +323,7 @@ Variantes de un perfume por tamaño, con precio y stock actuales.
 **Reglas y semántica de aplicación**
 
 - Inventario mantiene stock no negativo bajo bloqueo de fila; rechaza salidas insuficientes y entradas superiores a STOCK_MAXIMO=2147483647. No existe CHECK SQL para stock≥0.
-- ProductoRequest: precio no negativo, hasta dos decimales y99999999.99; stock inicial no negativo. La edición del producto no cambia stock: se usa Inventario.
+- ProductoRequest: precio no negativo, hasta dos decimales y 99999999.99; stock inicial no negativo. La edición del producto no cambia stock: se usa Inventario.
 - No existe UNIQUE(producto_id,tamano_id). El panel busca/reutiliza variantes por tamaño, pero SQL permite duplicados.
 
 ### productos
@@ -364,7 +364,7 @@ Perfumes del catálogo, con marca, familia, género y publicación.
 **Reglas y semántica de aplicación**
 
 - Producto::GENEROS y evento saving: mujer, hombre o unisex; no existe enum/CHECK para genero.
-- Producto::visibles: activo y al menos una presentación activa de5/10ml; stock cero no oculta por sí solo.
+- Producto::visibles: activo y al menos una presentación activa de 5/10 ml; stock cero no oculta por sí solo.
 - ProductoController bloquea borrado si hay pedidos o movimientos y ofrece ocultar. ProductoRequest valida marca/categoría y exige al menos un precio.
 
 ### roles
@@ -626,7 +626,7 @@ Tokens personales Sanctum compartidos por ambas arquitecturas; el token en claro
 | tokenable_type | varchar(255) | No | NULL / no declarado | — | Clase del modelo autenticable en la relación polimórfica. |
 | tokenable_id | bigint unsigned | No | NULL / no declarado | — | Id del modelo autenticable; no tiene FK SQL por ser una relación polimórfica. |
 | name | text | No | NULL / no declarado | — | Nombre del dispositivo o uso del token. |
-| token | varchar(64) | No | NULL / no declarado | UQ (token) | Hash SHA-256 del token, de64 caracteres y único. |
+| token | varchar(64) | No | NULL / no declarado | UQ (token) | Hash SHA-256 del token, de 64 caracteres y único. |
 | abilities | text | Sí | NULL / no declarado | — | Permisos serializados del token. |
 | last_used_at | timestamp | Sí | NULL / no declarado | — | Último uso autenticado registrado por Sanctum. |
 | expires_at | timestamp | Sí | NULL / no declarado | — | Caducidad opcional del token; indexada. |

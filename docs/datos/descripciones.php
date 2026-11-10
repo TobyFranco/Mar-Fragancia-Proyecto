@@ -88,7 +88,7 @@ return [
         'updated_at' => 'Instante de la última actualización de la fila.',
         '_reglas' => [
             'Producto::GENEROS y evento saving: mujer, hombre o unisex; no existe enum/CHECK para genero.',
-            'Producto::visibles: activo y al menos una presentación activa de5/10ml; stock cero no oculta por sí solo.',
+            'Producto::visibles: activo y al menos una presentación activa de 5/10 ml; stock cero no oculta por sí solo.',
             'ProductoController bloquea borrado si hay pedidos o movimientos y ofrece ocultar. ProductoRequest valida marca/categoría y exige al menos un precio.',
         ],
     ],
@@ -104,7 +104,7 @@ return [
         'updated_at' => 'Instante de la última actualización de la fila.',
         '_reglas' => [
             'Inventario mantiene stock no negativo bajo bloqueo de fila; rechaza salidas insuficientes y entradas superiores a STOCK_MAXIMO=2147483647. No existe CHECK SQL para stock≥0.',
-            'ProductoRequest: precio no negativo, hasta dos decimales y99999999.99; stock inicial no negativo. La edición del producto no cambia stock: se usa Inventario.',
+            'ProductoRequest: precio no negativo, hasta dos decimales y 99999999.99; stock inicial no negativo. La edición del producto no cambia stock: se usa Inventario.',
             'No existe UNIQUE(producto_id,tamano_id). El panel busca/reutiliza variantes por tamaño, pero SQL permite duplicados.',
         ],
     ],
@@ -189,7 +189,7 @@ return [
         'stock_resultante' => 'Stock inmediatamente posterior al movimiento; nullable para auditoría anterior a su incorporación.',
         'created_at' => 'Instante de registro de la fila; no hay updated_at en esta tabla.',
         '_reglas' => [
-            'Inventario y MovimientoInventarioRequest: tipo entrada/salida, cantidad entera positiva hasta2147483647, motivo no vacío y presentación de5/10ml. No son enum/CHECK SQL.',
+            'Inventario y MovimientoInventarioRequest: tipo entrada/salida, cantidad entera positiva hasta 2147483647, motivo no vacío y presentación de 5/10 ml. No son enum/CHECK SQL.',
             'Inventario modifica stock y crea kardex en la misma transacción. stock_resultante es auditoría histórica; no debe confundirse con el stock actual.',
         ],
     ],
@@ -262,7 +262,7 @@ return [
         'tokenable_type' => 'Clase del modelo autenticable en la relación polimórfica.',
         'tokenable_id' => 'Id del modelo autenticable; no tiene FK SQL por ser una relación polimórfica.',
         'name' => 'Nombre del dispositivo o uso del token.',
-        'token' => 'Hash SHA-256 del token, de64 caracteres y único.',
+        'token' => 'Hash SHA-256 del token, de 64 caracteres y único.',
         'abilities' => 'Permisos serializados del token.',
         'last_used_at' => 'Último uso autenticado registrado por Sanctum.',
         'expires_at' => 'Caducidad opcional del token; indexada.',

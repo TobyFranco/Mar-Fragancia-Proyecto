@@ -1,6 +1,6 @@
 # Modelo entidad-relación de Mar Fragancias
 
-Fuente: 20 migraciones aplicadas e introspección MySQL8.0.46 de la misma base que el [diccionario](diccionario-de-datos.md). Se representan las14 tablas de negocio y sus15 FK reales; las8 tablas operativas se explican aparte en el diccionario. No se dibuja password_reset_tokens porque no existe.
+Fuente: 20 migraciones aplicadas e introspección MySQL 8.0.46 de la misma base que el [diccionario](diccionario-de-datos.md). Se representan las 14 tablas de negocio y sus 15 FK reales; las 8 tablas operativas se explican aparte en el diccionario. No se dibuja password_reset_tokens porque no existe.
 
 ## Nivel conceptual
 
@@ -199,7 +199,7 @@ erDiagram
 - pedido_estados y movimientos_inventario pueden no tener usuario auditor por sus FK nullable. Cada fila sí exige el pedido o la presentación correspondiente.
 - Cada presentación exige producto y tamaño; ambos pueden tener cero o muchas presentaciones. La base NO garantiza que el par producto/tamaño sea único.
 - Cada ítem exige pedido y presentación; la base permite un pedido sin ítems, aunque el checkout no lo genera. Del mismo modo, los pedidos históricos pueden no tener historial.
-- Producto y nota son muchos a muchos mediante nota_producto; cada fila de la asociación exige ambos. Solo esas dos FK tienen ON DELETE CASCADE. Las otras13 FK tienen ON DELETE/UPDATE NO ACTION. Ver nombres exactos en el diccionario.
+- Producto y nota son muchos a muchos mediante nota_producto; cada fila de la asociación exige ambos. Solo esas dos FK tienen ON DELETE CASCADE. Las otras 13 FK tienen ON DELETE/UPDATE NO ACTION. Ver nombres exactos en el diccionario.
 - Línea sólida: FK que participa de la PK compuesta de nota_producto (relación identificante). Línea discontinua: relación no identificante en tablas con PK propia id.
 
 Las relaciones polimórficas de personal_access_tokens y sessions.user_id no son FK SQL y no se añaden al DER de negocio. En particular, no se inventa una tabla users: la cuenta real está en usuarios.
