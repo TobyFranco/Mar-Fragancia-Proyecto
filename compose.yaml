@@ -7,6 +7,7 @@ services:
     working_dir: /var/www
     volumes:
     - ./src:/var/www
+    - ./docs:/var/docs
     depends_on:
       db:
         condition: service_healthy
