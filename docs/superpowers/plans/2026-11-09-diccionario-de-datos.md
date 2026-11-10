@@ -100,7 +100,7 @@ Así, si alguien agrega una columna y no la documenta, el test falla.
 ## Progreso de ejecución
 
 - [x] Tarea 1: comando docs:diccionario, descripciones explícitas y salida real de MySQL8.0.46. 22 tablas, 148 columnas, 15 FK. Rechaza SQLite antes de escribir (RED2→GREEN2). Suite320/2822 y Pint verdes. Montaje docs→/var/docs agregado solo a app-fpm porque el volumen previo incluía únicamente src; sin cambios de esquema/datos.
-- [ ] Tarea 2: DER conceptual/lógico y exportación.
+- [x] Tarea 2: DER conceptual y lógico,14 entidades/99 atributos/15 FK, cardinalidades por nullability y UQ. SVG real exportado con Mermaid CLI11.12.0, Node24.22.0. Ruta Node del plan ausente: se usó ~/.local/bin; Puppeteer requirió --no-sandbox solo para el archivo local. Suite320/2822 verde.
 - [ ] Tarea 3: evaluación de normalización.
 - [ ] Tarea 4: regresión de cobertura documental.
 - [ ] Tarea 5: README y cierre.
