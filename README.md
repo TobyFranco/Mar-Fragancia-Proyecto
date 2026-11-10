@@ -27,13 +27,19 @@ Proyecto de la materia **Programación IV**.
 - **Termómetro olfativo**: qué perfumes van con cada clima, con la temperatura real de Asunción.
 - Ingreso y registro de clientas.
 
-**Panel de administración** (Fase 2, en desarrollo)
+**Panel de administración** (Fase 2, terminada)
 
 - Dashboard con pedidos por confirmar, ventas del mes, decants más vendidos y stock crítico.
 - Productos con género, notas y precios por tamaño.
 - Pedidos con ciclo de estados (pendiente → confirmado → preparando → enviado → entregado) y descuento automático de stock al confirmar.
 - Inventario tipo kardex con cada entrada y salida.
 - Marcas, categorías y tamaños.
+
+**API REST v1**
+
+- Catálogo público: marcas, familias de aroma, productos con filtros y ficha con precio y stock por decant.
+- Login con token (Laravel Sanctum), consulta de pedidos propios con su historial de estados.
+- Administración: pedidos con el mismo ciclo de estados del panel, stock crítico y movimientos de kardex.
 
 ## Tecnologías
 
@@ -152,6 +158,16 @@ php artisan test --compact
 
 Los tests usan SQLite en memoria y no necesitan una base de datos configurada. El plan de pruebas de Auth y Catálogo, con cada caso trazado a su test automático, está en [`docs/pruebas/plan-de-pruebas-auth-catalogo.md`](docs/pruebas/plan-de-pruebas-auth-catalogo.md).
 
+## API REST
+
+Con el stack levantado, la API responde en `http://localhost/api/v1` a través de HAProxy. Ejemplo:
+
+```bash
+curl http://localhost/api/v1/productos/coromandel
+```
+
+Guía con todos los endpoints, autenticación y ejemplos: [`docs/api/README.md`](docs/api/README.md). Especificación OpenAPI 3.1: [`docs/api/openapi.yaml`](docs/api/openapi.yaml).
+
 ## Documentación
 
 | Documento | Ubicación |
@@ -161,6 +177,8 @@ Los tests usan SQLite en memoria y no necesitan una base de datos configurada. E
 | Maquetas aprobadas | [`docs/diseno/maquetas/diseno-final.html`](docs/diseno/maquetas/diseno-final.html) (abrir en el navegador) |
 | Plan de implementación · Fase 1 | [`docs/superpowers/plans/2026-10-18-fase-1-tienda-publica.md`](docs/superpowers/plans/2026-10-18-fase-1-tienda-publica.md) |
 | Plan de pruebas (PI-13) | [`docs/pruebas/plan-de-pruebas-auth-catalogo.md`](docs/pruebas/plan-de-pruebas-auth-catalogo.md) |
+| API REST v1 | [`docs/api/README.md`](docs/api/README.md) · [`openapi.yaml`](docs/api/openapi.yaml) |
+| Benchmark A vs B | [`docs/benchmark/informe-benchmark.md`](docs/benchmark/informe-benchmark.md) |
 
 ## Equipo
 

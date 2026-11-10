@@ -1,0 +1,517 @@
+openapi: 3.1.0
+info:
+  title: Mar Fragancias API
+  version: 1.0.0
+  description: >-
+    API REST de la tienda de decants Mar Fragancias. Expone el catálogo público,
+    la consulta de pedidos de cada clienta y la gestión de pedidos e inventario
+    para el rol administrador. Guía en español: docs/api/README.md.
+servers:
+  - url: http://localhost/api/v1
+    description: Stack Docker detrás de HAProxy
+tags:
+  - name: Catálogo
+  - name: Autenticación
+  - name: Mis pedidos
+  - name: Administración
+components:
+  securitySchemes:
+    token:
+      type: http
+      scheme: bearer
+      description: Token personal de Sanctum obtenido en /auth/login.
+  parameters:
+    page:
+      name: page
+      in: query
+      schema: { type: integer, minimum: 1, default: 1 }
+    pedidoId:
+      name: pedido
+      in: path
+      required: true
+      schema: { type: integer }
+  schemas:
+    Error:
+      type: object
+      properties:
+        message: { type: string }
+      required: [message]
+    ErrorValidacion:
+      type: object
+      properties:
+        message: { type: string }
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items: { type: string }
+      required: [message, errors]
+    Paginacion:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            first: { type: [string, 'null'] }
+            last: { type: [string, 'null'] }
+            prev: { type: [string, 'null'] }
+            next: { type: [string, 'null'] }
+        meta:
+          type: object
+          properties:
+            current_page: { type: integer }
+            from: { type: [integer, 'null'] }
+            last_page: { type: integer }
+            path: { type: string }
+            per_page: { type: integer }
+            to: { type: [integer, 'null'] }
+            total: { type: integer }
+    Marca:
+      type: object
+      properties:
+        id: { type: integer }
+        slug: { type: string, example: chanel }
+        nombre: { type: string, example: Chanel }
+        productos_visibles: { type: integer, example: 10 }
+    Categoria:
+      type: object
+      properties:
+        id: { type: integer }
+        nombre: { type: string, example: Oriental }
+    Presentacion:
+      type: object
+      properties:
+        id: { type: integer }
+        producto:
+          description: Solo en stock crítico.
+          type: object
+          properties:
+            id: { type: integer }
+            nombre: { type: string }
+        tamano: { type: string, enum: ['5 ml', '10 ml'] }
+        precio: { type: string, description: Guaraníes, example: '62000.00' }
+        stock: { type: integer, example: 12 }
+        disponible: { type: boolean }
+    Producto:
+      type: object
+      properties:
+        id: { type: integer }
+        slug: { type: string, example: coromandel }
+        nombre: { type: string, example: Coromandel }
+        descripcion: { type: [string, 'null'] }
+        genero: { type: string, enum: [mujer, hombre, unisex] }
+        marca: { $ref: '#/components/schemas/Marca' }
+        categoria: { $ref: '#/components/schemas/Categoria' }
+        notas:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: integer }
+              nombre: { type: string, example: vainilla }
+        imagen_url: { type: [string, 'null'], format: uri }
+        presentaciones:
+          type: array
+          items: { $ref: '#/components/schemas/Presentacion' }
+    Usuario:
+      type: object
+      properties:
+        id: { type: integer }
+        nombre: { type: string }
+        email: { type: string, format: email }
+        rol:
+          type: object
+          properties:
+            id: { type: integer }
+            nombre: { type: string, enum: [administrador, cliente] }
+        cliente:
+          type: [object, 'null']
+          properties:
+            id: { type: integer }
+            telefono: { type: [string, 'null'] }
+            direccion: { type: [string, 'null'] }
+    EstadoPedido:
+      type: string
+      enum: [pendiente, confirmado, preparando, enviado, entregado, cancelado]
+    Pedido:
+      type: object
+      properties:
+        id: { type: integer }
+        numero: { type: string }
+        estado: { $ref: '#/components/schemas/EstadoPedido' }
+        fecha: { type: string, format: date-time }
+        total: { type: string, example: '124000.00' }
+        subtotal: { type: string }
+        costo_envio: { type: string }
+        contacto:
+          description: Solo en el detalle.
+          type: object
+          properties:
+            nombre: { type: [string, 'null'] }
+            telefono: { type: [string, 'null'] }
+            email: { type: [string, 'null'] }
+            cedula: { type: [string, 'null'] }
+        entrega:
+          description: Solo en el detalle.
+          type: object
+          properties:
+            metodo: { type: [string, 'null'] }
+            ciudad: { type: [string, 'null'] }
+            barrio: { type: [string, 'null'] }
+            direccion: { type: [string, 'null'] }
+            referencia: { type: [string, 'null'] }
+            observacion: { type: [string, 'null'] }
+        items:
+          description: Solo en el detalle.
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: integer }
+              presentacion_id: { type: integer }
+              perfume: { type: string }
+              tamano: { type: string }
+              cantidad: { type: integer }
+              precio_unitario: { type: string }
+              subtotal: { type: string }
+        historial:
+          description: Solo en el detalle.
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: integer }
+              estado: { $ref: '#/components/schemas/EstadoPedido' }
+              fecha: { type: [string, 'null'], format: date-time }
+    Movimiento:
+      type: object
+      properties:
+        id: { type: integer }
+        presentacion_id: { type: integer }
+        tipo: { type: string, enum: [entrada, salida] }
+        cantidad: { type: integer }
+        motivo: { type: string }
+        stock_resultante: { type: integer }
+        usuario_id: { type: [integer, 'null'] }
+        fecha: { type: string, format: date-time }
+  responses:
+    NoAutenticado:
+      description: Falta el token o no es válido.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Prohibido:
+      description: El usuario no tiene el rol necesario.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NoEncontrado:
+      description: Recurso no encontrado.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+          example: { message: Recurso no encontrado. }
+    Invalido:
+      description: Error de validación o regla de negocio.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorValidacion' }
+    DemasiadasSolicitudes:
+      description: Se superó el límite de uso.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+paths:
+  /marcas:
+    get:
+      tags: [Catálogo]
+      summary: Marcas con cantidad de productos visibles
+      parameters: [{ $ref: '#/components/parameters/page' }]
+      responses:
+        '200':
+          description: Listado paginado.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Paginacion'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Marca' }
+  /categorias:
+    get:
+      tags: [Catálogo]
+      summary: Familias de aroma
+      parameters: [{ $ref: '#/components/parameters/page' }]
+      responses:
+        '200':
+          description: Listado paginado.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Paginacion'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Categoria' }
+  /productos:
+    get:
+      tags: [Catálogo]
+      summary: Productos visibles con filtros
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - { name: marca, in: query, schema: { type: string }, description: Slug de la marca }
+        - { name: genero, in: query, schema: { type: string, enum: [mujer, hombre, unisex] } }
+        - { name: categoria, in: query, schema: { type: integer }, description: ID de la familia de aroma }
+        - { name: tamano, in: query, schema: { type: string, enum: ['5', '10'] }, description: Solo con stock en ese decant }
+        - { name: q, in: query, schema: { type: string }, description: 'Búsqueda en nombre, marca y notas, sin tildes' }
+      responses:
+        '200':
+          description: Listado paginado.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Paginacion'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Producto' }
+        '422': { $ref: '#/components/responses/Invalido' }
+  /productos/{slug}:
+    get:
+      tags: [Catálogo]
+      summary: Ficha de un producto
+      parameters:
+        - { name: slug, in: path, required: true, schema: { type: string }, example: coromandel }
+      responses:
+        '200':
+          description: Producto.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Producto' }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+  /auth/login:
+    post:
+      tags: [Autenticación]
+      summary: Obtener un token personal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, device_name]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+                device_name: { type: string, maxLength: 100 }
+      responses:
+        '200':
+          description: Token y usuario.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { type: string }
+                  usuario: { $ref: '#/components/schemas/Usuario' }
+        '422': { $ref: '#/components/responses/Invalido' }
+        '429': { $ref: '#/components/responses/DemasiadasSolicitudes' }
+  /auth/me:
+    get:
+      tags: [Autenticación]
+      summary: Usuario del token
+      security: [{ token: [] }]
+      responses:
+        '200':
+          description: Usuario.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Usuario' }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+  /auth/logout:
+    post:
+      tags: [Autenticación]
+      summary: Revocar el token actual
+      security: [{ token: [] }]
+      responses:
+        '200':
+          description: Token revocado.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+              example: { message: Token revocado. }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+  /mis-pedidos:
+    get:
+      tags: [Mis pedidos]
+      summary: Pedidos de la usuaria autenticada
+      security: [{ token: [] }]
+      parameters: [{ $ref: '#/components/parameters/page' }]
+      responses:
+        '200':
+          description: Listado paginado, del más nuevo al más viejo.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Paginacion'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Pedido' }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+  /mis-pedidos/{pedido}:
+    get:
+      tags: [Mis pedidos]
+      summary: Detalle de un pedido propio
+      security: [{ token: [] }]
+      parameters: [{ $ref: '#/components/parameters/pedidoId' }]
+      responses:
+        '200':
+          description: Pedido con ítems e historial.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Pedido' }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+  /admin/pedidos:
+    get:
+      tags: [Administración]
+      summary: Todos los pedidos
+      security: [{ token: [] }]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - { name: estado, in: query, schema: { $ref: '#/components/schemas/EstadoPedido' } }
+      responses:
+        '200':
+          description: Listado paginado.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Paginacion'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Pedido' }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '403': { $ref: '#/components/responses/Prohibido' }
+        '422': { $ref: '#/components/responses/Invalido' }
+  /admin/pedidos/{pedido}:
+    get:
+      tags: [Administración]
+      summary: Detalle de un pedido
+      security: [{ token: [] }]
+      parameters: [{ $ref: '#/components/parameters/pedidoId' }]
+      responses:
+        '200':
+          description: Pedido con ítems e historial.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Pedido' }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '403': { $ref: '#/components/responses/Prohibido' }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+  /admin/pedidos/{pedido}/estado:
+    patch:
+      tags: [Administración]
+      summary: Cambiar el estado de un pedido
+      description: >-
+        Mismas reglas que el panel web. Transiciones: pendiente → confirmado|cancelado;
+        confirmado → preparando|cancelado; preparando → enviado|cancelado; enviado → entregado.
+        Al confirmar descuenta stock; al cancelar un pedido confirmado o en preparación lo devuelve.
+      security: [{ token: [] }]
+      parameters: [{ $ref: '#/components/parameters/pedidoId' }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [estado]
+              properties:
+                estado: { $ref: '#/components/schemas/EstadoPedido' }
+      responses:
+        '200':
+          description: Pedido actualizado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Pedido' }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '403': { $ref: '#/components/responses/Prohibido' }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+        '422': { $ref: '#/components/responses/Invalido' }
+  /admin/inventario/stock-critico:
+    get:
+      tags: [Administración]
+      summary: Decants activos con 3 unidades o menos
+      security: [{ token: [] }]
+      parameters: [{ $ref: '#/components/parameters/page' }]
+      responses:
+        '200':
+          description: Listado paginado.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Paginacion'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Presentacion' }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '403': { $ref: '#/components/responses/Prohibido' }
+  /admin/inventario/movimientos:
+    post:
+      tags: [Administración]
+      summary: Registrar una entrada o salida en el kardex
+      security: [{ token: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [presentacion_id, tipo, cantidad, motivo]
+              properties:
+                presentacion_id: { type: integer }
+                tipo: { type: string, enum: [entrada, salida] }
+                cantidad: { type: integer, minimum: 1 }
+                motivo: { type: string, maxLength: 255 }
+      responses:
+        '201':
+          description: Movimiento registrado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Movimiento' }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '403': { $ref: '#/components/responses/Prohibido' }
+        '422': { $ref: '#/components/responses/Invalido' }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\StockFueraDeRango;
 use App\Exceptions\StockInsuficiente;
 use App\Models\MovimientoInventario;
 use App\Models\ProductoPresentacion;
@@ -12,6 +13,9 @@ use InvalidArgumentException;
 
 class Inventario
 {
+    /** Máximo de la columna producto_presentacion.stock (INT con signo). */
+    public const STOCK_MAXIMO = 2147483647;
+
     public function registrar(ProductoPresentacion $p, string $tipo, int $cantidad, string $motivo, ?Usuario $usuario = null): MovimientoInventario
     {
         if (! in_array($tipo, ['entrada', 'salida'], true)) {
@@ -28,6 +32,9 @@ class Inventario
             $presentacion = ProductoPresentacion::whereKey($p->id)->lockForUpdate()->firstOrFail();
             if ($tipo === 'salida' && $presentacion->stock < $cantidad) {
                 throw new StockInsuficiente($presentacion, $presentacion->stock);
+            }
+            if ($tipo === 'entrada' && $cantidad > self::STOCK_MAXIMO - $presentacion->stock) {
+                throw new StockFueraDeRango($presentacion, self::STOCK_MAXIMO);
             }
             $presentacion->stock += $tipo === 'entrada' ? $cantidad : -$cantidad;
             $presentacion->save();

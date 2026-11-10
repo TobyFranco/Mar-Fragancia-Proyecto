@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\StockFueraDeRango;
 use App\Exceptions\StockInsuficiente;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MovimientoInventarioRequest;
 use App\Models\MovimientoInventario;
 use App\Models\Producto;
 use App\Models\ProductoPresentacion;
-use App\Models\Tamano;
 use App\Services\Inventario;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -38,20 +39,15 @@ class InventarioController extends Controller
         return view('admin.inventario.create', ['presentaciones' => ProductoPresentacion::with(['producto', 'tamano'])->whereHas('tamano', fn ($q) => $q->whereIn('nombre', ['5 ml', '10 ml']))->get()->sortBy(fn ($p) => $p->producto->nombre.' '.$p->tamano->nombre)]);
     }
 
-    public function store(Request $request, Inventario $inventario): RedirectResponse
+    public function store(MovimientoInventarioRequest $request, Inventario $inventario): RedirectResponse
     {
-        $datos = $request->validate([
-            'presentacion_id' => ['required', 'integer', Rule::exists('producto_presentacion', 'id')->whereIn('tamano_id', Tamano::whereIn('nombre', ['5 ml', '10 ml'])->select('id'))],
-            'tipo' => ['required', Rule::in(['entrada', 'salida'])],
-            'cantidad' => ['required', 'integer', 'min:1', 'max:2147483647'],
-            'motivo' => ['required', 'string', 'max:255'],
-        ], ['required' => 'Completá :attribute.', 'integer' => 'La cantidad debe ser un entero.', 'cantidad.min' => 'La cantidad debe ser mayor que cero.', 'in' => 'Elegí un tipo válido.', 'motivo.required' => 'Escribí el motivo del movimiento.']);
+        $datos = $request->validated();
         try {
             $inventario->registrar(ProductoPresentacion::findOrFail($datos['presentacion_id']), $datos['tipo'], (int) $datos['cantidad'], $datos['motivo'], $request->user());
-        } catch (StockInsuficiente $e) {
+        } catch (StockInsuficiente|StockFueraDeRango $e) {
             return to_route('admin.inventario.create')->withInput()->withErrors(['cantidad' => $e->getMessage()]);
         }
 
-        return to_route('admin.inventario.index')->with('success','Movimiento registrado.');
+        return to_route('admin.inventario.index')->with('success', 'Movimiento registrado.');
     }
 }
