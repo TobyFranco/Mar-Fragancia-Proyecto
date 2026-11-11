@@ -27,6 +27,12 @@ Proyecto de la materia **Programación IV**.
 - **Termómetro olfativo**: qué perfumes van con cada clima, con la temperatura real de Asunción.
 - Ingreso y registro de clientas.
 
+**Área de cliente**
+
+- Mi cuenta con datos personales y accesos.
+- Mis datos: edición de nombre, teléfono y dirección.
+- Mis pedidos con enlace al detalle.
+
 **Panel de administración** (Fase 2, terminada)
 
 - Dashboard con pedidos por confirmar, ventas del mes, decants más vendidos y stock crítico.
@@ -145,9 +151,15 @@ Resultado: con los mismos 20 procesos PHP, Nginx + PHP-FPM es entre 5 y 8 % más
 
 ### Portainer
 
-`compose.yaml` se puede desplegar como **Stack desde el repositorio Git** en Portainer sobre Docker Standalone: **Stacks → Add stack → Git Repository**, seleccionar la referencia revisada y usar `compose.yaml` como Compose path. Configurar allí `HAPROXY_STATS_PASSWORD`.
+En Portainer CE elegí **Stacks → Add stack → Git Repository**, seleccioná la referencia deseada y usá `compose.yaml` como Compose path. Las imágenes se construyen desde el repositorio, sin preparar archivos en el host.
 
-Este stack necesita construir la imagen PHP y montar archivos del repositorio, incluido el `.env` de Laravel y sus dependencias inicializadas. Hay que preparar esos archivos y resolver los bind mounts en el host Docker: la función automática **Relative path volumes** es de Business Edition; en otras instalaciones se deben adaptar/preparar las rutas del host. No alcanza con pegar el YAML en el editor. Ver la [guía oficial de Stacks desde Git y volúmenes relativos](https://docs.portainer.io/user/docker/stacks/add#option-3-git-repository). El despliegue real en Portainer queda pendiente de verificar.
+Configurá las variables del Stack: `APP_KEY` (obligatoria y persistente), `APP_URL`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `DB_ROOT_PASSWORD` y `HAPROXY_STATS_PASSWORD`. Generá la clave una sola vez y guardala:
+
+```bash
+docker run --rm php:8.4-cli php -r "echo 'base64:'.base64_encode(random_bytes(32)).PHP_EOL;"
+```
+
+Los puertos pueden cambiarse con `HTTP_PORT` (80), `HTTP_ALT_PORT` (8000), `STATS_PORT` (8404) y `DB_PORT_HOST` (3306). Tras desplegar, verificá `/up` y los dos nodos disponibles en Stats (puerto 8404, usuario `admin`). La base nueva recibe los datos iniciales automáticamente; conservá los volúmenes y la clave al actualizar el Stack.
 
 ## Pruebas
 

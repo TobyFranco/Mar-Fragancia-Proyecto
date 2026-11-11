@@ -1,0 +1,36 @@
+<?php
+
+namespace Tests\Feature\Infraestructura;
+
+use Symfony\Component\Process\Process;
+use Tests\TestCase;
+
+class PortainerTest extends TestCase
+{
+    public function test_compose_de_portainer_no_depende_de_archivos_del_host(): void
+    {
+        $compose = file_get_contents(base_path('../compose.yaml'));
+        $this->assertStringNotContainsString('./src:', $compose);
+        $this->assertStringNotContainsString('./docker/', $compose);
+        $this->assertStringContainsString('storage_data:/var/www/storage', $compose);
+        $this->assertStringContainsString('${APP_KEY', $compose);
+        $this->assertStringNotContainsString('container_name:', $compose);
+        $this->assertStringContainsString('./src:/var/www', file_get_contents(base_path('../compose.override.yaml')));
+    }
+
+    public function test_comandos_cli_no_requieren_clave_del_stack(): void
+    {
+        $proceso = new Process(['sh', base_path('../docker/php/entrypoint.sh'), 'php', '-r', 'echo "cli-ok";'], base_path(), ['APP_KEY' => '']);
+        $proceso->run();
+        $this->assertTrue($proceso->isSuccessful(), $proceso->getErrorOutput());
+        $this->assertSame('cli-ok', $proceso->getOutput());
+    }
+
+    public function test_ambas_imagenes_php_habilitan_jpeg_y_freetype(): void
+    {
+        foreach (['php', 'apache'] as $imagen) {
+            $dockerfile = file_get_contents(base_path('../docker/'.$imagen.'/Dockerfile'));
+            $this->assertStringContainsString('docker-php-ext-configure gd --with-jpeg --with-freetype', $dockerfile);
+        }
+    }
+}

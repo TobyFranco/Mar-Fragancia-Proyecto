@@ -1,0 +1,12 @@
+.git
+src/.env
+src/.env.*
+!src/.env.example
+src/vendor
+src/node_modules
+src/public/build
+src/public/storage
+src/public/hot
+src/bootstrap/cache/*.php
+
+src/storage

@@ -6,33 +6,42 @@ services:
     restart: unless-stopped
     working_dir: /var/www
     volumes:
-    - ./src:/var/www
-    - ./docs:/var/docs
+      - storage_data:/var/www/storage
     depends_on:
       db:
         condition: service_healthy
-    environment:
+    environment: &app_environment
+      APP_KEY: ${APP_KEY:-}
+      APP_URL: ${APP_URL:-http://localhost:8000}
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
-      DB_DATABASE: mar_fragancia
-      DB_USERNAME: laravel
-      DB_PASSWORD: password
+      DB_DATABASE: ${DB_DATABASE:-mar_fragancia}
+      DB_USERNAME: ${DB_USERNAME:-laravel}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
       SESSION_DRIVER: database
       CACHE_STORE: database
       APP_NODE: nginx-php-fpm
+    healthcheck:
+      test: [CMD-SHELL, 'test -f /tmp/mar-ready && kill -0 1']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
   web-nginx:
-    image: nginx:alpine
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
     hostname: nginx-php-fpm
     restart: unless-stopped
     environment:
       PHP_UPSTREAM: app-fpm
       NGINX_ENVSUBST_FILTER: ^PHP_UPSTREAM$$
     volumes:
-    - ./src:/var/www:ro
-    - ./docker/nginx/templates:/etc/nginx/templates:ro
+      - storage_data:/var/www/storage:ro
     depends_on:
-    - app-fpm
+      app-fpm:
+        condition: service_healthy
   apache-php:
     build:
       context: .
@@ -40,63 +49,48 @@ services:
     restart: unless-stopped
     working_dir: /var/www
     volumes:
-    - ./src:/var/www
+      - storage_data:/var/www/storage
     depends_on:
-      db:
+      app-fpm:
         condition: service_healthy
     environment:
-      DB_CONNECTION: mysql
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_DATABASE: mar_fragancia
-      DB_USERNAME: laravel
-      DB_PASSWORD: password
-      SESSION_DRIVER: database
-      CACHE_STORE: database
+      <<: *app_environment
       APP_NODE: apache-mod-php
   haproxy:
-    image: haproxy:2.9-alpine
+    build:
+      context: .
+      dockerfile: docker/haproxy/Dockerfile
     restart: unless-stopped
     ports:
-    - 80:80
-    - 8000:80
-    - 8404:8404
+      - ${HTTP_PORT:-80}:80
+      - ${HTTP_ALT_PORT:-8000}:80
+      - ${STATS_PORT:-8404}:8404
     environment:
       HAPROXY_STATS_PASSWORD: ${HAPROXY_STATS_PASSWORD:-marfragancias-demo}
-    volumes:
-    - ./docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
-    - web-nginx
-    - apache-php
+      - web-nginx
+      - apache-php
   benchmark:
     image: httpd:2.4.65-alpine
     profiles: [benchmark]
     entrypoint: [ab]
   db:
     image: mysql:8.0
-    container_name: mar_fragancia_db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: mar_fragancia
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: ${DB_DATABASE:-mar_fragancia}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MYSQL_USER: ${DB_USERNAME:-laravel}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-password}
     ports:
-    - 3306:3306
+      - ${DB_PORT_HOST:-3306}:3306
     volumes:
-    - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
     healthcheck:
-      test:
-      - CMD
-      - mysqladmin
-      - ping
-      - -h
-      - localhost
-      - -u
-      - root
-      - -proot
+      test: [CMD-SHELL, 'mysqladmin ping -h localhost -u root -p"$$MYSQL_ROOT_PASSWORD"']
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
 volumes:
-  db_data: null
+  db_data:
+  storage_data:

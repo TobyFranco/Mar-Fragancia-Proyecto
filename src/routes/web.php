@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\InventarioController;
 use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TamanoController;
 use App\Http\Controllers\Tienda\BusquedaController;
@@ -59,7 +60,8 @@ Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->name('admin.'
 
 // Área cliente
 Route::middleware(['auth', 'rol:cliente'])->prefix('cliente')->group(function () {
-    Route::get('/home', function () {
-        return view('cliente.home');
-    })->name('cliente.home');
+    Route::get('/home', [ClienteController::class, 'home'])->name('cliente.home');
+    Route::get('/datos', [ClienteController::class, 'datos'])->name('cliente.datos');
+    Route::put('/datos', [ClienteController::class, 'actualizar'])->name('cliente.datos.actualizar');
+    Route::get('/pedidos', [ClienteController::class, 'pedidos'])->name('cliente.pedidos');
 });

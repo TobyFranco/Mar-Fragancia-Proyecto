@@ -1,0 +1,25 @@
+services:
+  app-fpm:
+    entrypoint: [docker-php-entrypoint]
+    volumes:
+      - ./src:/var/www
+      - ./src/storage:/var/www/storage
+      - ./docs:/var/docs
+    environment:
+      APP_KEY: null
+      APP_URL: null
+    healthcheck:
+      test: [CMD-SHELL, 'php-fpm -t']
+  web-nginx:
+    volumes:
+      - ./src:/var/www:ro
+      - ./src/storage:/var/www/storage:ro
+      - ./docker/nginx/templates:/etc/nginx/templates:ro
+  apache-php:
+    entrypoint: [docker-php-entrypoint]
+    volumes:
+      - ./src:/var/www
+      - ./src/storage:/var/www/storage
+  haproxy:
+    volumes:
+      - ./docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro

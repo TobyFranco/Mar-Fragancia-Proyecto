@@ -11,7 +11,7 @@
         <a href="{{ route('tienda.inicio') }}" class="logo-link" aria-label="Mar Fragancias, inicio"><img src="{{ asset('images/logo-mf.png') }}" alt="Mar Fragancias" width="140" height="56"></a>
         <div class="header-icons">
             <a href="{{ url('/buscar') }}" class="icon-button desktop-search" aria-label="Buscar perfumes"><x-phosphor-magnifying-glass-light aria-hidden="true" /></a>
-            <a href="{{ route('login') }}" class="icon-button account-link" aria-label="Mi cuenta"><x-phosphor-user-light aria-hidden="true" /></a>
+            <a href="{{ route(auth()->user()?->rol?->nombre === 'cliente' ? 'cliente.home' : 'login') }}" class="icon-button account-link" aria-label="Mi cuenta"><x-phosphor-user-light aria-hidden="true" /></a>
             <a href="{{ url('/carrito') }}" class="icon-button cart-link" aria-label="Carrito, {{ $unidadesCarrito }} unidades"><x-phosphor-handbag-light aria-hidden="true" /><span class="cart-count">{{ $unidadesCarrito }}</span></a>
         </div>
     </div>
