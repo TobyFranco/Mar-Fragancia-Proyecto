@@ -2,64 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
+use App\Http\Requests\DatosClienteRequest;
+use App\Models\Pedido;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ClienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function home(Request $request): View
     {
-        //
+        return view('cliente.home', ['usuario' => $request->user()]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function datos(Request $request): View
     {
-        //
+        return view('cliente.datos', ['usuario' => $request->user()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function actualizar(DatosClienteRequest $request): RedirectResponse
     {
-        //
+        $datos = $request->validated();
+        $usuario = $request->user();
+        $usuario->update(['nombre' => $datos['nombre']]);
+        $usuario->cliente()->firstOrCreate()->update(['telefono' => $datos['telefono'] ?? null, 'direccion' => $datos['direccion'] ?? null]);
+
+        return redirect()->route('cliente.datos')->with('estado', 'Tus datos se guardaron.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cliente $cliente)
+    public function pedidos(Request $request): View
     {
-        //
-    }
+        $pedidos = Pedido::whereHas('cliente', fn ($q) => $q->where('usuario_id', $request->user()->id))
+            ->orderByDesc('fecha')->orderByDesc('id')->paginate(15);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cliente $cliente)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cliente $cliente)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cliente $cliente)
-    {
-        //
+        return view('cliente.pedidos', compact('pedidos'));
     }
 }

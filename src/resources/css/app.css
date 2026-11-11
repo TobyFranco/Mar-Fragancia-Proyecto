@@ -624,3 +624,22 @@
 }
 @layer components { .admin-in { color: var(--color-sage); font-weight: 600; } }
 @layer components { .admin-brand-preview { width: 220px; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; } }
+
+@layer components {
+    .account-page { padding-block: 48px 80px; max-width: 1000px; }
+    .account-page h1 { margin-block: 16px; }
+    .account-content { display: grid; gap: 32px; margin-top: 32px; }
+    .account-details { margin-top: 20px; }
+    .account-details div { padding-block: 12px; border-bottom: 1px solid var(--color-line); }
+    .account-details dt { color: var(--color-ink-soft); font-size: .875rem; }
+    .account-details dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+    .account-nav, .account-form { display: grid; align-content: start; gap: 16px; }
+    .account-form { max-width: 540px; margin-top: 32px; }
+    .account-form .button { justify-self: start; }
+    .account-order { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding-block: 20px; border-bottom: 1px solid var(--color-line); }
+    .account-pagination { margin-top: 24px; }
+    @media (min-width: 700px) {
+        .account-content { grid-template-columns: 2fr 1fr; }
+        .account-order { grid-template-columns: 2fr 1fr 1fr auto; }
+    }
+}

@@ -27,6 +27,12 @@ Proyecto de la materia **Programación IV**.
 - **Termómetro olfativo**: qué perfumes van con cada clima, con la temperatura real de Asunción.
 - Ingreso y registro de clientas.
 
+**Área de cliente**
+
+- Mi cuenta con datos personales y accesos.
+- Mis datos: edición de nombre, teléfono y dirección.
+- Mis pedidos con enlace al detalle.
+
 **Panel de administración** (Fase 2, terminada)
 
 - Dashboard con pedidos por confirmar, ventas del mes, decants más vendidos y stock crítico.
