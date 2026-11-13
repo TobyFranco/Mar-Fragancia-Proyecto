@@ -1,5 +1,5 @@
 <x-admin.layout title="Dashboard">
-    <header class="admin-top"><h1>Hola, {{ auth()->user()->nombre }}</h1><p class="admin-muted">{{ now()->setTimezone('America/Asuncion')->locale('es')->translatedFormat('l j \d\e F') }}</p></header>
+    <header class="admin-top"><h1>Hola, Admin</h1><p class="admin-muted">{{ now()->setTimezone('America/Asuncion')->locale('es')->translatedFormat('l j \d\e F') }}</p></header>
     <div class="admin-kpis">
         <section class="admin-kpi"><h2>Pedidos por confirmar</h2><strong>{{ $pendientes }}</strong><p>{{ $pendiente_mas_viejo ? 'El más viejo: '.$pendiente_mas_viejo->locale('es')->diffForHumans() : 'No hay pedidos pendientes' }}</p></section>
         <section class="admin-kpi"><h2>Ventas del mes</h2><strong>{{ \App\Support\Moneda::gs($ventas_mes) }}</strong><p>{{ $pedidos_mes }} pedidos</p></section>
