@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Infraestructura;
 
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Tests\TestCase;
 
@@ -20,10 +21,27 @@ class PortainerTest extends TestCase
 
     public function test_comandos_cli_no_requieren_clave_del_stack(): void
     {
-        $proceso = new Process(['sh', base_path('../docker/php/entrypoint.sh'), 'php', '-r', 'echo "cli-ok";'], base_path(), ['APP_KEY' => '']);
-        $proceso->run();
-        $this->assertTrue($proceso->isSuccessful(), $proceso->getErrorOutput());
-        $this->assertSame('cli-ok', $proceso->getOutput());
+        $dir = sys_get_temp_dir().'/mar-portainer-'.bin2hex(random_bytes(8));
+        mkdir($dir, 0700);
+
+        try {
+            file_put_contents($dir.'/docker-php-entrypoint', <<<'SH'
+#!/bin/sh
+exec "$@"
+SH);
+            chmod($dir.'/docker-php-entrypoint', 0700);
+
+            $proceso = new Process(['sh', base_path('../docker/php/entrypoint.sh'), 'php', '-r', 'echo "cli-ok";'], base_path(), [
+                'APP_KEY' => '',
+                'PATH' => $dir.':'.getenv('PATH'),
+            ]);
+            $proceso->run();
+
+            $this->assertTrue($proceso->isSuccessful(), $proceso->getErrorOutput());
+            $this->assertSame('cli-ok', $proceso->getOutput());
+        } finally {
+            (new Filesystem)->deleteDirectory($dir);
+        }
     }
 
     public function test_ambas_imagenes_php_habilitan_jpeg_y_freetype(): void
