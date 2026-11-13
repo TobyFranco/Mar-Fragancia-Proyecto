@@ -15,7 +15,7 @@
 
 **Mar Fragancias** vende decants de perfumes originales, sobre todo de casas de lujo, para que cada clienta pueda probar y usar fragancias caras pagando solo lo que va a usar. Hoy la venta se hace a mano por Instagram y WhatsApp. Este sistema centraliza el catálogo, el stock y los pedidos, y cierra cada compra por WhatsApp con el pedido ya armado.
 
-Proyecto de la materia **Programación IV** · Entrega final: **27/11/2026**.
+Proyecto de la materia **Programación IV** · Entrega final: **13/11/2026**.
 
 Para evaluar la entrega, comenzar por [Entregables del proyecto](#entregables-del-proyecto) y seguir la [puesta en marcha con Docker](#puesta-en-marcha).
 

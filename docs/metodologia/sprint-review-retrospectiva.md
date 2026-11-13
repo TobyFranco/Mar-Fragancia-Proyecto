@@ -1,6 +1,6 @@
 # PI-26 · Sprint Review y retrospectiva final
 
-Avance 4 de Programación IV · Entrega prevista: **27/11/2026**.
+Avance 4 de Programación IV · Entrega final: **13/11/2026**.
 
 **Nota:** Actualizado en PI-28 sobre `main` con PI-27 integrado (#11), al 12/11/2026. Las actas del equipo se suman en la sección 4.
 
@@ -90,7 +90,7 @@ La tabla reúne los entregables del calendario del PDF, su estado y la evidencia
 | 3 | Demostración de failover en vivo | Implementado; script y corrida documentados | [Demo reproducible](../../docker/scripts/demo-failover.sh), [resultado de failover](../benchmark/resultados/haproxy-failover.txt), [informe](../benchmark/informe-benchmark.md); PR #3 y #4 | [PI-20](https://marfragancias.atlassian.net/browse/PI-20) |
 | 4 | Cierre metodológico: Review/Retrospective final o métricas de flujo | Pendiente de cierre; documento elaborado | Este documento y plantilla de actas de la sección 4 | [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 | 4 | Benchmarking: RPS y latencia A vs B | Documentado con resultados y limitaciones | [Informe](../benchmark/informe-benchmark.md), [CSV](../benchmark/resultados.csv), [script](../../docker/scripts/benchmark.sh); PR #4 | [PI-21](https://marfragancias.atlassian.net/browse/PI-21) |
-| 4 | HAProxy Stats en 8404 con tráfico real | Ensayo real documentado e integrado (#11); presentación final prevista el 27/11 | [Guion y registro PI-27](../demo/guion-demo-avance4.md#registro-del-ensayo-real), [resumen](../demo/ensayo-2026-11-12/resumen.json), cuatro CSV y comprobación del carrito enlazados allí | [PI-27](https://marfragancias.atlassian.net/browse/PI-27) |
+| 4 | HAProxy Stats en 8404 con tráfico real | Ensayo real documentado e integrado (#11); presentación final el 13/11 | [Guion y registro PI-27](../demo/guion-demo-avance4.md#registro-del-ensayo-real), [resumen](../demo/ensayo-2026-11-12/resumen.json), cuatro CSV y comprobación del carrito enlazados allí | [PI-27](https://marfragancias.atlassian.net/browse/PI-27) |
 | 4 | Repositorio Git y documentación técnica/metodológica completa | Índice de documentación preparado en PI-28; evidencias externas pendientes del equipo | [Entregables del README](../../README.md#entregables-del-proyecto), [documentación API](../api/README.md), datos, pruebas, benchmark y este documento | [PI-28](https://marfragancias.atlassian.net/browse/PI-28), [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 
 Otros requisitos del cuerpo del PDF cuentan con evidencia: la [evaluación de normalización](../datos/normalizacion.md) documenta 3FN y explicita dos excepciones deliberadas, `detalle_pedidos.subtotal` y `pedidos.total` (PR #6); la [API REST](../api/README.md) y su [OpenAPI](../api/openapi.yaml) describen endpoints y autenticación Sanctum (PR #5); los roles actuales se registran en la sección 1 y en el README (PR #9). Las [maquetas](../diseno/maquetas/diseno-final.html) y el [plan de pruebas Auth/Catálogo](../pruebas/plan-de-pruebas-auth-catalogo.md) trazan PI-12 y PI-13. El resultado de tests registrado abajo corresponde a una ejecución local.
@@ -163,7 +163,7 @@ La retrospectiva reúne resultados observables y propuestas de mejora para acord
 |---|---|---|
 | Los planes técnicos y el seguimiento de Jira se complementan con las actas del equipo | Reunir actas y exportaciones de Jira con objetivos, criterios de aceptación y resultados de cada sprint | Registro de ceremonias completado con fuentes y Sprint Backlogs enlazados |
 | El informe conserva una comparación A/B reproducible | Ampliar las mediciones y los escenarios de uso sobre el stack desplegado | Nuevas salidas crudas y registro del entorno y los resultados |
-| PI-27 conserva un ensayo de Stats, failover y carrito | Usar el guion integrado para preparar la presentación del 27/11 | [Ensayo real](../demo/guion-demo-avance4.md#registro-del-ensayo-real) y ambos nodos UP antes de presentar |
+| PI-27 conserva un ensayo de Stats, failover y carrito | Usar el guion integrado para preparar la presentación del 13/11 | [Ensayo real](../demo/guion-demo-avance4.md#registro-del-ensayo-real) y ambos nodos UP antes de presentar |
 | Los tests de seeder y CLI necesitaron ajustes en el PR #8 | Al cambiar datos de ejemplo o infraestructura, revisar las expectativas y dependencias externas de los tests afectados | Suite completa aprobada y dependencias aisladas en los tests |
 
 > **[Completar por el equipo]: Añadir opiniones sobre aciertos y dificultades; acordar acciones, responsables y plazos.**

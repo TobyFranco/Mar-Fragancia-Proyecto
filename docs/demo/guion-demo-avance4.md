@@ -1,6 +1,6 @@
 # PI-27 · Guion de demo en vivo del Avance 4
 
-Entrega: **27/11/2026** · Duración prevista: **9 minutos**.
+Entrega: **13/11/2026** · Duración prevista: **9 minutos**.
 
 Objetivo: mostrar tráfico HTTP real, reparto entre las arquitecturas A y B, continuidad del carrito y caída/recuperación de un nodo en HAProxy Stats. El cierre usa el [benchmark existente](../benchmark/informe-benchmark.md); durante la presentación se genera tráfico moderado, sin repetir sus mediciones.
 
