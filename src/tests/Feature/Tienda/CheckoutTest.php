@@ -23,7 +23,7 @@ class CheckoutTest extends TestCase
         [$a, $b] = $this->carrito();
         $respuesta = $this->post('/checkout', [...$this->datos(), 'total' => 1, 'estado' => 'confirmado', 'cliente_id' => 999]);
         $respuesta->assertRedirect()->assertSessionMissing('carrito')->assertSessionMissing('carrito_ultimo');
-        $this->assertStringStartsWith('https://wa.me/595900000000?text=', $respuesta->headers->get('Location'));
+        $this->assertStringStartsWith('https://wa.me/595993608515?text=', $respuesta->headers->get('Location'));
         $p = Pedido::with('detalles')->sole();
         $this->assertSame('MF-0001', $p->numero);
         $this->assertDatabaseHas('pedidos', ['id' => $p->id, 'estado' => 'pendiente', 'cliente_id' => null, 'subtotal' => 124000, 'costo_envio' => 20000, 'total' => 144000]);
@@ -170,7 +170,7 @@ class CheckoutTest extends TestCase
         $this->carrito();
         $this->post('/checkout', $this->datos());
         $p = Pedido::sole();
-        $this->get('/pedido/'.$p->numero)->assertOk()->assertSeeText([$p->numero, 'Abrir WhatsApp de nuevo', '₲ 144.000'])->assertSee('https://wa.me/595900000000?text=', false);
+        $this->get('/pedido/'.$p->numero)->assertOk()->assertSeeText([$p->numero, 'Abrir WhatsApp de nuevo', '₲ 144.000'])->assertSee('https://wa.me/595993608515?text=', false);
         $this->get('/carrito')->assertOk()->assertSeeText(['Tu carrito está vacío', 'Volver a mi pedido '.$p->numero]);
     }
 

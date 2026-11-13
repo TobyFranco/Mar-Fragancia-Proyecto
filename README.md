@@ -123,7 +123,7 @@ Conservar `src/.env`, su `APP_KEY` y el volumen MySQL al actualizar. Los datos i
 Datos opcionales en `src/.env`:
 
 ```dotenv
-TIENDA_WHATSAPP=595981000000
+TIENDA_WHATSAPP=595993608515
 TIENDA_ENVIO_ASUNCION=20000
 ```
 
