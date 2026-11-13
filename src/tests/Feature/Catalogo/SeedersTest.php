@@ -92,8 +92,8 @@ class SeedersTest extends TestCase
         $this->seed();
 
         $this->assertSame(['administrador', 'cliente'], Rol::orderBy('nombre')->pluck('nombre')->all());
-        $this->assertSame(['admin@marfragancia.com', 'mariapaz@example.com', 'jose@example.com'], Usuario::orderBy('id')->pluck('email')->all());
+        $this->assertSame(['admin@marfragancia.com', 'mariapaz@example.com', 'jose@example.com', 'jvaldez@example.com'], Usuario::orderBy('id')->pluck('email')->all());
         $this->assertSame('administrador', Usuario::where('email', 'admin@marfragancia.com')->first()->rol->nombre);
-        $this->assertSame(2, Usuario::whereHas('cliente')->count());
+        $this->assertSame(3, Usuario::whereHas('cliente')->count());
     }
 }
