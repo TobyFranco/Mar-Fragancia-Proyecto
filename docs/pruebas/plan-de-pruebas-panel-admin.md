@@ -97,6 +97,7 @@ La inspección visual usa Firefox BiDi existente con perfil temporal independien
 | --- | --- | --- | --- | --- |
 | ADM-42 | Perfume mujer con stock 3/8 en 5/10 ml | GET listado | Marca/género/ambos stocks; crítico resaltado; editar por id | `ProductosTest::test_lista_muestra_stock_de_5_y_10_ml_y_marca_criticos` |
 | ADM-43 | Perfumes con géneros, agotado e inactivo; nombre Único | Filtrar cada género/sin-stock/inactivos y buscar unico | Solo coincidencia; búsqueda sin tildes | `ProductosTest::test_filtros_genero_sin_stock_inactivos_y_busqueda` |
+| ADM-43b | Perfume con 5 ml=12 y 10 ml=0; otros con ambos tamaños disponibles, presentación agotada inactiva o solo 15 ml agotado | Filtrar Sin stock | Incluye si al menos una presentación activa de 5 o 10 ml tiene stock ≤ 0; excluye los otros tres casos | `ProductosTest::test_sin_stock_incluye_cualquier_presentacion_activa_de_5_o_10_ml_agotada` |
 | ADM-44 | Nota Vainilla existente; nuevas vainilla/Bergamota repetida | Crear perfume mujer destacado, precios 0/60000 | Género y flags guardados; dos notas sin duplicados; precio 0 válido | `ProductosTest::test_crear_perfume_con_genero_notas_y_precios` |
 | ADM-45 | Stock inicial 7 y stock manipulado 999 | Crear perfume | Stock 7 vía entrada Stock inicial 7; ignora stock 999 | `ProductosTest::test_stock_inicial_se_registra_como_entrada` |
 | ADM-46 | Stock existente 9; payload stock/stock_inicial 999 | Editar precio a 0 | Stock 9, cero movimientos; formulario muestra stock sin campo editable | `ProductosTest::test_editar_producto_ignora_stock_enviado` |
