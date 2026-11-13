@@ -25,7 +25,7 @@ Mapa de las secciones **2, 3, 5, 6 y 8** de la consigna. Avances de 2026: **A1 2
 
 | Requisito del PDF / hito | Documento o evidencia para evaluar | Jira |
 |---|---|---|
-| §2: Scrum, tablero digital y Product Backlog priorizado con criterios · A1 | [Metodología y tablero](docs/metodologia/sprint-review-retrospectiva.md#1-resumen-del-proyecto-y-metodología); exportación por adjuntar | [PI-14](https://marfragancias.atlassian.net/browse/PI-14) |
+| §2: Scrum, tablero digital y Product Backlog priorizado con criterios · A1 | [Metodología y tablero](docs/metodologia/sprint-review-retrospectiva.md#1-resumen-del-proyecto-y-metodología) · [Product Backlog para cotejar con Jira](docs/metodologia/product-backlog.md); exportación por adjuntar | [PI-14](https://marfragancias.atlassian.net/browse/PI-14) |
 | §2: Sprint Backlog, Planning de 2–3 semanas y reportes · A2 | [Matriz metodológica y registro de ceremonias](docs/metodologia/sprint-review-retrospectiva.md#4-registro-de-ceremonias); fuentes del equipo por adjuntar | [PI-15](https://marfragancias.atlassian.net/browse/PI-15), [PI-16](https://marfragancias.atlassian.net/browse/PI-16) |
 | §2: Daily, Review, Retrospective y tablero actualizado · A3 | [Registro único de actas](docs/metodologia/sprint-review-retrospectiva.md#4-registro-de-ceremonias); pendiente de completar | [PI-15](https://marfragancias.atlassian.net/browse/PI-15), [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 | §3.A: caso PyME, objetivos, límites y entregables · A1 | [Alcance del proyecto](Alcance_Proyecto_Mar_Fragancia.pdf) · [Fuente HTML](docs/alcance/alcance.html) | [PI-1](https://marfragancias.atlassian.net/browse/PI-1) |
