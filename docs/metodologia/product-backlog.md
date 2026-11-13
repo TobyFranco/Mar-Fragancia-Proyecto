@@ -6,7 +6,7 @@ Reconstrucción documental basada en las épicas EPIC-1..7 del [alcance](../../A
 
 MoSCoW: **Must** = imprescindible para el flujo y los requisitos obligatorios; **Should** = mejora relevante; **Could** = complemento. Los **Won't** de este semestre figuran en los límites del alcance y no se cuentan como trabajo pendiente. El orden dentro de cada prioridad propone la secuencia por dependencias.
 
-**Hecho** significa que hay implementación y cobertura de pruebas identificables en Git, no aceptación del equipo ni una nueva ejecución aprobada. **Pendiente** identifica evidencia de entrega que falta confirmar o adjuntar. La suite no se ejecutó durante esta actualización: Docker denegó acceso al socket. La configuración para Portainer no acredita su despliegue real.
+**Hecho** significa que hay implementación y cobertura de pruebas identificables en Git, no aceptación del equipo ni una nueva ejecución aprobada. **Pendiente** identifica evidencia de entrega que falta confirmar o adjuntar. La suite completa se ejecutó el 13/11/2026 con el repositorio completo y SQLite en memoria, como en CI: 340 tests aprobados (3442 aserciones). La configuración para Portainer no acredita su despliegue real.
 
 ## Historias priorizadas
 
