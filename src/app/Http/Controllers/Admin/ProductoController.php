@@ -34,7 +34,7 @@ class ProductoController extends Controller
         } elseif ($filtro === 'inactivos') {
             $query->where('activo', false);
         } elseif ($filtro === 'sin-stock') {
-            $query->whereDoesntHave('presentaciones', fn ($q) => $q->where('activo', true)->where('stock', '>', 0)->whereHas('tamano', fn ($t) => $t->whereIn('nombre', ['5 ml', '10 ml'])));
+            $query->whereHas('presentaciones', fn ($q) => $q->where('activo', true)->where('stock', '<=', 0)->whereHas('tamano', fn ($t) => $t->whereIn('nombre', ['5 ml', '10 ml'])));
         }
         if ($q = Texto::normalizar($datos['q'] ?? '')) {
             $ids = Producto::select(['id', 'nombre'])->get()->filter(fn ($p) => str_contains(Texto::normalizar($p->nombre), $q))->modelKeys();

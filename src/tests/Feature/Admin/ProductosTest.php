@@ -49,6 +49,29 @@ class ProductosTest extends TestCase
         $this->actingAs($this->admin())->get('/admin/productos?'.$query)->assertOk()->assertSeeText('Único especial')->assertDontSeeText('Otro perfume');
     }
 
+    public function test_sin_stock_incluye_cualquier_presentacion_activa_de_5_o_10_ml_agotada(): void
+    {
+        $cinco = Tamano::factory()->create(['nombre' => '5 ml']);
+        $diez = Tamano::factory()->create(['nombre' => '10 ml']);
+        $otro = Tamano::factory()->create(['nombre' => '15 ml']);
+        $mixto = Producto::factory()->create(['nombre' => 'Perfume parcialmente agotado']);
+        ProductoPresentacion::factory()->for($mixto)->for($cinco, 'tamano')->create(['stock' => 12]);
+        ProductoPresentacion::factory()->for($mixto)->for($diez, 'tamano')->create(['stock' => 0]);
+        $disponible = Producto::factory()->create(['nombre' => 'Perfume con ambos disponibles']);
+        ProductoPresentacion::factory()->for($disponible)->for($cinco, 'tamano')->create(['stock' => 12]);
+        ProductoPresentacion::factory()->for($disponible)->for($diez, 'tamano')->create(['stock' => 1]);
+        $inactivo = Producto::factory()->create(['nombre' => 'Perfume con presentación inactiva']);
+        ProductoPresentacion::factory()->for($inactivo)->for($diez, 'tamano')->create(['stock' => 0, 'activo' => false]);
+        $ajeno = Producto::factory()->create(['nombre' => 'Perfume de otro tamaño']);
+        ProductoPresentacion::factory()->for($ajeno)->for($otro, 'tamano')->create(['stock' => 0]);
+
+        $this->actingAs($this->admin())->get('/admin/productos?filtro=sin-stock')->assertOk()
+            ->assertSeeText('Perfume parcialmente agotado')
+            ->assertDontSeeText('Perfume con ambos disponibles')
+            ->assertDontSeeText('Perfume con presentación inactiva')
+            ->assertDontSeeText('Perfume de otro tamaño');
+    }
+
     public function test_crear_perfume_con_genero_notas_y_precios(): void
     {
         $nota = Nota::factory()->create(['nombre' => 'Vainilla']);
