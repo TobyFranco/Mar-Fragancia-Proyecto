@@ -2,12 +2,17 @@
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 
+iniciar_nodo() {
+    # Arranca el contenedor existente sin reevaluar dependencias del Compose actual.
+    docker start "$(docker compose ps --all --quiet web-nginx)"
+}
+
 restaurar=false
 restaurar_nodo() {
     local resultado=$?
     if [[ "$restaurar" == true ]]; then
         echo "Restaurando web-nginx tras interrumpir la demo..." >&2
-        docker compose start web-nginx || echo "No se pudo restaurar web-nginx; ejecutar docker compose start web-nginx." >&2
+        iniciar_nodo || echo 'No se pudo restaurar web-nginx; ejecutar docker start "$(docker compose ps --all --quiet web-nginx)".' >&2
     fi
     return "$resultado"
 }
@@ -61,7 +66,7 @@ for ((i=0; i<6; i++)); do
 done
 
 echo "3. Iniciando web-nginx y esperando su recuperación..."
-docker compose start web-nginx
+iniciar_nodo
 restaurar=false
 recuperado=false
 for ((i=0; i<20; i++)); do

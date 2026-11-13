@@ -123,6 +123,17 @@ HAProxy reparte mediante `roundrobin` entre dos arquitecturas distintas:
 
 Para que la comparación sea justa, las dos tienen **20 procesos PHP fijos** (`docker/php/procesos.conf` y `docker/apache/mpm_prefork.conf`). Ambas comparten código, `.env`, `APP_KEY`, storage y MySQL; sesiones y caché usan la base centralizada. Apache usa `/var/www/public`, rewrite y AllowOverride para las rutas Laravel. Los nodos web/PHP no publican puertos. El setup prepara storage y bootstrap/cache para www-data antes de iniciar los frontales. Al detener cualquiera de los servidores web, el otro sigue atendiendo.
 
+### Tráfico para la demo del Avance 4
+
+Con el stack levantado, generar tráfico moderado contra la tienda y observar ambos nodos en Stats:
+
+```bash
+./docker/scripts/trafico-demo.sh       # 120 segundos
+./docker/scripts/trafico-demo.sh 360   # duración para la presentación; Ctrl+C para cortar
+```
+
+Requiere Bash 4+ y curl 7.84+. Alterna inicio, catálogo, ficha Coromandel y `/up`, hasta 2 solicitudes/s, y muestra conteos por nodo y código HTTP. Recorrido de 9 minutos, credenciales de Stats, continuidad del carrito y plan B: [guion de demo del Avance 4](docs/demo/guion-demo-avance4.md).
+
 ### Demo de failover
 
 Esperá a que ambos nodos aparezcan disponibles en Stats y ejecutá:
@@ -195,6 +206,7 @@ Guía con todos los endpoints, autenticación y ejemplos: [`docs/api/README.md`]
 | Evaluación de normalización | [`docs/datos/normalizacion.md`](docs/datos/normalizacion.md) |
 | Benchmark A vs B | [`docs/benchmark/informe-benchmark.md`](docs/benchmark/informe-benchmark.md) |
 | Cierre metodológico · Avance 4 (PI-26) | [Sprint Review y retrospectiva final](docs/metodologia/sprint-review-retrospectiva.md) |
+| Demo en vivo · Avance 4 (PI-27) | [Guion, comandos y ensayo real](docs/demo/guion-demo-avance4.md) |
 
 El diccionario se regenera desde el esquema MySQL real, con el stack y sus migraciones ya aplicados:
 

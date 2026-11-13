@@ -40,7 +40,12 @@ set -eu
 printf '%s\n' "$*" >> "$PRUEBA_DIR/comandos"
 case "$*" in
     'compose stop web-nginx') echo caido > "$PRUEBA_DIR/estado" ;;
-    'compose start web-nginx') echo recuperado > "$PRUEBA_DIR/estado" ;;
+    'compose start web-nginx')
+        [[ "${SIN_HEALTHCHECK:-0}" != 1 ]] || exit 1
+        echo recuperado > "$PRUEBA_DIR/estado"
+        ;;
+    'compose ps --all --quiet web-nginx') echo prueba-nginx ;;
+    'start prueba-nginx') echo recuperado > "$PRUEBA_DIR/estado" ;;
     'compose exec -T app-fpm php -r '*)
         if [[ "${BD_NUEVA:-0}" == 1 ]]; then exit 10; fi
         exit "${BD_NUEVA:-0}"
@@ -89,7 +94,15 @@ BASH);
         $this->assertTrue($proceso->isSuccessful(), $proceso->getErrorOutput().$proceso->getOutput());
         $this->assertStringContainsString('nginx-php-fpm', $proceso->getOutput());
         $this->assertStringContainsString('apache-mod-php', $proceso->getOutput());
-        $this->assertSame("compose stop web-nginx\ncompose start web-nginx\n", $this->comandos());
+        $this->assertSame("compose stop web-nginx\ncompose ps --all --quiet web-nginx\nstart prueba-nginx\n", $this->comandos());
+    }
+
+    public function test_demo_recupera_un_stack_existente_sin_healthcheck_en_php(): void
+    {
+        $proceso = $this->ejecutar('docker/scripts/demo-failover.sh', ['SIN_HEALTHCHECK' => '1']);
+
+        $this->assertTrue($proceso->isSuccessful(), $proceso->getErrorOutput().$proceso->getOutput());
+        $this->assertStringContainsString('start prueba-nginx', $this->comandos());
     }
 
     public function test_demo_falla_ante_error_http_y_restaura_el_nodo(): void
@@ -98,7 +111,7 @@ BASH);
 
         $this->assertFalse($proceso->isSuccessful());
         $this->assertStringContainsString('compose stop web-nginx', $this->comandos());
-        $this->assertStringContainsString('compose start web-nginx', $this->comandos());
+        $this->assertStringContainsString('start prueba-nginx', $this->comandos());
     }
 
     public function test_demo_rechaza_respuestas_sin_identificacion_del_nodo(): void

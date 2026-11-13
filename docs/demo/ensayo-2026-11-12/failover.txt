@@ -1,0 +1,30 @@
+1. Balanceo con los dos nodos disponibles:
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: nginx-php-fpm
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: nginx-php-fpm
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: nginx-php-fpm
+2. Deteniendo web-nginx y esperando su baja en los health checks...
+ Container mar-fragancia-proyecto-web-nginx-1  Stopping
+ Container mar-fragancia-proyecto-web-nginx-1  Stopped
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: apache-mod-php
+3. Iniciando web-nginx y esperando su recuperación...
+fb746c24b32a1708697250f17b71d20f7e15812e84c2ba1bf91e9f2ce2a47cba
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: nginx-php-fpm
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: nginx-php-fpm
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: nginx-php-fpm
+HTTP 200 - X-Servido-Por: apache-mod-php
+HTTP 200 - X-Servido-Por: nginx-php-fpm
+Demo completada: ambos nodos vuelven a responder.

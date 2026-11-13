@@ -1,0 +1,118 @@
+{
+  "inicio": "2026-11-12T23:19:38.658264-03:00",
+  "directorio": "ensayo-2026-11-12",
+  "carrito": {
+    "antes": {
+      "http": 200,
+      "nodo": "nginx-php-fpm",
+      "producto": "Coromandel",
+      "tamano": "5 ml",
+      "cantidad": 1
+    },
+    "durante_caida": {
+      "http": 200,
+      "nodo": "apache-mod-php",
+      "producto": "Coromandel",
+      "tamano": "5 ml",
+      "cantidad": 1
+    },
+    "recuperado": [
+      {
+        "http": 200,
+        "nodo": "apache-mod-php",
+        "producto": "Coromandel",
+        "tamano": "5 ml",
+        "cantidad": 1
+      },
+      {
+        "http": 200,
+        "nodo": "nginx-php-fpm",
+        "producto": "Coromandel",
+        "tamano": "5 ml",
+        "cantidad": 1
+      },
+      {
+        "http": 200,
+        "nodo": "apache-mod-php",
+        "producto": "Coromandel",
+        "tamano": "5 ml",
+        "cantidad": 1
+      },
+      {
+        "http": 200,
+        "nodo": "nginx-php-fpm",
+        "producto": "Coromandel",
+        "tamano": "5 ml",
+        "cantidad": 1
+      }
+    ]
+  },
+  "antes": {
+    "nginx-php-fpm": {
+      "status": "UP",
+      "stot": "42",
+      "bin": "5062",
+      "bout": "3004288",
+      "check_status": "L7OK"
+    },
+    "apache-mod-php": {
+      "status": "UP",
+      "stot": "49",
+      "bin": "4722",
+      "bout": "3601496",
+      "check_status": "L7OK"
+    }
+  },
+  "trafico_exit": 0,
+  "despues_trafico": {
+    "nginx-php-fpm": {
+      "status": "UP",
+      "stot": "72",
+      "bin": "7462",
+      "bout": "5883883",
+      "check_status": "L7OK"
+    },
+    "apache-mod-php": {
+      "status": "UP",
+      "stot": "79",
+      "bin": "7257",
+      "bout": "5949506",
+      "check_status": "L7OK"
+    }
+  },
+  "durante_caida": {
+    "nginx-php-fpm": {
+      "status": "DOWN",
+      "stot": "76",
+      "bin": "7693",
+      "bout": "5890018",
+      "check_status": "L4TOUT"
+    },
+    "apache-mod-php": {
+      "status": "UP",
+      "stot": "83",
+      "bin": "7565",
+      "bout": "5957806",
+      "check_status": "L7OK"
+    }
+  },
+  "failover_exit": 0,
+  "final": {
+    "nginx-php-fpm": {
+      "status": "UP",
+      "stot": "82",
+      "bin": "9647",
+      "bout": "6045476",
+      "check_status": "L7OK"
+    },
+    "apache-mod-php": {
+      "status": "UP",
+      "stot": "98",
+      "bin": "10958",
+      "bout": "6203713",
+      "check_status": "L7OK"
+    }
+  },
+  "down_observado": true,
+  "fin": "2026-11-12T23:20:27.187866-03:00"
+}
