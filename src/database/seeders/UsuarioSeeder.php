@@ -34,5 +34,11 @@ class UsuarioSeeder extends Seeder
             'email' => 'jose@example.com',
             'password' => Hash::make('password123'),
         ]);
+        Usuario::create([
+            'rol_id' => $clienteRol->id,
+            'nombre' => 'Jonathan Valdez',
+            'email' => 'jvaldez@example.com',
+            'password' => Hash::make('password123'),
+        ]);
     }
 }
