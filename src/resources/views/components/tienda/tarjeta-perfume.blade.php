@@ -10,8 +10,7 @@
             @if ($producto->imagen)
                 <img src="{{ filter_var($producto->imagen, FILTER_VALIDATE_URL) ? $producto->imagen : asset('storage/'.$producto->imagen) }}"
                      alt="{{ $producto->nombre }}"
-                     loading="lazy"
-                     style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+                     loading="lazy">
             @else
                 <span class="bottle" aria-hidden="true"></span>
             @endif
