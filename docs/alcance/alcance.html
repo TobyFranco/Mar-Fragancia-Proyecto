@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<!-- Regenerar desde la raíz del repositorio (conservar el nombre del PDF):
+docker run --rm -v "$PWD":/w -w /w debian:trixie sh -c "apt-get update -qq && apt-get install -y -qq weasyprint >/dev/null && weasyprint docs/alcance/alcance.html Alcance_Proyecto_Mar_Fragancia.pdf"
+-->
+<head>
+<meta charset="utf-8">
+<title>Mar Fragancia — Declaración de alcance</title>
+<style>
+@page { size: A4; margin: 0 0 18mm; @bottom-center { content: "Mar Fragancia · 13/11/2026 · " counter(page); font-size: 9px; color: #5b6475; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: #faf9f6; color: #333; font: 11pt/1.5 Arial, sans-serif; }
+header { background: #1c375b; color: white; text-align: center; padding: 17px 25px; }
+h1 { margin: 0 0 6px; font-size: 24pt; letter-spacing: 2px; }
+header p { margin: 3px 0; color: #dce5f1; }
+main { margin: 24px 42px; }
+h2 { color: #2873be; font-size: 16pt; border-bottom: 2px solid #dfe7ef; padding-bottom: 7px; margin: 25px 0 12px; break-after: avoid; }
+h3 { color: #303e51; font-size: 13pt; break-after: avoid; }
+p { margin: 9px 0; }
+.ficha { background: white; border: 1px solid #dfe7ef; border-radius: 5px; padding: 12px; }
+.objetivos { background: #eaf7fa; border-left: 3px solid #299e99; padding: 12px 18px; }
+table { border-collapse: collapse; width: 100%; margin: 13px 0; font-size: 10pt; }
+th { background: #1c375b; color: white; text-align: left; }
+th, td { padding: 9px; border: 1px solid #dfe7ef; vertical-align: top; overflow-wrap: anywhere; }
+tr { break-inside: avoid; } tbody tr:nth-child(even) { background: #f0f3f6; }
+a { color: #2468aa; text-decoration: none; } code { font-size: 9pt; overflow-wrap: anywhere; }
+.nota { color: #5b6475; font-size: 10pt; }
+</style>
+</head>
+<body>
+<header><h1>MAR FRAGANCIA</h1><p>Documento de Alcance del Proyecto &amp; Guía de Implementación Jira</p><p>Versión 13/11/2026 · Entrega final: 13/11/2026</p></header>
+<main>
+<h2>1. Ficha Técnica de la Empresa</h2>
+<div class="ficha">
+<p><strong>Nombre:</strong> Mar Fragancia</p>
+<p><strong>Rubro:</strong> Comercial / Retail - Perfumería y venta de decants.</p>
+<p><strong>Ubicación:</strong> Asunción, Paraguay.</p>
+<p><strong>Modelo de Negocio:</strong> Comercialización de perfumes y decants (presentaciones de 5 ml y 10 ml), permitiendo probar diferentes fragancias a menor costo inicial. Venta actual mediante redes sociales y canales digitales.</p>
+</div>
+<h2>2. Planteamiento del Problema (AS-IS)</h2>
+<p>La gestión se realiza de forma manual mediante redes sociales y herramientas independientes. Esto ocasiona:</p>
+<ul><li>Falta de un sistema centralizado para inventario y catálogo.</li><li>Errores al informar precios, disponibilidad y demoras en atención al cliente.</li><li>Venta de productos agotados por falta de stock en tiempo real.</li><li>Dificultad para generar reportes y rastrear el historial de pedidos.</li></ul>
+<h2>3. Propuesta de Solución (TO-BE)</h2>
+<p>Desarrollo de un sistema web centralizado utilizando Laravel que automatice las operaciones. Contará con catálogo online y panel administrativo.</p>
+<h3>3.1. Objetivos Medibles</h3>
+<div class="objetivos"><ul><li>Reducir en un 50% el tiempo utilizado para consultar disponibilidad.</li><li>Mantener control centralizado del 100% del stock.</li><li>Reducir errores de pedidos mediante automatización.</li><li>Consulta de estado de pedidos en tiempo real.</li></ul></div>
+<p class="nota">Son objetivos de negocio del alcance original, no resultados medidos. La consulta de pedidos refleja los estados guardados; no implica seguimiento GPS ni actualizaciones push.</p>
+<h2>4. Arquitectura de Módulos y Entidades de Datos</h2>
+<p>El sistema se estructura en base al modelo Entidad-Relación (MER) definido. Nombres físicos y restricciones: <a href="../datos/diccionario-de-datos.md">docs/datos/diccionario-de-datos.md</a>.</p>
+<table><thead><tr><th>Módulo</th><th>Entidades relacionadas</th><th>Descripción del alcance</th></tr></thead><tbody>
+<tr><td>Autenticación y Roles</td><td>roles, usuarios</td><td>Control de acceso por rol para administradores y clientes. Login, registro de clientes y tokens Sanctum.</td></tr>
+<tr><td>Catálogo Multinivel</td><td>marcas, categorias, productos, tamanos, producto_presentacion, notas, nota_producto</td><td>Marcas, familias de aroma, género, notas y presentaciones con precio y stock. La tienda ofrece decants de 5 y 10 ml.</td></tr>
+<tr><td>Inventario y Stock</td><td>movimientos_inventario</td><td>Kardex de entradas/salidas con justificación y usuario; visualización de stock crítico, sin notificaciones automáticas externas.</td></tr>
+<tr><td>Pedidos</td><td>pedidos, detalle_pedidos, pedido_estados</td><td>Checkout, subtotal/total e historial del ciclo: pendiente, confirmado, preparando, enviado, entregado y cancelado. Descuento al confirmar y devolución al cancelar desde confirmado o preparando.</td></tr>
+<tr><td>Clientes</td><td>clientes, usuarios, pedidos</td><td>Perfil con nombre, teléfono y dirección actuales e historial de compras propias. No incluye historial de cambios de dirección.</td></tr>
+</tbody></table>
+<h2>5. Roles y Asignación del Equipo</h2>
+<p>Asignación actual según <a href="../../README.md#equipo">README.md, Equipo</a>.</p>
+<table><thead><tr><th>Rol / Integrante</th><th>Responsabilidades</th></tr></thead><tbody>
+<tr><td>Scrum Master / Project Manager<br>José Fernández</td><td>Coordinar el proyecto, organizar tareas en Jira, controlar avances, alcance y comunicación.</td></tr>
+<tr><td>Backend &amp; Architect Lead<br>Tobías Franco</td><td>Diseño arquitectónico, desarrollo de base de datos, APIs y lógica de negocio.</td></tr>
+<tr><td>DevOps &amp; Cloud Engineer<br>Matías Amarilla · Jonathan Valdez</td><td>Infraestructura Docker, Stack de Portainer, HAProxy, base de datos y automatización de procesos.</td></tr>
+<tr><td>Frontend &amp; QA Engineer<br>María Paz Gutiérrez</td><td>Interfaz de usuario, integración de vistas y endpoints, pruebas funcionales, aseguramiento de calidad y benchmarking.</td></tr>
+</tbody></table>
+<h2>6. Guía de Implementación para Jira</h2>
+<p>Estructura recomendada para el backlog de Jira utilizando metodología ágil (Scrum). Debe cotejarse con el tablero; no constituye una exportación de Jira.</p>
+<h3>Configuración Inicial (Componentes)</h3>
+<ul><li>Backend API</li><li>Database/Migrations</li><li>Frontend Views</li><li>DevOps/CI-CD</li></ul>
+<h3>Estructura de Épicas</h3>
+<table><thead><tr><th>Épica (Epic)</th><th>Historias de Usuario / Tareas Clave (Ejemplos)</th></tr></thead><tbody>
+<tr><td>EPIC-1: Autenticación y Usuarios</td><td>Migraciones de usuarios y roles. Login/registro de clientes y autorización.</td></tr>
+<tr><td>EPIC-2: Catálogo y Presentaciones</td><td>CRUD de productos, categorías y marcas. PRODUCTO_PRESENTACION con stock/precio por variante. Interfaz pública del catálogo.</td></tr>
+<tr><td>EPIC-3: Inventario y Movimientos</td><td>Kardex. Lógica transaccional para descontar stock al confirmar venta.</td></tr>
+<tr><td>EPIC-4: Gestión de Pedidos</td><td>Carrito, checkout, confirmación y totalizadores. Panel para cambiar estados de pedidos.</td></tr>
+<tr><td>EPIC-5: Perfil y Clientes</td><td>Edición del perfil propio (dirección y teléfono) y vista de historial de compras.</td></tr>
+<tr><td>EPIC-6: Métricas y Reportes</td><td>Dashboard con productos más vendidos y stock crítico/disponible; sin módulo separado de reportes.</td></tr>
+<tr><td>EPIC-7: Infraestructura (DevOps)</td><td>Servidor y CI, seeders de roles y tamaños, Docker, sesiones centralizadas, HAProxy A/B y preparación del despliegue en Portainer.</td></tr>
+</tbody></table>
+<p>Historias, prioridades y criterios: <a href="../metodologia/product-backlog.md">docs/metodologia/product-backlog.md</a>.</p>
+<h2>7. Límites del proyecto</h2>
+<h3>In-Scope: lo que el sistema sí incluye</h3>
+<table><thead><tr><th>Área</th><th>Funcionalidad incluida y evidencia</th></tr></thead><tbody>
+<tr><td>Tienda pública</td><td>Inicio, marcas, catálogo con filtros y búsqueda, ficha con notas, precio y disponibilidad por decant; recomendaciones por notas y termómetro olfativo. <a href="../../src/routes/web.php">src/routes/web.php</a> y <a href="../../src/app/Http/Controllers/Tienda">controladores de tienda</a>.</td></tr>
+<tr><td>Compra</td><td>Carrito en sesión sin cuenta obligatoria; validación de disponibilidad, checkout que guarda el pedido pendiente antes de abrir WhatsApp con mensaje preparado. El cierre comercial y pago se coordinan allí; no se envían mensajes automáticamente. <a href="../../src/app/Http/Controllers/Tienda/CheckoutController.php">CheckoutController.php</a>.</td></tr>
+<tr><td>Área de cliente</td><td>Registro/login, datos personales editables y consulta de pedidos propios y detalle. <a href="../../src/app/Http/Controllers/ClienteController.php">ClienteController.php</a>.</td></tr>
+<tr><td>Panel administrativo</td><td>Acceso por rol; CRUD de productos, marcas y categorías; consulta de tamaños; inventario kardex; gestión de pedidos con seis estados e historial; dashboard con ventas del mes, más vendidos y stock crítico (presentación activa con stock ≤ 3). <a href="../../src/app/Http/Controllers/Admin">controladores administrativos</a>, <a href="../../src/app/Services/CicloPedido.php">CicloPedido.php</a> y <a href="../../src/app/Services/MetricasAdmin.php">MetricasAdmin.php</a>.</td></tr>
+<tr><td>API REST v1</td><td>Catálogo público; login, consulta de perfil y pedidos propios con Sanctum; pedidos e inventario administrativos protegidos por rol. <a href="../../src/routes/api.php">src/routes/api.php</a>.</td></tr>
+<tr><td>Infraestructura y calidad</td><td>Docker/MySQL, sesiones y caché en BD centralizada, HAProxy roundrobin entre A (Nginx + PHP-FPM) y B (Apache + mod_php), health checks, failover y Stats 8404; stack preparado para Portainer, benchmark y pipeline CI de tests. <a href="../../compose.yaml">compose.yaml</a> y <a href="../../.github/workflows/tests.yml">.github/workflows/tests.yml</a>. El pipeline no despliega automáticamente.</td></tr>
+</tbody></table>
+<h3>Out-of-Scope: fuera de este semestre</h3>
+<ul>
+<li>Pagos en línea o pasarela de cobro; la venta se cierra por WhatsApp.</li>
+<li>Gestión administrativa independiente de clientes más allá de sus datos en el pedido; módulo separado «Ver reporte» y exportaciones comerciales.</li>
+<li>Kit de prueba y diario de prueba; venta pública de frascos completos y presentaciones distintas de 5 y 10 ml.</li>
+<li>«Recordarme» y recuperación de contraseña: sin rutas ni implementación en la autenticación actual.</li>
+<li>Historial de cambios de dirección y teléfono, seguimiento GPS de entregas y alertas externas automáticas de stock: no implementados.</li>
+</ul>
+<p class="nota">Fuentes: restricciones y registro de autenticación del <a href="../superpowers/plans/2026-10-18-fase-1-tienda-publica.md">plan de Fase 1</a>, exclusión de Clientes y «Ver reporte» del <a href="../superpowers/plans/2026-10-19-fase-2-panel-admin.md">plan de Fase 2</a> y «No objetivos» de la <a href="../superpowers/specs/2026-10-18-tienda-y-admin-design.md">especificación</a>, contrastados con rutas y controladores. «Mi cuenta / Mis pedidos», diferido originalmente, ya fue implementado en el PR #7 y está incluido.</p>
+<h2>8. Entregables principales</h2>
+<table><thead><tr><th>Entregable</th><th>Ubicación en el repositorio / evidencia</th></tr></thead><tbody>
+<tr><td>Módulos funcionales</td><td><a href="../../src/routes/web.php">src/routes/web.php</a>, <a href="../../src/app/Http/Controllers">src/app/Http/Controllers/</a>, <a href="../../src/resources/views">src/resources/views/</a> y <a href="../../src/tests/Feature">src/tests/Feature/</a>: tienda, cliente, administración, inventario y pedidos.</td></tr>
+<tr><td>API REST</td><td><a href="../api/README.md">docs/api/README.md</a>, <a href="../api/openapi.yaml">docs/api/openapi.yaml</a> y <a href="../../src/routes/api.php">src/routes/api.php</a>.</td></tr>
+<tr><td>Despliegue en Portainer</td><td><a href="../../compose.yaml">compose.yaml</a>, <a href="../../docker/php/entrypoint.sh">docker/php/entrypoint.sh</a>, <a href="../../README.md#portainer">README.md, Portainer</a> y <a href="../../src/tests/Feature/Infraestructura/PortainerTest.php">PortainerTest.php</a>. Configuración y guía disponibles; constancia del despliegue real pendiente de adjuntar por el equipo (PI-23).</td></tr>
+<tr><td>Balanceo HAProxy A/B</td><td><a href="../../docker/haproxy/haproxy.cfg">docker/haproxy/haproxy.cfg</a>, <a href="../../docker/scripts/demo-failover.sh">docker/scripts/demo-failover.sh</a>, <a href="../demo/guion-demo-avance4.md">docs/demo/guion-demo-avance4.md</a> y <a href="../benchmark/informe-benchmark.md">docs/benchmark/informe-benchmark.md</a>.</td></tr>
+<tr><td>Documentación</td><td><a href="../../README.md#documentación">README.md, Documentación</a>, <a href="../datos/der.md">DER</a>, <a href="../datos/diccionario-de-datos.md">diccionario</a>, <a href="../datos/normalizacion.md">normalización</a>, <a href="../pruebas/plan-de-pruebas-panel-admin.md">pruebas</a>, <a href="../metodologia/sprint-review-retrospectiva.md">cierre metodológico</a> y <a href="../metodologia/product-backlog.md">Product Backlog</a>.</td></tr>
+</tbody></table>
+<p class="nota">Esta fuente reproduce la estructura y el estilo del PDF anterior y actualiza el alcance según el código al 13/11/2026. El PDF de la raíz se regenera con WeasyPrint desde este HTML; conservar su nombre para mantener los enlaces.</p>
+</main></body></html>
