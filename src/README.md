@@ -6,6 +6,5 @@ El punto de entrada para la entrega de Programación IV es el [README del proyec
 - [Stack para Portainer](../README.md#portainer).
 - [API REST v1 y OpenAPI](../docs/api/README.md).
 - [Planes y ejecución de pruebas](../README.md#pruebas).
-- [Auditoría documental PI-28](../docs/entrega/auditoria-pi28.md).
 
 Esta carpeta contiene rutas, controladores, modelos, vistas, migraciones, seeders y tests. Las versiones reproducibles de las dependencias están en [composer.lock](composer.lock) y [package-lock.json](package-lock.json).

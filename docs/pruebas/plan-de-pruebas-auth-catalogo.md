@@ -131,7 +131,7 @@ Fixture base: Sauvage 10 ml ×1 a60.000 y Good Girl 5 ml ×2 a32.000, stock5 cad
 
 ## Evidencia y cierre
 
-Validación actual de la suite completa en PI-28: **333 tests, 3411 aserciones, sin fallos**. [Salida](../entrega/validaciones-pi28.txt). Incluye API, área cliente, infraestructura y documentación además de estos casos. Los resultados de navegador, Pint y build de abajo son históricos; no se repitieron en esta auditoría documental.
+Validación actual de la suite completa en PI-28: **333 tests, 3411 aserciones, sin fallos**. Incluye API, área cliente, infraestructura y documentación además de estos casos. Los resultados de navegador, Pint y build de abajo son históricos; no se repitieron en esta revisión documental.
 
 Resultado histórico de Fase 1 (2026-10-19; no es el conteo actual): `php artisan test` → **150 tests aprobados, 1012 assertions, 0 fallos**, 6,50 s. `vendor/bin/pint --dirty --format agent` y `npm run build` correctos. Once recorridos Firefox verdes (diez normales y uno con movimiento reducido), a375/1440 px, sin errores de consola. Detalle de comparación y decisiones en Tarea 11e del plan.
 

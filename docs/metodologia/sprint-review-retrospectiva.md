@@ -2,11 +2,11 @@
 
 Avance 4 de Programación IV · Entrega prevista: **27/11/2026**.
 
-**Nota:** Actualizado en PI-28 sobre `main` con PI-27 integrado (#11), al 12/11/2026. Las actas del equipo se suman en la sección 4; este resumen técnico no acredita ceremonias ni aprobaciones del docente.
+**Nota:** Actualizado en PI-28 sobre `main` con PI-27 integrado (#11), al 12/11/2026. Las actas del equipo se suman en la sección 4.
 
 ## 1. Resumen del proyecto y metodología
 
-Mar Fragancias es una tienda de decants de perfumes de Asunción, Paraguay. Centraliza catálogo, stock y pedidos; el checkout guarda el pedido pendiente y prepara su envío por WhatsApp. Incluye tienda pública, área de cliente, panel administrativo y API REST v1 con autenticación Sanctum. La solución usa Laravel, MySQL y Docker, con HAProxy como frontal de dos arquitecturas: A, Nginx + PHP-FPM; B, Apache + mod_php. Alcance y funcionalidades: [declaración de alcance vigente](../alcance.md) ([PDF](../../Alcance_Proyecto_Mar_Fragancia.pdf)) y [README](../../README.md).
+Mar Fragancias es una tienda de decants de perfumes de Asunción, Paraguay. Centraliza catálogo, stock y pedidos; el checkout guarda el pedido pendiente y prepara su envío por WhatsApp. Incluye tienda pública, área de cliente, panel administrativo y API REST v1 con autenticación Sanctum. La solución usa Laravel, MySQL y Docker, con HAProxy como frontal de dos arquitecturas: A, Nginx + PHP-FPM; B, Apache + mod_php. Alcance y funcionalidades: [declaración de alcance](../../Alcance_Proyecto_Mar_Fragancia.pdf) y [README](../../README.md).
 
 La metodología de trabajo es **Scrum**, gestionada en [Jira, proyecto/tablero PI](https://marfragancias.atlassian.net). El calendario académico organiza las entregas en cuatro avances.
 
@@ -76,7 +76,7 @@ La tabla reúne los entregables del calendario del PDF, su estado y la evidencia
 
 | Avance | Entregable requerido | Estado al corte | Evidencia del repositorio o PR | Tarea de Jira |
 |---|---|---|---|---|
-| 1 | Definición del alcance y caso PyME | Documentado | [Alcance vigente](../alcance.md) y [PDF](../../Alcance_Proyecto_Mar_Fragancia.pdf), [README](../../README.md) | [PI-1](https://marfragancias.atlassian.net/browse/PI-1) |
+| 1 | Definición del alcance y caso PyME | Documentado | [Alcance del proyecto](../../Alcance_Proyecto_Mar_Fragancia.pdf), [README](../../README.md) | [PI-1](https://marfragancias.atlassian.net/browse/PI-1) |
 | 1 | Configuración de metodología: tablero y Product Backlog | Finalizado; exportación del backlog por adjuntar | [Tablero PI](https://marfragancias.atlassian.net) y [especificación con referencias Jira](../superpowers/specs/2026-10-18-tienda-y-admin-design.md) | [PI-14](https://marfragancias.atlassian.net/browse/PI-14) |
 | 1 | Diagrama MER/DER y diccionario de datos | Documentado | [DER conceptual y lógico](../datos/der.md), [diagrama SVG](../datos/der-logico.svg), [diccionario](../datos/diccionario-de-datos.md); PR #6 | [PI-2](https://marfragancias.atlassian.net/browse/PI-2), [PI-4](https://marfragancias.atlassian.net/browse/PI-4) |
 | 1 | Entorno base Docker: Laravel + MySQL local | Implementado | [Compose](../../compose.yaml), [override de desarrollo](../../compose.override.yaml), [setup](../../setup.sh), [dependencias Laravel](../../src/composer.json); PR #3 y #7 para el stack actual | [PI-3](https://marfragancias.atlassian.net/browse/PI-3), [PI-10](https://marfragancias.atlassian.net/browse/PI-10) |
@@ -91,7 +91,7 @@ La tabla reúne los entregables del calendario del PDF, su estado y la evidencia
 | 4 | Cierre metodológico: Review/Retrospective final o métricas de flujo | Pendiente de cierre; documento elaborado | Este documento y plantilla de actas de la sección 4 | [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 | 4 | Benchmarking: RPS y latencia A vs B | Documentado con resultados y limitaciones | [Informe](../benchmark/informe-benchmark.md), [CSV](../benchmark/resultados.csv), [script](../../docker/scripts/benchmark.sh); PR #4 | [PI-21](https://marfragancias.atlassian.net/browse/PI-21) |
 | 4 | HAProxy Stats en 8404 con tráfico real | Ensayo real documentado e integrado (#11); presentación final prevista el 27/11 | [Guion y registro PI-27](../demo/guion-demo-avance4.md#registro-del-ensayo-real), [resumen](../demo/ensayo-2026-11-12/resumen.json), cuatro CSV y comprobación del carrito enlazados allí | [PI-27](https://marfragancias.atlassian.net/browse/PI-27) |
-| 4 | Repositorio Git y documentación técnica/metodológica completa | Auditoría e índice preparados en PI-28; evidencias externas pendientes del equipo | [Entregables del README](../../README.md#entregables-del-proyecto), [auditoría PI-28](../entrega/auditoria-pi28.md), [documentación API](../api/README.md), datos, pruebas, benchmark y este documento | [PI-28](https://marfragancias.atlassian.net/browse/PI-28), [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
+| 4 | Repositorio Git y documentación técnica/metodológica completa | Índice de documentación preparado en PI-28; evidencias externas pendientes del equipo | [Entregables del README](../../README.md#entregables-del-proyecto), [documentación API](../api/README.md), datos, pruebas, benchmark y este documento | [PI-28](https://marfragancias.atlassian.net/browse/PI-28), [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 
 Otros requisitos del cuerpo del PDF cuentan con evidencia: la [evaluación de normalización](../datos/normalizacion.md) documenta 3FN y explicita dos excepciones deliberadas, `detalle_pedidos.subtotal` y `pedidos.total` (PR #6); la [API REST](../api/README.md) y su [OpenAPI](../api/openapi.yaml) describen endpoints y autenticación Sanctum (PR #5); los roles actuales se registran en la sección 1 y en el README (PR #9). Las [maquetas](../diseno/maquetas/diseno-final.html) y el [plan de pruebas Auth/Catálogo](../pruebas/plan-de-pruebas-auth-catalogo.md) trazan PI-12 y PI-13. El resultado de tests registrado abajo corresponde a una ejecución local.
 
@@ -121,7 +121,7 @@ cd src
 php artisan test
 ```
 
-Resultado PI-28: **333 tests aprobados de 333, 3411 aserciones, sin fallos**, duración informada de 20316 ms. [Salida de la validación](../entrega/validaciones-pi28.txt). El entorno de tests está definido en [phpunit.xml](../../src/phpunit.xml); usa SQLite en memoria.
+Resultado PI-28: **333 tests aprobados de 333, 3411 aserciones, sin fallos**, duración informada de 20316 ms. El entorno de tests está definido en [phpunit.xml](../../src/phpunit.xml); usa SQLite en memoria.
 
 Resultados históricos del [informe de benchmark del 09/11/2026](../benchmark/informe-benchmark.md), con 20 procesos PHP por arquitectura y concurrencia 50:
 
@@ -144,7 +144,7 @@ Registro único de evidencias externas del cierre metodológico y de despliegue;
 - **PI-15 / PI-26:** completar la sección 4 con actas reales de Daily, Review y Retrospective de los hitos, incluida la final; incorporar opiniones, acuerdos, responsables y plazos del equipo.
 - **PI-23:** adjuntar constancia del despliegue real en Portainer (Stack, servicios y nodos disponibles), sin publicar claves.
 
-PI-27 tiene [ensayo real integrado](../demo/guion-demo-avance4.md#registro-del-ensayo-real). PI-28 aporta el [índice de entregables](../../README.md#entregables-del-proyecto) y la [auditoría documental](../entrega/auditoria-pi28.md); los pendientes adicionales que requieren decisión del equipo/docente figuran una sola vez en ese índice.
+PI-27 tiene [ensayo real integrado](../demo/guion-demo-avance4.md#registro-del-ensayo-real). PI-28 aporta el [índice de entregables](../../README.md#entregables-del-proyecto) y la documentación técnica de la entrega.
 
 ## 3. Retrospectiva
 

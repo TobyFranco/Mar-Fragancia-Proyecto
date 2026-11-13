@@ -15,27 +15,27 @@
 
 Proyecto de la materia **Programación IV** · Entrega final: **27/11/2026**.
 
-Para evaluar la entrega, comenzar por [Entregables del proyecto](#entregables-del-proyecto), seguir la [puesta en marcha con Docker](#puesta-en-marcha) y consultar la [auditoría de requisitos PI-28](docs/entrega/auditoria-pi28.md).
+Para evaluar la entrega, comenzar por [Entregables del proyecto](#entregables-del-proyecto) y seguir la [puesta en marcha con Docker](#puesta-en-marcha).
 
 ## Entregables del proyecto
 
-Mapa de las secciones **2, 3, 5, 6 y 8** de la consigna. Avances de 2026: **A1 28/08 · A2 25/09 · A3 30/10 · A4 27/11**. La [auditoría PI-28](docs/entrega/auditoria-pi28.md) detalla cada requisito, la comprobación contra el código y sus límites. La correspondencia de tareas proviene del [registro PI-1 a PI-28](docs/metodologia/sprint-review-retrospectiva.md#estado-y-trazabilidad-de-jira); una tarea finalizada en ese registro no sustituye un acta ni acredita una aprobación del docente.
+Mapa de las secciones **2, 3, 5, 6 y 8** de la consigna. Avances de 2026: **A1 28/08 · A2 25/09 · A3 30/10 · A4 27/11**. La correspondencia de tareas proviene del [registro PI-1 a PI-28](docs/metodologia/sprint-review-retrospectiva.md#estado-y-trazabilidad-de-jira).
 
 | Requisito del PDF / hito | Documento o evidencia para evaluar | Jira |
 |---|---|---|
 | §2: Scrum, tablero digital y Product Backlog priorizado con criterios · A1 | [Metodología y tablero](docs/metodologia/sprint-review-retrospectiva.md#1-resumen-del-proyecto-y-metodología); exportación por adjuntar | [PI-14](https://marfragancias.atlassian.net/browse/PI-14) |
 | §2: Sprint Backlog, Planning de 2–3 semanas y reportes · A2 | [Matriz metodológica y registro de ceremonias](docs/metodologia/sprint-review-retrospectiva.md#4-registro-de-ceremonias); fuentes del equipo por adjuntar | [PI-15](https://marfragancias.atlassian.net/browse/PI-15), [PI-16](https://marfragancias.atlassian.net/browse/PI-16) |
 | §2: Daily, Review, Retrospective y tablero actualizado · A3 | [Registro único de actas](docs/metodologia/sprint-review-retrospectiva.md#4-registro-de-ceremonias); pendiente de completar | [PI-15](https://marfragancias.atlassian.net/browse/PI-15), [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
-| §3.A: caso PyME, objetivos, límites y entregables · A1 | [Alcance vigente](docs/alcance.md) · [PDF](Alcance_Proyecto_Mar_Fragancia.pdf) | [PI-1](https://marfragancias.atlassian.net/browse/PI-1) |
+| §3.A: caso PyME, objetivos, límites y entregables · A1 | [Alcance del proyecto](Alcance_Proyecto_Mar_Fragancia.pdf) | [PI-1](https://marfragancias.atlassian.net/browse/PI-1) |
 | §3.B: MER/DER conceptual y lógico · A1 | [Modelo y cardinalidades](docs/datos/der.md) · [SVG](docs/datos/der-logico.svg) | [PI-2](https://marfragancias.atlassian.net/browse/PI-2) |
 | §3.B: tablas, campos, tipos, PK/FK, restricciones e índices · A1 | [Diccionario MySQL](docs/datos/diccionario-de-datos.md) | [PI-4](https://marfragancias.atlassian.net/browse/PI-4) |
-| §3.B: justificación de 3FN | [Normalización y dos excepciones deliberadas](docs/datos/normalizacion.md); requiere revisión académica si se exige 3FN estricta | [PI-2](https://marfragancias.atlassian.net/browse/PI-2), [PI-4](https://marfragancias.atlassian.net/browse/PI-4) |
-| §5: asignación formal de los cuatro roles | [Equipo](#equipo) y [responsabilidades](docs/alcance.md#roles-y-responsabilidades-actuales) | [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
+| §3.B: justificación de 3FN | [Normalización y decisiones de diseño](docs/datos/normalizacion.md) | [PI-2](https://marfragancias.atlassian.net/browse/PI-2), [PI-4](https://marfragancias.atlassian.net/browse/PI-4) |
+| §5: asignación formal de los cuatro roles | [Equipo](#equipo) | [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 | §6.1: Laravel y BD relacional; entorno Docker · A1 | [Puesta en marcha](#puesta-en-marcha), [stack base](compose.yaml) y [override local](compose.override.yaml) | [PI-3](https://marfragancias.atlassian.net/browse/PI-3), [PI-10](https://marfragancias.atlassian.net/browse/PI-10) |
 | Implementación del alcance: usuarios/roles, autenticación y autorización · A2 | [Plan de pruebas Auth/Catálogo](docs/pruebas/plan-de-pruebas-auth-catalogo.md), [autenticación API](docs/api/README.md#autenticación) | [PI-5](https://marfragancias.atlassian.net/browse/PI-5), [PI-6](https://marfragancias.atlassian.net/browse/PI-6), [PI-7](https://marfragancias.atlassian.net/browse/PI-7) |
 | §8 A2: CRUD principal y reglas de negocio | [Plan del panel](docs/pruebas/plan-de-pruebas-panel-admin.md), [tests administrativos](src/tests/Feature/Admin) | [PI-8](https://marfragancias.atlassian.net/browse/PI-8) |
 | Entorno y datos de ejemplo | [Inicialización](setup.sh), [seeders](src/database/seeders), [usuarios de ejemplo](#puesta-en-marcha) | [PI-9](https://marfragancias.atlassian.net/browse/PI-9) |
-| Seguimiento técnico: pipeline CI | [Hallazgo de auditoría](docs/entrega/auditoria-pi28.md#trazabilidad-complementaria); no hay pipeline versionado en el árbol actual | [PI-11](https://marfragancias.atlassian.net/browse/PI-11) |
+| Pipeline CI (GitHub Actions) | [Tarea de implementación](https://marfragancias.atlassian.net/browse/PI-11) | [PI-11](https://marfragancias.atlassian.net/browse/PI-11) |
 | Diseño y QA de la solución | [Maquetas](docs/diseno/maquetas/diseno-final.html), [plan Auth/Catálogo](docs/pruebas/plan-de-pruebas-auth-catalogo.md) y [pruebas actuales](#pruebas) | [PI-12](https://marfragancias.atlassian.net/browse/PI-12), [PI-13](https://marfragancias.atlassian.net/browse/PI-13), [PI-25](https://marfragancias.atlassian.net/browse/PI-25) |
 | §6.2: sesiones centralizadas · A2 | [Arquitectura compartida](#docker-y-haproxy), [test de sesiones](src/tests/Feature/Infra/SesionesEnBaseDeDatosTest.php), [ensayo del carrito](docs/demo/ensayo-2026-11-12/carrito.txt) | [PI-19](https://marfragancias.atlassian.net/browse/PI-19) |
 | §6.4: despliegue del Stack en Portainer · A2 | [Guía Portainer](#portainer), [entrypoint](docker/php/entrypoint.sh), [tests](src/tests/Feature/Infraestructura/PortainerTest.php); constancia del despliegue por adjuntar en PI-26 | [PI-23](https://marfragancias.atlassian.net/browse/PI-23) |
@@ -47,16 +47,11 @@ Mapa de las secciones **2, 3, 5, 6 y 8** de la consigna. Avances de 2026: **A1 2
 | §8 A4: cierre metodológico final | [Sprint Review y retrospectiva](docs/metodologia/sprint-review-retrospectiva.md); acuerdos y actas pendientes del equipo | [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 | §8 A4: benchmark RPS y latencia A/B | [Informe, método, gráficos y limitaciones](docs/benchmark/informe-benchmark.md) · [CSV](docs/benchmark/resultados.csv) | [PI-21](https://marfragancias.atlassian.net/browse/PI-21) |
 | §6.3 y §8 A4: Stats 8404 con tráfico real | [Guion y registro](docs/demo/guion-demo-avance4.md#registro-del-ensayo-real), [cuatro snapshots y resumen](docs/demo/ensayo-2026-11-12/resumen.json) | [PI-27](https://marfragancias.atlassian.net/browse/PI-27) |
-| §8 A4: Git y documentación técnica/metodológica | [Auditoría completa](docs/entrega/auditoria-pi28.md), [documentación de apoyo](#documentación), [validaciones](docs/entrega/validaciones-pi28.txt) | [PI-28](https://marfragancias.atlassian.net/browse/PI-28) |
+| §8 A4: Git y documentación técnica/metodológica | [Índice de documentación](#documentación) y [cierre metodológico](docs/metodologia/sprint-review-retrospectiva.md) | [PI-28](https://marfragancias.atlassian.net/browse/PI-28) |
 
 ### Pendientes del equipo para la entrega
 
-El [registro de pendientes de PI-26](docs/metodologia/sprint-review-retrospectiva.md#pendientes-para-la-entrega) centraliza las actas, los backlogs, los reportes y la constancia de Portainer; completar allí sus evidencias. Pendientes adicionales detectados en esta auditoría:
-
-- Obtener confirmación del docente para el equipo actual de cinco integrantes: la consigna §5 indica grupos de 3 a 4.
-- Adjuntar constancia de presentación y aprobación de cada avance; §8 lo exige para habilitar la Defensa Final y Git no demuestra esa aprobación.
-- PI-11: localizar el pipeline y su evidencia de ejecución, o aclarar su ausencia en esta entrega; no hay configuración de CI versionada en el árbol actual.
-- Acordar con el docente la aceptación de las dos excepciones de 3FN documentadas; cualquier cambio de esquema requiere otra tarea.
+Consultar la [lista de pendientes de PI-26](docs/metodologia/sprint-review-retrospectiva.md#pendientes-para-la-entrega).
 
 ## Funcionalidades
 
@@ -255,7 +250,7 @@ Documentos de apoyo y antecedentes; el mapa de requisitos y tareas está en [Ent
 
 | Documento | Ubicación |
 |---|---|
-| Alcance vigente del proyecto | [Declaración de alcance](docs/alcance.md) · [PDF](Alcance_Proyecto_Mar_Fragancia.pdf) |
+| Alcance del proyecto | [Alcance del proyecto](Alcance_Proyecto_Mar_Fragancia.pdf) |
 | Especificación de diseño | [`docs/superpowers/specs/2026-10-18-tienda-y-admin-design.md`](docs/superpowers/specs/2026-10-18-tienda-y-admin-design.md) |
 | Maquetas aprobadas | [`docs/diseno/maquetas/diseno-final.html`](docs/diseno/maquetas/diseno-final.html) (abrir en el navegador) |
 | Plan de implementación · Fase 1 | [`docs/superpowers/plans/2026-10-18-fase-1-tienda-publica.md`](docs/superpowers/plans/2026-10-18-fase-1-tienda-publica.md) |
@@ -268,6 +263,12 @@ Documentos de apoyo y antecedentes; el mapa de requisitos y tareas está en [Ent
 | Benchmark A vs B | [`docs/benchmark/informe-benchmark.md`](docs/benchmark/informe-benchmark.md) |
 | Cierre metodológico · Avance 4 (PI-26) | [Sprint Review y retrospectiva final](docs/metodologia/sprint-review-retrospectiva.md) |
 | Demo en vivo · Avance 4 (PI-27) | [Guion, comandos y ensayo real](docs/demo/guion-demo-avance4.md) |
+
+La herramienta [verificar-enlaces.py](docs/verificar-enlaces.py) comprueba destinos locales y anclas de los Markdown del repositorio, excepto `docs/superpowers/`. Requiere Python 3 y `markdown-it-py` 3+; ejecutar desde la raíz:
+
+```bash
+python3 docs/verificar-enlaces.py
+```
 
 El diccionario se regenera desde el esquema MySQL real, con el stack y sus migraciones ya aplicados:
 

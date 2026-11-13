@@ -153,7 +153,7 @@ La inspección visual usa Firefox BiDi existente con perfil temporal independien
 
 ## Resultado y límites
 
-Suite completa actual (PI-28): **333 tests, 3411 aserciones, sin fallos**; [salida](../entrega/validaciones-pi28.txt).
+Suite completa actual (PI-28): **333 tests, 3411 aserciones, sin fallos**.
 
 Resultado histórico de Fase 2 (19/10/2026; no es el conteo actual): 269 tests, 1630 assertions, cero fallos. Pint/build verificados; comparación visual 14–20 a 1440/768, sin overflow raíz ni errores consola. Tablet apila paneles y usa scroll local en tablas. Controles nativos de archivo usan idioma del navegador.
 
