@@ -68,7 +68,7 @@ La configuración de los procesos pesa más que la elección del servidor web. L
 Ejecutar desde la raíz:
 
 ```bash
-sg docker -c './docker/scripts/benchmark.sh'
+./docker/scripts/benchmark.sh
 ```
 
 - **Requisitos:** Bash, Python 3 y Docker. No instala generadores de carga en el host.
@@ -138,7 +138,7 @@ Archivo estático servido directamente por el servidor web, sin PHP.
 
 ## Gráficos
 
-Se generan con `docs/benchmark/graficos.py`, usando matplotlib en un venv temporal: `/tmp/mar-benchmark-venv/bin/python -I docs/benchmark/graficos.py`. Usan la paleta salvia de la marca y escala lineal desde cero.
+Desde la raíz, con Python 3 y matplotlib disponibles, ejecutar `python3 -I docs/benchmark/graficos.py`. La ruta de un venv temporal de la corrida original no es un requisito de reproducción. Los gráficos usan la paleta salvia de la marca y escala lineal desde cero.
 
 ![RPS /up](up-rps.png)
 
