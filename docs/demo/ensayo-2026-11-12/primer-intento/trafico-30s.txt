@@ -1,8 +1,0 @@
-Tráfico contra http://localhost durante 30 s, hasta 2 solicitudes/s. Ctrl+C para terminar.
-#1 nginx-php-fpm HTTP 200 | A=1 B=0 sin-nodo=0
-
-Resumen: 1 respuestas; 0 respuestas inesperadas (HTTP distinto de 200 o sin nodo).
-  nginx-php-fpm: 1
-  apache-mod-php: 0
-  sin-nodo: 0
-  HTTP 200: 1

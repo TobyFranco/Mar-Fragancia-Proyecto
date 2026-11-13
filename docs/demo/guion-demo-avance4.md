@@ -6,9 +6,10 @@ Objetivo: mostrar tráfico HTTP real, reparto entre las arquitecturas A y B, con
 
 ## Preparación antes de presentar
 
-Desde la raíz del repositorio, con Docker Compose y el stack levantado. El generador requiere Bash 4+ y curl 7.84+ (`--rate` y lectura de cabeceras con `--write-out`); el ensayo usó curl 8.5.0.
+Desde la raíz del repositorio, con Docker Compose, ejecutar primero `docker compose up -d --build`: así la demo corre sobre las imágenes actuales y conserva los volúmenes de base de datos y storage. El generador requiere Bash 4+ y curl 7.84+ (`--rate` y lectura de cabeceras con `--write-out`); el ensayo usó curl 8.5.0.
 
 ```bash
+docker compose up -d --build
 docker compose ps
 curl --fail --silent --show-error --include http://localhost/up
 ```
@@ -98,7 +99,7 @@ Para un recorrido automatizado más corto, en lugar del stop/start manual ejecut
 ./docker/scripts/demo-failover.sh
 ```
 
-Este script muestra balanceo, detiene A, espera su baja, exige respuestas 200 solo de B y restaura el contenedor existente de A. Su arranque directo evita reevaluar las dependencias del Compose actual sobre contenedores creados anteriormente. Ya incluye restauración ante interrupción; su ventana de caída es breve, por lo que conviene el recorrido manual para explicar el carrito con calma.
+Este script muestra balanceo, detiene A, espera su baja, exige respuestas 200 solo de B y restaura el contenedor existente de A. Ya incluye restauración ante interrupción; su ventana de caída es breve, por lo que conviene el recorrido manual para explicar el carrito con calma.
 
 ### 4. Cierre con los resultados del benchmark
 
@@ -130,20 +131,19 @@ Si Stats rechaza el acceso, confirmar usuario `admin`, clave del stack y puerto 
 
 ## Registro del ensayo real
 
-**12/11/2026, de 23:19:38 a 23:20:27, hora de Asunción (UTC−03).** Se ejecutó `trafico-demo.sh 30` contra `http://localhost` y después `demo-failover.sh`, sobre el stack que ya estaba levantado.
+**12/11/2026, de 23:35:33 a 23:36:22, hora de Asunción (UTC−03).** El stack se recreó con `docker compose up -d --build` antes del ensayo. Sobre ese stack se ejecutó `trafico-demo.sh 30` contra `http://localhost` y después `demo-failover.sh`.
 
 - **Tráfico:** 60 respuestas HTTP 200, 30 de A y 30 de B, sin respuestas inesperadas; salida 0. El conteo se mostró durante la ejecución.
 - **Stats CSV:** ambos nodos recibieron tráfico; los snapshots antes/después del generador dan los siguientes incrementos:
 
 | Nodo | Sessions Total (`stot`) | Δ sesiones | Δ bytes entrada | Δ bytes salida | Estado tras el tráfico |
 |---|---|---|---|---|---|
-| `nginx-php-fpm` | 42 → 72 | +30 | +2400 | +2879595 | UP / L7OK |
-| `apache-mod-php` | 49 → 79 | +30 | +2535 | +2348010 | UP / L7OK |
+| `nginx-php-fpm` | 62 → 92 | +30 | +2535 | +2347110 | UP / L7OK |
+| `apache-mod-php` | 72 → 102 | +30 | +2400 | +2880495 | UP / L7OK |
 
 - **Failover:** se observó A `DOWN` con `LastChk=L4TOUT`, mientras B permanecía `UP/L7OK`. El script comprobó seis respuestas HTTP 200 consecutivas de B con A detenido y terminó con salida 0 tras recuperar A.
-- **Sesión/carrito:** se agregó Coromandel de 5 ml, cantidad 1, usando un cliente HTTP con las mismas cookies. El carrito conservó ese producto y cantidad antes de la caída, durante la caída servido por B y después de recuperar, con respuestas de A y B. Todas esas consultas devolvieron HTTP 200. La presentación incluye la misma comprobación en el navegador.
-- **Estado final:** A y B `UP/L7OK`, con `stot` 82 y 98 respectivamente después del failover y de las comprobaciones del carrito.
+- **Sesión/carrito:** se agregó Coromandel de 5 ml, cantidad 1, usando un cliente HTTP con las mismas cookies durante todo el ensayo. El carrito conservó una única línea con ese producto y cantidad antes de la caída, durante la caída servido por B y después de recuperar, con dos respuestas de A y dos de B. Todas esas consultas devolvieron HTTP 200. La presentación incluye la misma comprobación en el navegador.
+- **Estado final:** A y B `UP/L7OK`, con `stot` 102 y 121 respectivamente después del failover y de las comprobaciones del carrito.
+- **Validación:** `bash -n` sin errores en los scripts Bash de `docker/scripts/`; `cd src && php artisan test` terminó con 333 tests aprobados y 3411 aserciones.
 
-Evidencia guardada: [salida del tráfico](ensayo-2026-11-12/trafico-30s.txt), [salida del failover](ensayo-2026-11-12/failover.txt), [Stats antes](ensayo-2026-11-12/stats-antes-trafico.csv), [Stats después del tráfico](ensayo-2026-11-12/stats-despues-trafico.csv), [Stats durante la caída](ensayo-2026-11-12/stats-durante-caida.csv), [Stats final](ensayo-2026-11-12/stats-final.csv) y [resumen con comprobación del carrito](ensayo-2026-11-12/resumen.json).
-
-El primer intento detectó salida almacenada en búfer por curl y un fallo de `docker compose start` porque el contenedor PHP existente carecía del healthcheck del Compose actual. Se corrigió la salida del generador y el script de failover pasó a iniciar el contenedor existente por su ID; se agregó una prueba de regresión. Se restauró Nginx y se repitió el ensayo completo con los resultados anteriores. Los [logs y CSV del primer intento](ensayo-2026-11-12/primer-intento) se conservan para registrar lo ocurrido.
+Evidencia guardada: [salida del tráfico](ensayo-2026-11-12/trafico-30s.txt), [salida del failover](ensayo-2026-11-12/failover.txt), [Stats antes](ensayo-2026-11-12/stats-antes-trafico.csv), [Stats después del tráfico](ensayo-2026-11-12/stats-despues-trafico.csv), [Stats durante la caída](ensayo-2026-11-12/stats-durante-caida.csv), [Stats final](ensayo-2026-11-12/stats-final.csv), [comprobaciones del carrito](ensayo-2026-11-12/carrito.txt), [resumen del ensayo](ensayo-2026-11-12/resumen.json) y [validaciones](ensayo-2026-11-12/validaciones.txt).
