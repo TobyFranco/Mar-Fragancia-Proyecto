@@ -194,6 +194,7 @@ Guía con todos los endpoints, autenticación y ejemplos: [`docs/api/README.md`]
 | Diccionario del esquema MySQL | [`docs/datos/diccionario-de-datos.md`](docs/datos/diccionario-de-datos.md) |
 | Evaluación de normalización | [`docs/datos/normalizacion.md`](docs/datos/normalizacion.md) |
 | Benchmark A vs B | [`docs/benchmark/informe-benchmark.md`](docs/benchmark/informe-benchmark.md) |
+| Cierre metodológico · Avance 4 (PI-26) | [Sprint Review y retrospectiva final](docs/metodologia/sprint-review-retrospectiva.md) |
 
 El diccionario se regenera desde el esquema MySQL real, con el stack y sus migraciones ya aplicados:
 
