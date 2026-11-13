@@ -25,7 +25,7 @@ class AccesoAdminTest extends TestCase
         foreach (['/admin/dashboard', '/admin/productos', '/admin/marcas', '/admin/categorias', '/admin/tamanos'] as $ruta) {
             $respuesta = $this->get($ruta);
             match ($rol) {
-                null => $respuesta->assertRedirect('/login'),
+                null => $respuesta->assertRedirect('/admin/login'),
                 'cliente' => $respuesta->assertForbidden(),
                 default => $respuesta->assertOk(),
             };

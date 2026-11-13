@@ -102,7 +102,7 @@ class CatalogoAdminTest extends TestCase
 
     public function test_rutas_exigen_administrador(): void
     {
-        $this->get('/admin/marcas')->assertRedirect('/login');
+        $this->get('/admin/marcas')->assertRedirect('/admin/login');
         $this->admin('cliente');
         foreach (['marcas', 'categorias', 'tamanos'] as $recurso) {
             $this->get('/admin/'.$recurso)->assertForbidden();
