@@ -1,0 +1,67 @@
+Tráfico contra http://localhost durante 30 s, hasta 2 solicitudes/s. Ctrl+C para terminar.
+#1 nginx-php-fpm HTTP 200 | A=1 B=0 sin-nodo=0
+#2 apache-mod-php HTTP 200 | A=1 B=1 sin-nodo=0
+#3 nginx-php-fpm HTTP 200 | A=2 B=1 sin-nodo=0
+#4 apache-mod-php HTTP 200 | A=2 B=2 sin-nodo=0
+#5 nginx-php-fpm HTTP 200 | A=3 B=2 sin-nodo=0
+#6 apache-mod-php HTTP 200 | A=3 B=3 sin-nodo=0
+#7 nginx-php-fpm HTTP 200 | A=4 B=3 sin-nodo=0
+#8 apache-mod-php HTTP 200 | A=4 B=4 sin-nodo=0
+#9 nginx-php-fpm HTTP 200 | A=5 B=4 sin-nodo=0
+#10 apache-mod-php HTTP 200 | A=5 B=5 sin-nodo=0
+#11 nginx-php-fpm HTTP 200 | A=6 B=5 sin-nodo=0
+#12 apache-mod-php HTTP 200 | A=6 B=6 sin-nodo=0
+#13 nginx-php-fpm HTTP 200 | A=7 B=6 sin-nodo=0
+#14 apache-mod-php HTTP 200 | A=7 B=7 sin-nodo=0
+#15 nginx-php-fpm HTTP 200 | A=8 B=7 sin-nodo=0
+#16 apache-mod-php HTTP 200 | A=8 B=8 sin-nodo=0
+#17 nginx-php-fpm HTTP 200 | A=9 B=8 sin-nodo=0
+#18 apache-mod-php HTTP 200 | A=9 B=9 sin-nodo=0
+#19 nginx-php-fpm HTTP 200 | A=10 B=9 sin-nodo=0
+#20 apache-mod-php HTTP 200 | A=10 B=10 sin-nodo=0
+#21 nginx-php-fpm HTTP 200 | A=11 B=10 sin-nodo=0
+#22 apache-mod-php HTTP 200 | A=11 B=11 sin-nodo=0
+#23 nginx-php-fpm HTTP 200 | A=12 B=11 sin-nodo=0
+#24 apache-mod-php HTTP 200 | A=12 B=12 sin-nodo=0
+#25 nginx-php-fpm HTTP 200 | A=13 B=12 sin-nodo=0
+#26 apache-mod-php HTTP 200 | A=13 B=13 sin-nodo=0
+#27 nginx-php-fpm HTTP 200 | A=14 B=13 sin-nodo=0
+#28 apache-mod-php HTTP 200 | A=14 B=14 sin-nodo=0
+#29 nginx-php-fpm HTTP 200 | A=15 B=14 sin-nodo=0
+#30 apache-mod-php HTTP 200 | A=15 B=15 sin-nodo=0
+#31 nginx-php-fpm HTTP 200 | A=16 B=15 sin-nodo=0
+#32 apache-mod-php HTTP 200 | A=16 B=16 sin-nodo=0
+#33 nginx-php-fpm HTTP 200 | A=17 B=16 sin-nodo=0
+#34 apache-mod-php HTTP 200 | A=17 B=17 sin-nodo=0
+#35 nginx-php-fpm HTTP 200 | A=18 B=17 sin-nodo=0
+#36 apache-mod-php HTTP 200 | A=18 B=18 sin-nodo=0
+#37 nginx-php-fpm HTTP 200 | A=19 B=18 sin-nodo=0
+#38 apache-mod-php HTTP 200 | A=19 B=19 sin-nodo=0
+#39 nginx-php-fpm HTTP 200 | A=20 B=19 sin-nodo=0
+#40 apache-mod-php HTTP 200 | A=20 B=20 sin-nodo=0
+#41 nginx-php-fpm HTTP 200 | A=21 B=20 sin-nodo=0
+#42 apache-mod-php HTTP 200 | A=21 B=21 sin-nodo=0
+#43 nginx-php-fpm HTTP 200 | A=22 B=21 sin-nodo=0
+#44 apache-mod-php HTTP 200 | A=22 B=22 sin-nodo=0
+#45 nginx-php-fpm HTTP 200 | A=23 B=22 sin-nodo=0
+#46 apache-mod-php HTTP 200 | A=23 B=23 sin-nodo=0
+#47 nginx-php-fpm HTTP 200 | A=24 B=23 sin-nodo=0
+#48 apache-mod-php HTTP 200 | A=24 B=24 sin-nodo=0
+#49 nginx-php-fpm HTTP 200 | A=25 B=24 sin-nodo=0
+#50 apache-mod-php HTTP 200 | A=25 B=25 sin-nodo=0
+#51 nginx-php-fpm HTTP 200 | A=26 B=25 sin-nodo=0
+#52 apache-mod-php HTTP 200 | A=26 B=26 sin-nodo=0
+#53 nginx-php-fpm HTTP 200 | A=27 B=26 sin-nodo=0
+#54 apache-mod-php HTTP 200 | A=27 B=27 sin-nodo=0
+#55 nginx-php-fpm HTTP 200 | A=28 B=27 sin-nodo=0
+#56 apache-mod-php HTTP 200 | A=28 B=28 sin-nodo=0
+#57 nginx-php-fpm HTTP 200 | A=29 B=28 sin-nodo=0
+#58 apache-mod-php HTTP 200 | A=29 B=29 sin-nodo=0
+#59 nginx-php-fpm HTTP 200 | A=30 B=29 sin-nodo=0
+#60 apache-mod-php HTTP 200 | A=30 B=30 sin-nodo=0
+
+Resumen: 60 respuestas; 0 respuestas inesperadas (HTTP distinto de 200 o sin nodo).
+  nginx-php-fpm: 30
+  apache-mod-php: 30
+  sin-nodo: 0
+  HTTP 200: 60

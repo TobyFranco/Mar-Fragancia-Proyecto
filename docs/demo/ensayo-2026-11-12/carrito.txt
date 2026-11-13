@@ -1,0 +1,39 @@
+Cliente HTTP con una única CookieJar en memoria durante todo el ensayo.
+POST /carrito: Coromandel 5 ml, cantidad 1; redirección seguida con las mismas cookies.
+
+antes: {"hora": "2026-11-12T23:35:34.372745-03:00", "http": 200, "nodo": "apache-mod-php", "producto": "Coromandel", "tamano": "5 ml", "cantidad": 1, "lineas": 1}
+Extractos de la respuesta HTTP (sin cookies ni tokens):
+<h3>Coromandel · Chanel</h3>
+<p class="muted">Decant 5 ml</p>
+<input id="cantidad-carrito-75" name="cantidad" type="number" min="0" max="12" value="1" x-model.number="cantidad" required>
+
+durante_caida: {"hora": "2026-11-12T23:36:15.979119-03:00", "http": 200, "nodo": "apache-mod-php", "producto": "Coromandel", "tamano": "5 ml", "cantidad": 1, "lineas": 1}
+Extractos de la respuesta HTTP (sin cookies ni tokens):
+<h3>Coromandel · Chanel</h3>
+<p class="muted">Decant 5 ml</p>
+<input id="cantidad-carrito-75" name="cantidad" type="number" min="0" max="12" value="1" x-model.number="cantidad" required>
+
+recuperado: {"hora": "2026-11-12T23:36:22.174030-03:00", "http": 200, "nodo": "apache-mod-php", "producto": "Coromandel", "tamano": "5 ml", "cantidad": 1, "lineas": 1}
+Extractos de la respuesta HTTP (sin cookies ni tokens):
+<h3>Coromandel · Chanel</h3>
+<p class="muted">Decant 5 ml</p>
+<input id="cantidad-carrito-75" name="cantidad" type="number" min="0" max="12" value="1" x-model.number="cantidad" required>
+
+recuperado: {"hora": "2026-11-12T23:36:22.239713-03:00", "http": 200, "nodo": "nginx-php-fpm", "producto": "Coromandel", "tamano": "5 ml", "cantidad": 1, "lineas": 1}
+Extractos de la respuesta HTTP (sin cookies ni tokens):
+<h3>Coromandel · Chanel</h3>
+<p class="muted">Decant 5 ml</p>
+<input id="cantidad-carrito-75" name="cantidad" type="number" min="0" max="12" value="1" x-model.number="cantidad" required>
+
+recuperado: {"hora": "2026-11-12T23:36:22.308599-03:00", "http": 200, "nodo": "apache-mod-php", "producto": "Coromandel", "tamano": "5 ml", "cantidad": 1, "lineas": 1}
+Extractos de la respuesta HTTP (sin cookies ni tokens):
+<h3>Coromandel · Chanel</h3>
+<p class="muted">Decant 5 ml</p>
+<input id="cantidad-carrito-75" name="cantidad" type="number" min="0" max="12" value="1" x-model.number="cantidad" required>
+
+recuperado: {"hora": "2026-11-12T23:36:22.371817-03:00", "http": 200, "nodo": "nginx-php-fpm", "producto": "Coromandel", "tamano": "5 ml", "cantidad": 1, "lineas": 1}
+Extractos de la respuesta HTTP (sin cookies ni tokens):
+<h3>Coromandel · Chanel</h3>
+<p class="muted">Decant 5 ml</p>
+<input id="cantidad-carrito-75" name="cantidad" type="number" min="0" max="12" value="1" x-model.number="cantidad" required>
+

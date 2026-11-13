@@ -1,6 +1,7 @@
 services:
   app-fpm:
     entrypoint: [docker-php-entrypoint]
+    command: [php-fpm]
     volumes:
       - ./src:/var/www
       - ./src/storage:/var/www/storage
@@ -17,9 +18,13 @@ services:
       - ./docker/nginx/templates:/etc/nginx/templates:ro
   apache-php:
     entrypoint: [docker-php-entrypoint]
+    command: [apache2-foreground]
     volumes:
       - ./src:/var/www
       - ./src/storage:/var/www/storage
+    environment:
+      APP_KEY: null
+      APP_URL: null
   haproxy:
     volumes:
       - ./docker/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro

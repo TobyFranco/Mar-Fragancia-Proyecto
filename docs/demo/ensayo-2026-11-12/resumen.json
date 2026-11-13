@@ -1,0 +1,229 @@
+{
+  "inicio": "2026-11-12T23:35:33.973264-03:00",
+  "directorio": "ensayo-2026-11-12",
+  "preparacion_stack": "Stack recreado con docker compose up -d --build antes del ensayo",
+  "snapshots_hora": {
+    "antes-trafico": "2026-11-12T23:35:34.373986-03:00",
+    "despues-trafico": "2026-11-12T23:36:03.962460-03:00",
+    "durante-caida": "2026-11-12T23:36:15.907454-03:00",
+    "final": "2026-11-12T23:36:22.372986-03:00"
+  },
+  "stack": [
+    {
+      "servicio": "apache-php",
+      "imagen": "mar-fragancia-proyecto-apache-php",
+      "imagen_id": "sha256:0d2d77669c407478cf3f018b8442e4ee32a9fead7e77f43484d72d356bcf8c99",
+      "creado": "2026-11-13T02:31:20.03809697Z",
+      "estado": "running",
+      "salud": null,
+      "volumenes": [
+        {
+          "nombre": null,
+          "destino": "/var/www/storage"
+        },
+        {
+          "nombre": null,
+          "destino": "/var/www"
+        }
+      ]
+    },
+    {
+      "servicio": "app-fpm",
+      "imagen": "mar-fragancia-proyecto-app-fpm",
+      "imagen_id": "sha256:c8176c9953ca5636e63720a73d5a81c3336d91d751ffd6f9b4ddca3747a61426",
+      "creado": "2026-11-13T02:30:38.567611203Z",
+      "estado": "running",
+      "salud": "healthy",
+      "volumenes": [
+        {
+          "nombre": null,
+          "destino": "/var/www/storage"
+        },
+        {
+          "nombre": null,
+          "destino": "/var/www"
+        },
+        {
+          "nombre": null,
+          "destino": "/var/docs"
+        }
+      ]
+    },
+    {
+      "servicio": "db",
+      "imagen": "mysql:8.0",
+      "imagen_id": "sha256:7dcddc01f13bab2f15cde676d44d01f61fc9f99fe7785e86196dfc07d358ae2b",
+      "creado": "2026-11-13T02:29:15.85326021Z",
+      "estado": "running",
+      "salud": "healthy",
+      "volumenes": [
+        {
+          "nombre": "mar-fragancia-proyecto_db_data",
+          "destino": "/var/lib/mysql"
+        }
+      ]
+    },
+    {
+      "servicio": "haproxy",
+      "imagen": "mar-fragancia-proyecto-haproxy",
+      "imagen_id": "sha256:8e620ba841f7f270432e26a14b98d8fc33857851b617625de73ff04344982b7e",
+      "creado": "2026-11-13T02:29:18.543376521Z",
+      "estado": "running",
+      "salud": null,
+      "volumenes": [
+        {
+          "nombre": null,
+          "destino": "/usr/local/etc/haproxy/haproxy.cfg"
+        }
+      ]
+    },
+    {
+      "servicio": "web-nginx",
+      "imagen": "mar-fragancia-proyecto-web-nginx",
+      "imagen_id": "sha256:eb31cb123297b6b75fef5f6d2a8a40d3d6bbc2af5b79e1abe475d30bc59f1fdf",
+      "creado": "2026-11-13T02:29:17.304654398Z",
+      "estado": "running",
+      "salud": null,
+      "volumenes": [
+        {
+          "nombre": null,
+          "destino": "/var/www/storage"
+        },
+        {
+          "nombre": null,
+          "destino": "/var/www"
+        },
+        {
+          "nombre": null,
+          "destino": "/etc/nginx/templates"
+        }
+      ]
+    }
+  ],
+  "carrito": {
+    "antes": {
+      "hora": "2026-11-12T23:35:34.372745-03:00",
+      "http": 200,
+      "nodo": "apache-mod-php",
+      "producto": "Coromandel",
+      "tamano": "5 ml",
+      "cantidad": 1,
+      "lineas": 1
+    },
+    "durante_caida": {
+      "hora": "2026-11-12T23:36:15.979119-03:00",
+      "http": 200,
+      "nodo": "apache-mod-php",
+      "producto": "Coromandel",
+      "tamano": "5 ml",
+      "cantidad": 1,
+      "lineas": 1
+    },
+    "recuperado": [
+      {
+        "hora": "2026-11-12T23:36:22.174030-03:00",
+        "http": 200,
+        "nodo": "apache-mod-php",
+        "producto": "Coromandel",
+        "tamano": "5 ml",
+        "cantidad": 1,
+        "lineas": 1
+      },
+      {
+        "hora": "2026-11-12T23:36:22.239713-03:00",
+        "http": 200,
+        "nodo": "nginx-php-fpm",
+        "producto": "Coromandel",
+        "tamano": "5 ml",
+        "cantidad": 1,
+        "lineas": 1
+      },
+      {
+        "hora": "2026-11-12T23:36:22.308599-03:00",
+        "http": 200,
+        "nodo": "apache-mod-php",
+        "producto": "Coromandel",
+        "tamano": "5 ml",
+        "cantidad": 1,
+        "lineas": 1
+      },
+      {
+        "hora": "2026-11-12T23:36:22.371817-03:00",
+        "http": 200,
+        "nodo": "nginx-php-fpm",
+        "producto": "Coromandel",
+        "tamano": "5 ml",
+        "cantidad": 1,
+        "lineas": 1
+      }
+    ]
+  },
+  "antes": {
+    "nginx-php-fpm": {
+      "status": "UP",
+      "stot": "62",
+      "bin": "8111",
+      "bout": "4003076",
+      "check_status": "L7OK"
+    },
+    "apache-mod-php": {
+      "status": "UP",
+      "stot": "72",
+      "bin": "11274",
+      "bout": "8881818",
+      "check_status": "L7OK"
+    }
+  },
+  "trafico_exit": 0,
+  "despues_trafico": {
+    "nginx-php-fpm": {
+      "status": "UP",
+      "stot": "92",
+      "bin": "10646",
+      "bout": "6350186",
+      "check_status": "L7OK"
+    },
+    "apache-mod-php": {
+      "status": "UP",
+      "stot": "102",
+      "bin": "13674",
+      "bout": "11762313",
+      "check_status": "L7OK"
+    }
+  },
+  "durante_caida": {
+    "nginx-php-fpm": {
+      "status": "DOWN",
+      "stot": "96",
+      "bin": "10877",
+      "bout": "6356321",
+      "check_status": "L4TOUT"
+    },
+    "apache-mod-php": {
+      "status": "UP",
+      "stot": "105",
+      "bin": "13905",
+      "bout": "11768538",
+      "check_status": "L7OK"
+    }
+  },
+  "failover_exit": 0,
+  "final": {
+    "nginx-php-fpm": {
+      "status": "UP",
+      "stot": "102",
+      "bin": "12831",
+      "bout": "6511779",
+      "check_status": "L7OK"
+    },
+    "apache-mod-php": {
+      "status": "UP",
+      "stot": "121",
+      "bin": "17375",
+      "bout": "12016520",
+      "check_status": "L7OK"
+    }
+  },
+  "down_observado": true,
+  "fin": "2026-11-12T23:36:22.459111-03:00"
+}
