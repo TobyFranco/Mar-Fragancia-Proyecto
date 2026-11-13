@@ -1,6 +1,6 @@
 # PI-13 · Plan de pruebas de Auth y Catálogo
 
-Fecha: 2026-10-19. Proyecto: Mar Fragancias, Fase 1. Rama: `feature/tienda-publica`.
+Plan original: 2026-10-19. Revisión documental PI-28: 12/11/2026. Proyecto: Mar Fragancias, Fase 1. Rama: `feature/tienda-publica`.
 
 Fuente de verdad: [especificación](../superpowers/specs/2026-10-18-tienda-y-admin-design.md) y [plan de implementación](../superpowers/plans/2026-10-18-fase-1-tienda-publica.md). Referencia visual: [maquetas aprobadas](../diseno/maquetas/diseno-final.html).
 
@@ -14,12 +14,11 @@ Fuera de esta verificación: MySQL, concurrencia real entre procesos, teléfono 
 
 ## Entorno y ejecución
 
-Entorno verificado: PHP 8.5.0, Laravel 13.29.0, PHPUnit 12.5.34, Node 24.22 y npm 11. `src/phpunit.xml` usa SQLite `:memory:`, sesión/cache en `array`, cola `sync` y correo `array`. Los tests de BD usan `RefreshDatabase` y crean sus propios datos con factories o seeders; no requieren la BD de desarrollo. Los tests de mensaje construyen modelos sin persistirlos; los tests de texto son unitarios puros. No hay llamadas a WhatsApp: se verifica el destino del redirect y la codificación. Open-Meteo usa HTTP fake en tests de clima.
+Entorno de validación PI-28: PHP 8.5.0, Laravel 13.39.0, PHPUnit 12.5.42, Node 24.22.0 y npm 11.19.1. `src/phpunit.xml` usa SQLite `:memory:`, sesión/cache en `array`, cola `sync` y correo `array`. Los tests de BD usan `RefreshDatabase` y crean sus propios datos con factories o seeders; no requieren la BD de desarrollo. Los tests de mensaje construyen modelos sin persistirlos; los tests de texto son unitarios puros. No hay llamadas a WhatsApp: se verifica el destino del redirect y la codificación. Open-Meteo usa HTTP fake en tests de clima.
 
 Desde la raíz del repositorio:
 
 ```bash
-export PATH="$HOME/.config/herd-lite/bin:$PATH"
 cd src
 php artisan test
 ```
@@ -132,10 +131,12 @@ Fixture base: Sauvage 10 ml ×1 a60.000 y Good Girl 5 ml ×2 a32.000, stock5 cad
 
 ## Evidencia y cierre
 
-Corrida final de Fase 1 (2026-10-19): `php artisan test` → **150 tests aprobados, 1012 assertions, 0 fallos**, 6,50 s. `vendor/bin/pint --dirty --format agent` y `npm run build` correctos. Once recorridos Firefox verdes (diez normales y uno con movimiento reducido), a375/1440 px, sin errores de consola. Detalle de comparación y decisiones en Tarea 11e del plan.
+Validación actual de la suite completa en PI-28: **333 tests, 3411 aserciones, sin fallos**. Incluye API, área cliente, infraestructura y documentación además de estos casos. Los resultados de navegador, Pint y build de abajo son históricos; no se repitieron en esta revisión documental.
+
+Resultado histórico de Fase 1 (2026-10-19; no es el conteo actual): `php artisan test` → **150 tests aprobados, 1012 assertions, 0 fallos**, 6,50 s. `vendor/bin/pint --dirty --format agent` y `npm run build` correctos. Once recorridos Firefox verdes (diez normales y uno con movimiento reducido), a375/1440 px, sin errores de consola. Detalle de comparación y decisiones en Tarea 11e del plan.
 
 Auditoría: `AuditoriaVistasTest::test_vistas_publicas_no_contienen_emojis_ni_simbolos_icono` recorre las vistas públicas recursivamente. Se probó su fallo con una vista temporal no enrutada que contenía seis caracteres prohibidos; detectó las seis líneas. La fixture se retiró antes del verde y no se versionó.
 
 Pruebas de navegador sin dependencias nuevas: `src/tests/Browser/tienda.mjs`, Firefox headless con perfil aislado, escritorio1440 px y móvil375 px. Los modos `task4` a `task10` y `task11a-estilos`/`task11a-busqueda` cubren navegación, filtros, selección, panel/foco/Escape, carrito, checkout y errores, termómetro, Auth, CTA móvil único y búsqueda incremental con Enter. Se agregan Cómo funciona/404 en `task11b`. Requieren un servidor con BD SQLite de demostración separada y Firefox con WebDriver BiDi; no apuntarlos a datos reales. Los overrides son `TIENDA_URL`, `FIREFOX_BIDI_URL` y `TIENDA_CAPTURAS`. El perfil de movimiento reducido usa `ui.prefersReducedMotion=1` y `TIENDA_REDUCED_MOTION=1`.
 
-Pendientes antes de publicar: ejecutar sobre MySQL en un entorno aislado; probar en teléfono físico teclado, tacto, foco y apertura de WhatsApp; confirmar número comercial, tarifa de envío, políticas/plazos de entrega/retiro/pago, enlaces sociales, fotos, precios, notas y stock reales. Los seeders y el número `595900000000` son demostrativos. No se enviaron mensajes ni se hizo push.
+El [ensayo PI-27](../demo/guion-demo-avance4.md#registro-del-ensayo-real) y el [benchmark](../benchmark/informe-benchmark.md) ya ejercitan MySQL sobre Docker; no reemplazan toda esta matriz ni prueban concurrencia transaccional. Pendientes antes de publicar: ejecutar la matriz funcional completa y dos conexiones concurrentes sobre MySQL en un entorno aislado; probar en teléfono físico teclado, tacto, foco y apertura de WhatsApp; confirmar número comercial, tarifa de envío, políticas/plazos de entrega/retiro/pago, enlaces sociales, fotos, precios, notas y stock reales. Los seeders y el número `595900000000` son demostrativos. No se enviaron mensajes ni se hizo push.

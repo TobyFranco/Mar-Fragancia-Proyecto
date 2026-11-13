@@ -2,7 +2,7 @@
 
 Avance 4 de Programación IV · Entrega prevista: **27/11/2026**.
 
-**Nota:** Este documento resume el estado del repositorio al 12/11/2026; las actas del equipo se suman en la sección 4.
+**Nota:** Actualizado en PI-28 sobre `main` con PI-27 integrado (#11), al 12/11/2026. Las actas del equipo se suman en la sección 4.
 
 ## 1. Resumen del proyecto y metodología
 
@@ -33,9 +33,9 @@ Según la sección Equipo del [README](../../README.md):
 
 ### Estado y trazabilidad de Jira
 
-Estado del tablero **PI al 12/11/2026**.
+Correspondencia de tareas tomada del registro **PI al 12/11/2026**. Se conservan los estados registrados de PI-1 a PI-25; PI-26 a PI-28 describen la evidencia documental actual en Git. No se consultó ni se cambió el estado del tablero durante PI-28.
 
-| Tarea | Estado | Alcance |
+| Tarea | Estado registrado / evidencia local | Alcance |
 |---|---|---|
 | [PI-1](https://marfragancias.atlassian.net/browse/PI-1) | Finalizada | Crear alcance |
 | [PI-2](https://marfragancias.atlassian.net/browse/PI-2) | Finalizada | Diseño MER/DER |
@@ -62,9 +62,9 @@ Estado del tablero **PI al 12/11/2026**.
 | [PI-23](https://marfragancias.atlassian.net/browse/PI-23) | Finalizada | Portainer |
 | [PI-24](https://marfragancias.atlassian.net/browse/PI-24) | Finalizada | Área de cliente |
 | [PI-25](https://marfragancias.atlassian.net/browse/PI-25) | Finalizada | Corrección de tests |
-| [PI-26](https://marfragancias.atlassian.net/browse/PI-26) | Pendiente | Cierre metodológico: Sprint Review y retrospectiva final |
-| [PI-27](https://marfragancias.atlassian.net/browse/PI-27) | Pendiente | Demo de Stats con tráfico real |
-| [PI-28](https://marfragancias.atlassian.net/browse/PI-28) | Pendiente | Documentación completa |
+| [PI-26](https://marfragancias.atlassian.net/browse/PI-26) | Documento elaborado; actas y acuerdos pendientes | Cierre metodológico: Sprint Review y retrospectiva final |
+| [PI-27](https://marfragancias.atlassian.net/browse/PI-27) | Integrada en main (#11), ensayo documentado | Demo de Stats con tráfico real |
+| [PI-28](https://marfragancias.atlassian.net/browse/PI-28) | Documentación preparada en la rama PI-28; revisión del equipo pendiente | Documentación completa |
 
 > **[Completar por el equipo]: Adjuntar la exportación del backlog y los Sprint Backlogs.**
 
@@ -90,8 +90,8 @@ La tabla reúne los entregables del calendario del PDF, su estado y la evidencia
 | 3 | Demostración de failover en vivo | Implementado; script y corrida documentados | [Demo reproducible](../../docker/scripts/demo-failover.sh), [resultado de failover](../benchmark/resultados/haproxy-failover.txt), [informe](../benchmark/informe-benchmark.md); PR #3 y #4 | [PI-20](https://marfragancias.atlassian.net/browse/PI-20) |
 | 4 | Cierre metodológico: Review/Retrospective final o métricas de flujo | Pendiente de cierre; documento elaborado | Este documento y plantilla de actas de la sección 4 | [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 | 4 | Benchmarking: RPS y latencia A vs B | Documentado con resultados y limitaciones | [Informe](../benchmark/informe-benchmark.md), [CSV](../benchmark/resultados.csv), [script](../../docker/scripts/benchmark.sh); PR #4 | [PI-21](https://marfragancias.atlassian.net/browse/PI-21) |
-| 4 | HAProxy Stats en 8404 con tráfico real | Pendiente de demo PI-27; existen snapshots de una corrida anterior | [Configuración Stats](../../docker/haproxy/haproxy.cfg), [CSV previo](../benchmark/resultados/stats-antes.csv), [CSV normal](../benchmark/resultados/stats-normal.csv), [CSV failover](../benchmark/resultados/stats-failover.csv), [informe](../benchmark/informe-benchmark.md) | [PI-27](https://marfragancias.atlassian.net/browse/PI-27) |
-| 4 | Repositorio Git y documentación técnica/metodológica completa | Repositorio y documentación parcial disponibles; cierre pendiente | [Índice del README](../../README.md#documentación), [documentación API](../api/README.md), datos, pruebas, benchmark y este documento | [PI-28](https://marfragancias.atlassian.net/browse/PI-28), [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
+| 4 | HAProxy Stats en 8404 con tráfico real | Ensayo real documentado e integrado (#11); presentación final prevista el 27/11 | [Guion y registro PI-27](../demo/guion-demo-avance4.md#registro-del-ensayo-real), [resumen](../demo/ensayo-2026-11-12/resumen.json), cuatro CSV y comprobación del carrito enlazados allí | [PI-27](https://marfragancias.atlassian.net/browse/PI-27) |
+| 4 | Repositorio Git y documentación técnica/metodológica completa | Índice de documentación preparado en PI-28; evidencias externas pendientes del equipo | [Entregables del README](../../README.md#entregables-del-proyecto), [documentación API](../api/README.md), datos, pruebas, benchmark y este documento | [PI-28](https://marfragancias.atlassian.net/browse/PI-28), [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
 
 Otros requisitos del cuerpo del PDF cuentan con evidencia: la [evaluación de normalización](../datos/normalizacion.md) documenta 3FN y explicita dos excepciones deliberadas, `detalle_pedidos.subtotal` y `pedidos.total` (PR #6); la [API REST](../api/README.md) y su [OpenAPI](../api/openapi.yaml) describen endpoints y autenticación Sanctum (PR #5); los roles actuales se registran en la sección 1 y en el README (PR #9). Las [maquetas](../diseno/maquetas/diseno-final.html) y el [plan de pruebas Auth/Catálogo](../pruebas/plan-de-pruebas-auth-catalogo.md) trazan PI-12 y PI-13. El resultado de tests registrado abajo corresponde a una ejecución local.
 
@@ -108,8 +108,9 @@ Fuente: `git log main --first-parent --format='%h %cs %s' --grep='(#[0-9]'`. Se 
 | [#7](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/pull/7) | 11/11/2026 | `18db4eb` | Área de cliente y stack preparado para Portainer CE |
 | [#8](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/pull/8) | 12/11/2026 | `d7da1b7` | Corrección de tests del seeder y Portainer |
 | [#9](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/pull/9) | 12/11/2026 | `b6d2c2c` | Actualización del equipo en el README |
+| [#11](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/pull/11) | 12/11/2026 | `e9dafb9` | Demo del Avance 4, ensayo de carrito y failover y ajuste del override local |
 
-Son **7 PR integrados en el tramo #3–#9**. En toda la línea principal consultada hay **8 referencias de integración de PR**: las siete anteriores y [#1](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/pull/1), commit `29ecbaf` del 19/10/2026.
+Son **8 PR integrados en la tabla**. En toda la línea principal consultada hay **9 referencias de integración de PR**: las ocho anteriores y [#1](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/pull/1), commit `29ecbaf` del 19/10/2026.
 
 ### Métricas verificadas
 
@@ -120,7 +121,7 @@ cd src
 php artisan test
 ```
 
-Resultado: **331 tests aprobados de 331, 3405 aserciones, sin fallos**, duración informada de 20002 ms. El entorno de tests está definido en [phpunit.xml](../../src/phpunit.xml); usa SQLite en memoria.
+Resultado PI-28: **333 tests aprobados de 333, 3411 aserciones, sin fallos**, duración informada de 20316 ms. El entorno de tests está definido en [phpunit.xml](../../src/phpunit.xml); usa SQLite en memoria.
 
 Resultados históricos del [informe de benchmark del 09/11/2026](../benchmark/informe-benchmark.md), con 20 procesos PHP por arquitectura y concurrencia 50:
 
@@ -136,11 +137,14 @@ El informe registra **48.000 solicitudes directas sin errores** y reparto de **1
 
 ### Pendientes para la entrega
 
-- **PI-26:** revisión del documento por el equipo, opiniones y acuerdos reales de retrospectiva y actas correspondientes.
-- **PI-27:** demo de Stats en 8404 con tráfico real y evidencia de contadores y estados de los nodos.
-- **PI-28:** revisar y completar el índice técnico/metodológico y las evidencias pendientes de la matriz.
+Registro único de evidencias externas del cierre metodológico y de despliegue; no se sustituyen con planes técnicos ni con estados de tareas:
 
-> **[Completar por el equipo]: Registrar acuerdos de la Review y adjuntar reportes de sprints y constancia de Portainer.**
+- **PI-14:** adjuntar exportación o capturas del Product Backlog priorizado, con historias y criterios de aceptación legibles.
+- **PI-15 / PI-16:** adjuntar Sprint Backlogs, Planning con objetivos y fechas de sprints de 2 a 3 semanas, y reportes de sprints del Avance 2.
+- **PI-15 / PI-26:** completar la sección 4 con actas reales de Daily, Review y Retrospective de los hitos, incluida la final; incorporar opiniones, acuerdos, responsables y plazos del equipo.
+- **PI-23:** adjuntar constancia del despliegue real en Portainer (Stack, servicios y nodos disponibles), sin publicar claves.
+
+PI-27 tiene [ensayo real integrado](../demo/guion-demo-avance4.md#registro-del-ensayo-real). PI-28 aporta el [índice de entregables](../../README.md#entregables-del-proyecto) y la documentación técnica de la entrega.
 
 ## 3. Retrospectiva
 
@@ -148,10 +152,10 @@ La retrospectiva reúne resultados observables y propuestas de mejora para acord
 
 ### Qué salió bien: hechos observables
 
-- La suite completa pasa con 331 tests. El [PR #8](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/pull/8) corrigió dos supuestos de tests: el correo de ejemplo del seeder y la dependencia de un binario exclusivo de la imagen PHP. El test CLI conserva la comprobación de `APP_KEY` vacía y salida `cli-ok` mediante un ejecutable temporal.
+- La suite completa pasa con 333 tests (validación PI-28). El [PR #8](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/pull/8) corrigió dos supuestos de tests: el correo de ejemplo del seeder y la dependencia de un binario exclusivo de la imagen PHP. El test CLI conserva la comprobación de `APP_KEY` vacía y salida `cli-ok` mediante un ejecutable temporal.
 - El benchmark conserva [datos crudos](../benchmark/resultados), [CSV](../benchmark/resultados.csv), gráficos, configuración y limitaciones. El informe distingue la corrida de fábrica de la comparación con 20 procesos por arquitectura.
 - La documentación del modelo de datos incluye [DER](../datos/der.md), [diccionario](../datos/diccionario-de-datos.md) y [justificación de 3FN](../datos/normalizacion.md) en el PR #6; la API conserva una especificación OpenAPI en el PR #5.
-- El historial permite identificar por separado infraestructura, benchmark, API, modelo de datos, área de cliente/Portainer, correcciones de tests y actualización de integrantes en los PR #3 a #9.
+- El historial permite identificar por separado infraestructura, benchmark, API, modelo de datos, área de cliente/Portainer, correcciones de tests y actualización de integrantes en los PR de la tabla anterior, incluido el ensayo PI-27 del PR #11.
 
 ### Qué mejorar y acciones propuestas
 
@@ -159,7 +163,7 @@ La retrospectiva reúne resultados observables y propuestas de mejora para acord
 |---|---|---|
 | Los planes técnicos y el seguimiento de Jira se complementan con las actas del equipo | Reunir actas y exportaciones de Jira con objetivos, criterios de aceptación y resultados de cada sprint | Registro de ceremonias completado con fuentes y Sprint Backlogs enlazados |
 | El informe conserva una comparación A/B reproducible | Ampliar las mediciones y los escenarios de uso sobre el stack desplegado | Nuevas salidas crudas y registro del entorno y los resultados |
-| Hay snapshots de Stats y PI-27 continúa pendiente | Ejecutar y registrar la demo requerida de Stats con tráfico real | Evidencia de tráfico, contadores y estados de ambos nodos vinculada a PI-27 |
+| PI-27 conserva un ensayo de Stats, failover y carrito | Usar el guion integrado para preparar la presentación del 27/11 | [Ensayo real](../demo/guion-demo-avance4.md#registro-del-ensayo-real) y ambos nodos UP antes de presentar |
 | Los tests de seeder y CLI necesitaron ajustes en el PR #8 | Al cambiar datos de ejemplo o infraestructura, revisar las expectativas y dependencias externas de los tests afectados | Suite completa aprobada y dependencias aisladas en los tests |
 
 > **[Completar por el equipo]: Añadir opiniones sobre aciertos y dificultades; acordar acciones, responsables y plazos.**

@@ -210,11 +210,22 @@ Las relaciones polimórficas de personal_access_tokens y sessions.user_id no son
 
 ### Exportación reproducible
 
-El archivo SVG se generó con Mermaid CLI **11.12.0** y Node **24.22.0**. Extraer el contenido del segundo bloque Mermaid (nivel lógico) a `/tmp/mar-der-logico.mmd` y ejecutar:
+El archivo SVG se generó con Mermaid CLI **11.12.0** y Node **24.22.0**. Con Node y npm disponibles en el PATH, desde la raíz extraer el segundo bloque Mermaid (nivel lógico) y exportarlo:
 
 ```bash
-PATH="$HOME/.local/bin:$PATH" npx --yes @mermaid-js/mermaid-cli@11.12.0 \
+python3 - <<'PYTHON'
+from pathlib import Path
+bloques = Path('docs/datos/der.md').read_text().split('```mermaid\n')
+Path('/tmp/mar-der-logico.mmd').write_text(bloques[2].split('```')[0])
+PYTHON
+npx --yes @mermaid-js/mermaid-cli@11.12.0 \
   -i /tmp/mar-der-logico.mmd -o docs/datos/der-logico.svg -b white
 ```
 
-La ruta `~/.local/node/bin` indicada en el plan no existe en esta máquina; se usó el Node instalado en `~/.local/bin` (ejecutable real en `~/.local/lib/nodejs/node-v24.22.0-linux-x64/bin/node`). Chromium no pudo arrancar con sandbox por la política de namespaces del host. Para esta exportación de un archivo local se utilizó un JSON temporal de Puppeteer con `{"args":["--no-sandbox"]}` y la opción `-p /tmp/mar-mermaid-puppeteer.json`; no se cambiaron políticas del sistema ni el runtime de la aplicación. El SVG sí fue exportado, no es una captura ni un diagrama inventado.
+El entorno de la exportación original no permitía el sandbox de Chromium. Si se reproduce esa restricción al renderizar **este archivo local**, crear la configuración temporal y agregar `-p /tmp/mar-mermaid-puppeteer.json` al comando anterior:
+
+```bash
+printf '%s\n' '{"args":["--no-sandbox"]}' > /tmp/mar-mermaid-puppeteer.json
+```
+
+El SVG versionado corresponde al bloque lógico; no hace falta regenerarlo para consultar la entrega.

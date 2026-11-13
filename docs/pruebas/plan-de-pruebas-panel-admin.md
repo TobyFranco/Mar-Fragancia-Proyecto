@@ -1,17 +1,16 @@
 # Panel de administración · Plan de pruebas de Fase 2
 
-Fecha: 2026-10-19. Rama: `feature/panel-admin`.
+Plan original: 2026-10-19. Revisión documental PI-28: 12/11/2026. Rama original: `feature/panel-admin`.
 
 Fuentes: [spec §6.9/7/8](../superpowers/specs/2026-10-18-tienda-y-admin-design.md), [plan](../superpowers/plans/2026-10-19-fase-2-panel-admin.md), [maquetas 14–20](../diseno/maquetas/diseno-final.html).
 
 ## Objetivo y entorno
 
-Verificar administración exclusiva por rol, métricas por confirmación, edición de catálogo sin manipular stock, ciclo transaccional, kardex conservado y catálogos. La regla aprobada por el orquestador bloquea eliminación de perfumes con pedidos **o movimientos**. Tamaños solo 5/10 ml. Cada fila traza un método; todas sus variantes `TestWith` se ejecutan. Archivos en `src/tests/Feature/Admin`, namespace `Tests\Feature\Admin`.
+Verificar administración exclusiva por rol, métricas por confirmación, edición de catálogo sin manipular stock, ciclo transaccional, kardex conservado y catálogos. La regla de negocio implementada bloquea eliminación de perfumes con pedidos **o movimientos**. Tamaños solo 5/10 ml. Cada fila traza un método; todas sus variantes `TestWith` se ejecutan. Archivos en `src/tests/Feature/Admin`, namespace `Tests\Feature\Admin`.
 
-PHP8.5, Laravel 13.29, PHPUnit 12.5.34. SQLite `:memory:`, `RefreshDatabase`, datos propios por test, sesiones/cache array. Sin servicios externos ni WhatsApp real. Subidas con `Storage::fake` cuando corresponde. Reloj controlado en pruebas temporales. App `America/Asuncion`; fechas de negocio (pedido.fecha, historial.created_at, movimiento.fecha/created_at) se almacenan y leen como UTC y se convierten al mostrarlas. No se alteran migraciones ni fechas históricas. Otras marcas de tiempo técnicas siguen configuración Laravel.
+Entorno de validación PI-28: PHP 8.5.0, Laravel 13.39.0 y PHPUnit 12.5.42. SQLite `:memory:`, `RefreshDatabase`, datos propios por test, sesiones/cache array. Sin servicios externos ni WhatsApp real. Subidas con `Storage::fake` cuando corresponde. Reloj controlado en pruebas temporales. App `America/Asuncion`; fechas de negocio (pedido.fecha, historial.created_at, movimiento.fecha/created_at) se almacenan y leen como UTC y se convierten al mostrarlas. No se alteran migraciones ni fechas históricas. Otras marcas de tiempo técnicas siguen configuración Laravel.
 
 ```bash
-export PATH="$HOME/.config/herd-lite/bin:$PATH"
 cd src
 php artisan test
 php artisan test tests/Feature/Admin
@@ -22,7 +21,7 @@ node tests/Browser/admin.mjs task7
 node tests/Browser/admin.mjs task8
 ```
 
-La inspección visual usa Firefox BiDi existente con perfil temporal independiente, puerto 9225 y servidor dedicado 8014/SQLite sintética. El script admite `FIREFOX_BIDI_URL`, `TIENDA_URL` y `TIENDA_CAPTURAS`; no crea sesiones en la BD de desarrollo. Capturas 1440/768 y originales de maqueta en `.superpowers/sdd/2026-10-19-fase-2-panel-admin/`.
+La inspección visual usa Firefox BiDi existente con perfil temporal independiente, puerto 9225 y servidor dedicado 8014/SQLite sintética. El script admite `FIREFOX_BIDI_URL`, `TIENDA_URL` y `TIENDA_CAPTURAS`; no crea sesiones en la BD de desarrollo. En la sesión original se guardaron capturas en `.superpowers/sdd/2026-10-19-fase-2-panel-admin/`; esa carpeta está ignorada por Git y no forma parte de la entrega versionada. La maqueta enlazada arriba sí está en el repositorio.
 
 ## Matriz de casos
 
@@ -154,10 +153,12 @@ La inspección visual usa Firefox BiDi existente con perfil temporal independien
 
 ## Resultado y límites
 
-Suite de cierre: 269 tests, 1630 assertions, cero fallos. Pint/build verificados; comparación visual 14–20 a 1440/768, sin overflow raíz ni errores consola. Tablet apila paneles y usa scroll local en tablas. Controles nativos de archivo usan idioma del navegador.
+Suite completa actual (PI-28): **333 tests, 3411 aserciones, sin fallos**.
 
-MySQL no ejecutado: pdo_mysql disponible, pero no Docker, cliente/servidor MySQL ni puertos 3306/3307 escuchando. Pendientes: migraciones/seeders y dos conexiones concurrentes sobre MySQL; teléfono físico/WhatsApp real; datos comerciales/fotos definitivos. No se hizo push.
+Resultado histórico de Fase 2 (19/10/2026; no es el conteo actual): 269 tests, 1630 assertions, cero fallos. Pint/build verificados; comparación visual 14–20 a 1440/768, sin overflow raíz ni errores consola. Tablet apila paneles y usa scroll local en tablas. Controles nativos de archivo usan idioma del navegador.
+
+En el cierre original de Fase 2 no se ejecutó MySQL. El [benchmark](../benchmark/informe-benchmark.md) y el [ensayo PI-27](../demo/guion-demo-avance4.md#registro-del-ensayo-real) posteriores sí usan MySQL y Docker, pero no cubren toda la matriz administrativa ni dos conexiones transaccionales concurrentes. Pendientes de QA: matriz administrativa completa y dos conexiones concurrentes sobre MySQL; teléfono físico/WhatsApp real; datos comerciales/fotos definitivos. No se hizo push.
 
 Menores heredados del bloque 2: búsqueda literal 0 omitida; notas deseleccionadas pueden restaurarse tras otra validación fallida. Precios fraccionarios mantienen contrato heredado: mostrar redondea y carrito trunca, requiere criterio unificado antes de usarlos. No se introdujo una nueva regla monetaria.
 
-Revisión final independiente: sin hallazgos críticos/importantes. Menor adicional diferido: entrada extrema puede exceder `2147483647` como stock resultante; MySQL estricto rechazaría la escritura con error de servidor y rollback. Falta una validación explícita del resultado bajo bloqueo. No se verificó sobre MySQL.
+Revisión histórica de Fase 2: sin hallazgos críticos/importantes en ese corte. El riesgo de stock por encima de `2147483647` quedó resuelto posteriormente en [Inventario](../../src/app/Services/Inventario.php), con `STOCK_MAXIMO` y `StockFueraDeRango` bajo bloqueo; [la prueba de API](../../src/tests/Feature/Api/InventarioAdminApiTest.php) verifica 422 sin escrituras para una entrada que excede el máximo. No se afirma aquí una ejecución concurrente sobre MySQL.
