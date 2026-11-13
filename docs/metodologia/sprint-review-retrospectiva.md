@@ -139,7 +139,7 @@ El informe registra **48.000 solicitudes directas sin errores** y reparto de **1
 
 Registro único de evidencias externas del cierre metodológico y de despliegue; no se sustituyen con planes técnicos ni con estados de tareas:
 
-- **PI-14:** adjuntar exportación o capturas del Product Backlog priorizado, con historias y criterios de aceptación legibles.
+- **PI-14:** cotejar el [Product Backlog propuesto](product-backlog.md) con Jira y adjuntar exportación o capturas del tablero priorizado, con historias y criterios de aceptación legibles.
 - **PI-15 / PI-16:** adjuntar Sprint Backlogs, Planning con objetivos y fechas de sprints de 2 a 3 semanas, y reportes de sprints del Avance 2.
 - **PI-15 / PI-26:** completar la sección 4 con actas reales de Daily, Review y Retrospective de los hitos, incluida la final; incorporar opiniones, acuerdos, responsables y plazos del equipo.
 - **PI-23:** adjuntar constancia del despliegue real en Portainer (Stack, servicios y nodos disponibles), sin publicar claves.
@@ -176,3 +176,37 @@ Esta plantilla **se completa con las actas del equipo**: Daily Standups, Sprint 
 |---|---|---|---|---|
 
 > **[Completar por el equipo]: Incorporar las ceremonias realizadas y enlazar sus actas.**
+
+### Borrador de sprints e incrementos por hito
+
+> **Borrador generado a partir del historial de Git — el equipo debe confirmar, corregir y completar asistentes y acuerdos antes de entregar**
+
+Fuente: `git log --format='%h %ad %an %s' --date=short` y contenido de los cambios. Las ventanas de 2–3 semanas y los Sprint Goals son **propuestas retrospectivas**, no fechas de Planning ni objetivos acordados acreditados. Git muestra cambios, autores y fechas; no acredita reuniones, asistentes, opiniones, acuerdos ni aceptación del incremento. Estas tablas no sustituyen las actas reales de Daily, Review o Retrospective, ni los Sprint Backlogs de Jira.
+
+Las fechas de A1–A3 corresponden a la consigna; A4 se presenta aquí con el corte de entrega solicitado **13/11/2026**, distinto del **27/11/2026** del calendario académico. No se atribuyen a hitos anteriores funcionalidades incorporadas después.
+
+#### A1 · 28/08/2026
+
+| Sprint propuesto | Sprint Goal propuesto | Incremento verificable al hito | Asistentes | Acuerdos |
+|---|---|---|---|---|
+| 15/08–28/08/2026 (2 semanas; inicio sin evidencia Git) | Establecer la base Laravel/MySQL y el entorno Docker con modelo inicial y acceso por roles. | `78dcfd7` (28/08, «Initial commit»): Compose, Dockerfiles, modelos, migraciones, seeders y autenticación inicial. No acredita todavía el alcance PDF (incorporado el 02/10 en `cf227fc`) ni un backlog exportado. | [Completar por el equipo] | [Completar por el equipo] |
+
+#### A2 · 25/09/2026
+
+| Sprint propuesto | Sprint Goal propuesto | Incremento verificable al hito | Asistentes | Acuerdos |
+|---|---|---|---|---|
+| 12/09–25/09/2026 (2 semanas; inicio sin evidencia Git) | Construir el CRUD administrativo inicial del catálogo y sus vistas. | `125951f` (25/09, «update»): controladores y vistas de productos, categorías, marcas y tamaños; ajustes de login/registro y layout admin. Las sesiones centralizadas actuales y la preparación Portainer tienen evidencia posterior (`d3a6ceb`, 19/10; #7, 11/11); no se consideran entregadas en A2 por este borrador. | [Completar por el equipo] | [Completar por el equipo] |
+
+#### A3 · 30/10/2026
+
+| Sprint propuesto | Sprint Goal propuesto | Incremento verificable al hito | Asistentes | Acuerdos |
+|---|---|---|---|---|
+| 10/10–30/10/2026 (3 semanas; commits desde el 18/10) | Completar la tienda pública y la operación administrativa de pedidos e inventario. | #1 / `29ecbaf` (19/10): integración de tienda pública; `e004cf4` (18/10): checkout a WhatsApp; `a6c9282`, `692eef8`, `e2f50f7` (19/10): ciclo de estados, kardex y dashboard; `f10a102` (30/10): vistas de marcas. HAProxy y A/B se integraron después del hito (#3, 09/11), por lo que no se atribuyen a A3. | [Completar por el equipo] | [Completar por el equipo] |
+
+#### A4 · 13/11/2026 (corte de entrega final)
+
+| Sprint propuesto | Sprint Goal propuesto | Incremento verificable al corte | Asistentes | Acuerdos |
+|---|---|---|---|---|
+| 31/10–13/11/2026 (2 semanas; integraciones del 09 al 13/11) | Integrar y documentar infraestructura A/B, API, área de cliente y evidencia técnica para la entrega. | #3 / `1ad65f7`, #4 / `3010df1`, #5 / `961a850` (09/11): HAProxy, benchmark y API; #6 / `532a2f7` (10/11): documentación de datos; #7 / `18db4eb` (11/11): cliente y stack preparado para Portainer; #8 / `d7da1b7`, #11 / `e9dafb9` (12/11): correcciones y ensayo; #12 / `f3d27e8`, #13 / `5d2ec09`, #19 / `9fcbf2b` (13/11): documentación final, CI y login administrativo. La integración no acredita actas ni despliegue real en Portainer. | [Completar por el equipo] | [Completar por el equipo] |
+
+**Pendiente del equipo:** confirmar los intervalos reales, contrastar el incremento con Jira y sus criterios de aceptación, enlazar los Sprint Backlogs y adjuntar actas auténticas. No se reconstruyen dailies a partir de commits.

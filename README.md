@@ -25,10 +25,10 @@ Mapa de las secciones **2, 3, 5, 6 y 8** de la consigna. Avances de 2026: **A1 2
 
 | Requisito del PDF / hito | Documento o evidencia para evaluar | Jira |
 |---|---|---|
-| §2: Scrum, tablero digital y Product Backlog priorizado con criterios · A1 | [Metodología y tablero](docs/metodologia/sprint-review-retrospectiva.md#1-resumen-del-proyecto-y-metodología); exportación por adjuntar | [PI-14](https://marfragancias.atlassian.net/browse/PI-14) |
+| §2: Scrum, tablero digital y Product Backlog priorizado con criterios · A1 | [Metodología y tablero](docs/metodologia/sprint-review-retrospectiva.md#1-resumen-del-proyecto-y-metodología) · [Product Backlog para cotejar con Jira](docs/metodologia/product-backlog.md); exportación por adjuntar | [PI-14](https://marfragancias.atlassian.net/browse/PI-14) |
 | §2: Sprint Backlog, Planning de 2–3 semanas y reportes · A2 | [Matriz metodológica y registro de ceremonias](docs/metodologia/sprint-review-retrospectiva.md#4-registro-de-ceremonias); fuentes del equipo por adjuntar | [PI-15](https://marfragancias.atlassian.net/browse/PI-15), [PI-16](https://marfragancias.atlassian.net/browse/PI-16) |
 | §2: Daily, Review, Retrospective y tablero actualizado · A3 | [Registro único de actas](docs/metodologia/sprint-review-retrospectiva.md#4-registro-de-ceremonias); pendiente de completar | [PI-15](https://marfragancias.atlassian.net/browse/PI-15), [PI-26](https://marfragancias.atlassian.net/browse/PI-26) |
-| §3.A: caso PyME, objetivos, límites y entregables · A1 | [Alcance del proyecto](Alcance_Proyecto_Mar_Fragancia.pdf) | [PI-1](https://marfragancias.atlassian.net/browse/PI-1) |
+| §3.A: caso PyME, objetivos, límites y entregables · A1 | [Alcance del proyecto](Alcance_Proyecto_Mar_Fragancia.pdf) · [Fuente HTML](docs/alcance/alcance.html) | [PI-1](https://marfragancias.atlassian.net/browse/PI-1) |
 | §3.B: MER/DER conceptual y lógico · A1 | [Modelo y cardinalidades](docs/datos/der.md) · [SVG](docs/datos/der-logico.svg) | [PI-2](https://marfragancias.atlassian.net/browse/PI-2) |
 | §3.B: tablas, campos, tipos, PK/FK, restricciones e índices · A1 | [Diccionario MySQL](docs/datos/diccionario-de-datos.md) | [PI-4](https://marfragancias.atlassian.net/browse/PI-4) |
 | §3.B: justificación de 3FN | [Normalización y decisiones de diseño](docs/datos/normalizacion.md) | [PI-2](https://marfragancias.atlassian.net/browse/PI-2), [PI-4](https://marfragancias.atlassian.net/browse/PI-4) |
@@ -254,7 +254,7 @@ Documentos de apoyo y antecedentes; el mapa de requisitos y tareas está en [Ent
 
 | Documento | Ubicación |
 |---|---|
-| Alcance del proyecto | [Alcance del proyecto](Alcance_Proyecto_Mar_Fragancia.pdf) |
+| Alcance del proyecto | [Alcance del proyecto](Alcance_Proyecto_Mar_Fragancia.pdf) · [Fuente HTML](docs/alcance/alcance.html) |
 | Especificación de diseño | [`docs/superpowers/specs/2026-10-18-tienda-y-admin-design.md`](docs/superpowers/specs/2026-10-18-tienda-y-admin-design.md) |
 | Maquetas aprobadas | [`docs/diseno/maquetas/diseno-final.html`](docs/diseno/maquetas/diseno-final.html) (abrir en el navegador) |
 | Plan de implementación · Fase 1 | [`docs/superpowers/plans/2026-10-18-fase-1-tienda-publica.md`](docs/superpowers/plans/2026-10-18-fase-1-tienda-publica.md) |
