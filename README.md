@@ -1,3 +1,5 @@
+[![Tests](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/actions/workflows/tests.yml/badge.svg)](https://github.com/TobyFranco/Mar-Fragancia-Proyecto/actions/workflows/tests.yml)
+
 <p align="center">
   <img src="docs/diseno/logo-readme.png" alt="Mar Fragancias" width="460">
 </p>
@@ -226,6 +228,8 @@ docker run --rm php:8.4-cli php -r "echo 'base64:'.base64_encode(random_bytes(32
 Los puertos pueden cambiarse con `HTTP_PORT` (80), `HTTP_ALT_PORT` (8000), `STATS_PORT` (8404) y `DB_PORT_HOST` (3306). Tras desplegar, verificá `/up` y los dos nodos disponibles en Stats (puerto 8404, usuario `admin`). La base nueva recibe los datos iniciales automáticamente; conservá los volúmenes y la clave al actualizar el Stack.
 
 ## Pruebas
+
+Los tests corren automáticamente en cada PR dirigido a `main` y en cada push a `main` mediante [GitHub Actions](.github/workflows/tests.yml).
 
 ```bash
 cd src

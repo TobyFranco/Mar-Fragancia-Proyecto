@@ -1,0 +1,64 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Descargar el repositorio completo
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          # composer.json admite 8.3+, pero el lock de Symfony requiere 8.4.1+.
+          php-version: '8.4'
+          extensions: ctype, curl, dom, fileinfo, gd, mbstring, pdo_sqlite, sqlite3, xml, xmlwriter, zip
+          tools: composer:v2
+          coverage: none
+
+      - name: Obtener la ruta de caché de Composer
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - name: Restaurar la caché de Composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-8.4-composer-${{ hashFiles('src/composer.lock') }}
+          restore-keys: ${{ runner.os }}-php-8.4-composer-
+
+      - name: Instalar dependencias PHP
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Preparar el entorno de pruebas
+        run: |
+          cp .env.example .env
+          php artisan key:generate --no-interaction
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: src/package-lock.json
+
+      - name: Instalar dependencias y compilar assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Ejecutar la suite de pruebas
+        run: php artisan test
