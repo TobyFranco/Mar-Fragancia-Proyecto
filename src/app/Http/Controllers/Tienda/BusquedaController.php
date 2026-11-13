@@ -23,7 +23,7 @@ class BusquedaController extends Controller
         $marcas = $productos->pluck('marca')->unique('id')->values();
         $notas = $productos->flatMap->notas->unique('id')
             ->filter(fn ($nota) => str_contains(Texto::normalizar($nota->nombre), $normalizada))->values();
-        $whatsapp = 'https://wa.me/'.config('tienda.whatsapp', '595900000000');
+        $whatsapp = 'https://wa.me/'.config('tienda.whatsapp', '595993608515');
 
         return view($request->query('sugerencias') === '1' ? 'tienda.resultados-busqueda' : 'tienda.busqueda', compact('consulta', 'productos', 'marcas', 'notas', 'whatsapp'));
     }
