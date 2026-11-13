@@ -208,6 +208,6 @@ El servicio `app-fpm` monta `./docs` en `/var/docs` para leer `docs/datos/descri
 | Rol | Integrante |
 |---|---|
 | Scrum Master / Project Manager | José Fernández |
-| Backend & Architect Lead | Matías Romero · Tobías Franco |
+| Backend & Architect Lead | Tobías Franco |
 | DevOps & Cloud Engineer | Matías Amarilla · Jonathan Valdez|
 | Frontend & QA Engineer | María Paz Gutiérrez |
