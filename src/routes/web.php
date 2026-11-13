@@ -49,6 +49,7 @@ Route::post('/admin/login', [AuthController::class, 'adminLogin']);
 Route::middleware(['auth', 'rol:administrador'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
+    Route::post('/inventario/{presentacion}/ajustar', [InventarioController::class, 'ajustar'])->name('inventario.ajustar');
     Route::resource('inventario', InventarioController::class)->only(['index', 'create', 'store']);
     Route::get('/pedidos', [App\Http\Controllers\Admin\PedidoController::class, 'index'])->name('pedidos.index');
     Route::get('/pedidos/{pedido}', [App\Http\Controllers\Admin\PedidoController::class, 'show'])->name('pedidos.show');

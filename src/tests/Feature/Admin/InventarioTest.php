@@ -142,6 +142,111 @@ class InventarioTest extends TestCase
         $this->post('/admin/inventario', [])->assertForbidden();
     }
 
+    #[TestWith([2, 8, 'entrada', 6])]
+    #[TestWith([3, 1, 'salida', 2])]
+    #[TestWith([2, 0, 'salida', 2])]
+    public function test_ajuste_registra_diferencia_stock_y_usuario(int $stock, int $nuevo, string $tipo, int $cantidad): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => $stock]);
+        $u = $this->admin();
+
+        $this->post(route('admin.inventario.ajustar', $p), ['stock_nuevo' => $nuevo, 'motivo' => 'Recuento físico', 'producto_id' => $p->producto_id])
+            ->assertRedirect(route('admin.inventario.index', ['filtro' => 'critico', 'producto_id' => $p->producto_id]))
+            ->assertSessionHasNoErrors()->assertSessionHas('success', 'Stock ajustado.');
+
+        $this->assertSame($nuevo, $p->fresh()->stock);
+        $this->assertDatabaseCount('movimientos_inventario', 1);
+        $this->assertDatabaseHas('movimientos_inventario', [
+            'presentacion_id' => $p->id, 'tipo' => $tipo, 'cantidad' => $cantidad,
+            'stock_resultante' => $nuevo, 'usuario_id' => $u->id, 'motivo' => 'Recuento físico',
+        ]);
+    }
+
+    public function test_ajuste_usa_motivo_por_defecto_y_sale_de_criticos(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 0]);
+        $this->admin();
+
+        $this->post(route('admin.inventario.ajustar', $p), ['stock_nuevo' => 5])
+            ->assertRedirect(route('admin.inventario.index', ['filtro' => 'critico']))
+            ->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('movimientos_inventario', ['presentacion_id' => $p->id, 'motivo' => 'Ajuste manual de stock']);
+        $this->get('/admin/inventario?filtro=critico')->assertOk()
+            ->assertSeeText('No hay presentaciones con stock crítico.');
+    }
+
+    public function test_ajuste_sin_cambio_rechaza_sin_crear_movimiento(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 2]);
+        $this->admin();
+
+        $this->from('/admin/inventario?filtro=critico')->post(route('admin.inventario.ajustar', $p), ['stock_nuevo' => 2])
+            ->assertRedirect('/admin/inventario?filtro=critico')
+            ->assertSessionHasErrors(['stock_nuevo' => 'El stock ya es 2.']);
+
+        $this->assertSame(2, $p->fresh()->stock);
+        $this->assertDatabaseCount('movimientos_inventario', 0);
+    }
+
+    #[TestWith(['stock_nuevo', null])]
+    #[TestWith(['stock_nuevo', -1])]
+    #[TestWith(['stock_nuevo', 1.5])]
+    #[TestWith(['stock_nuevo', 'texto'])]
+    #[TestWith(['stock_nuevo', 100001])]
+    #[TestWith(['stock_nuevo', ['2']])]
+    #[TestWith(['motivo', ['texto']])]
+    public function test_ajuste_invalido_no_modifica_stock(string $campo, mixed $valor): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 2]);
+        $this->admin();
+        $datos = ['stock_nuevo' => 3, 'motivo' => 'Recuento'];
+        $datos[$campo] = $valor;
+
+        $this->post(route('admin.inventario.ajustar', $p), $datos)->assertSessionHasErrors($campo);
+
+        $this->assertSame(2, $p->fresh()->stock);
+        $this->assertDatabaseCount('movimientos_inventario', 0);
+    }
+
+    public function test_ajuste_rechaza_motivo_demasiado_largo(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 2]);
+        $this->admin();
+
+        $this->post(route('admin.inventario.ajustar', $p), ['stock_nuevo' => 3, 'motivo' => str_repeat('a', 256)])
+            ->assertSessionHasErrors('motivo');
+
+        $this->assertSame(2, $p->fresh()->stock);
+        $this->assertDatabaseCount('movimientos_inventario', 0);
+    }
+
+    public function test_ajuste_exige_administrador(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 2]);
+        $url = route('admin.inventario.ajustar', $p);
+
+        $this->post($url, ['stock_nuevo' => 5])->assertRedirect('/admin/login');
+        $this->admin('cliente');
+        $this->post($url, ['stock_nuevo' => 5])->assertForbidden();
+
+        $this->assertSame(2, $p->fresh()->stock);
+        $this->assertDatabaseCount('movimientos_inventario', 0);
+    }
+
+    public function test_stock_critico_muestra_formulario_de_ajuste_por_fila(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 2]);
+        $this->admin();
+
+        $this->get('/admin/inventario?filtro=critico&producto_id='.$p->producto_id)->assertOk()
+            ->assertSee('action="'.route('admin.inventario.ajustar', $p).'"', false)
+            ->assertSee('name="stock_nuevo"', false)
+            ->assertSee('name="_token"', false)
+            ->assertSee('name="producto_id" value="'.$p->producto_id.'"', false)
+            ->assertSeeText(['Stock nuevo', 'Motivo (opcional)', 'Guardar', 'Registrar entrada']);
+    }
+
     private function admin(string $rol = 'administrador'): Usuario
     {
         $u = Usuario::create(['rol_id' => Rol::firstOrCreate(['nombre' => $rol])->id, 'nombre' => 'Paz', 'email' => $rol.'@example.com', 'password' => 'no-se-usa']);

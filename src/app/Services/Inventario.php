@@ -9,6 +9,7 @@ use App\Models\ProductoPresentacion;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
 
 class Inventario
@@ -47,6 +48,29 @@ class Inventario
                 'usuario_id' => $usuario?->id,
                 'fecha' => now(),
             ]);
+        });
+    }
+
+    public function ajustar(ProductoPresentacion $p, int $stockNuevo, ?string $motivo, ?Usuario $usuario): MovimientoInventario
+    {
+        if ($stockNuevo < 0 || $stockNuevo > self::STOCK_MAXIMO) {
+            throw new InvalidArgumentException('El stock nuevo está fuera de rango.');
+        }
+
+        return DB::transaction(function () use ($p, $stockNuevo, $motivo, $usuario): MovimientoInventario {
+            $presentacion = ProductoPresentacion::whereKey($p->id)->lockForUpdate()->firstOrFail();
+            $diferencia = $stockNuevo - $presentacion->stock;
+            if ($diferencia === 0) {
+                throw ValidationException::withMessages(['stock_nuevo' => 'El stock ya es '.$presentacion->stock.'.']);
+            }
+
+            return $this->registrar(
+                $presentacion,
+                $diferencia > 0 ? 'entrada' : 'salida',
+                abs($diferencia),
+                trim($motivo ?? '') !== '' ? $motivo : 'Ajuste manual de stock',
+                $usuario,
+            );
         });
     }
 

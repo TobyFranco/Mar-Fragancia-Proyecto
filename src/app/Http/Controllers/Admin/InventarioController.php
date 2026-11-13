@@ -52,6 +52,19 @@ class InventarioController extends Controller
         return view('admin.inventario.create', compact('presentaciones', 'preseleccion'));
     }
 
+    public function ajustar(Request $request, ProductoPresentacion $presentacion, Inventario $inventario): RedirectResponse
+    {
+        $datos = $request->validate([
+            'stock_nuevo' => ['required', 'integer', 'min:0', 'max:100000'],
+            'motivo' => ['nullable', 'string', 'max:255'],
+            'producto_id' => ['nullable', 'integer', 'exists:productos,id'],
+        ]);
+        $inventario->ajustar($presentacion, (int) $datos['stock_nuevo'], $datos['motivo'] ?? null, $request->user());
+
+        return to_route('admin.inventario.index', array_filter(['filtro' => 'critico', 'producto_id' => $datos['producto_id'] ?? null]))
+            ->with('success', 'Stock ajustado.');
+    }
+
     public function store(MovimientoInventarioRequest $request, Inventario $inventario): RedirectResponse
     {
         $datos = $request->validated();
