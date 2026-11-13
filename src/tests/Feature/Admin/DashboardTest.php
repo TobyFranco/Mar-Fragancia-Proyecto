@@ -22,6 +22,15 @@ class DashboardTest extends TestCase
         $this->actingAs($this->usuario('cliente'))->get('/admin/dashboard')->assertForbidden();
     }
 
+    public function test_saludo_es_generico_y_no_muestra_el_nombre_del_usuario(): void
+    {
+        $admin = $this->usuario();
+
+        $this->actingAs($admin)->get('/admin/dashboard')->assertOk()
+            ->assertSeeText('Hola, admin')
+            ->assertDontSeeText('Hola, '.$admin->nombre);
+    }
+
     public function test_menu_muestra_grupos_y_contadores(): void
     {
         Pedido::create(['fecha' => now(), 'estado' => 'pendiente', 'total' => 0]);
