@@ -17,15 +17,22 @@ use Illuminate\View\View;
 
 class InventarioController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, Inventario $inventario): View
     {
         $datos = $request->validate(['filtro' => ['nullable', Rule::in(['entrada', 'salida', 'critico'])], 'producto_id' => ['nullable', 'integer', 'exists:productos,id']]);
-        $query = MovimientoInventario::with(['presentacion.producto', 'presentacion.tamano', 'usuario']);
         $filtro = $datos['filtro'] ?? null;
+        if ($filtro === 'critico') {
+            $criticas = $inventario->criticas();
+            if ($id = $datos['producto_id'] ?? null) {
+                $criticas = $criticas->where('producto_id', $id);
+            }
+
+            return view('admin.inventario.index', ['criticas' => $criticas, 'productos' => Producto::orderBy('nombre')->get()]);
+        }
+
+        $query = MovimientoInventario::with(['presentacion.producto', 'presentacion.tamano', 'usuario']);
         if (in_array($filtro, ['entrada', 'salida'], true)) {
             $query->where('tipo', $filtro);
-        } elseif ($filtro === 'critico') {
-            $query->whereHas('presentacion', fn ($q) => $q->where('activo', true)->where('stock', '<=', 3));
         }
         if ($id = $datos['producto_id'] ?? null) {
             $query->whereHas('presentacion', fn ($q) => $q->where('producto_id', $id));
@@ -34,9 +41,15 @@ class InventarioController extends Controller
         return view('admin.inventario.index', ['movimientos' => $query->orderByDesc('fecha')->orderByDesc('id')->paginate(20)->withQueryString(), 'productos' => Producto::orderBy('nombre')->get()]);
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('admin.inventario.create', ['presentaciones' => ProductoPresentacion::with(['producto', 'tamano'])->whereHas('tamano', fn ($q) => $q->whereIn('nombre', ['5 ml', '10 ml']))->get()->sortBy(fn ($p) => $p->producto->nombre.' '.$p->tamano->nombre)]);
+        $presentaciones = ProductoPresentacion::with(['producto', 'tamano'])->whereHas('tamano', fn ($q) => $q->whereIn('nombre', ['5 ml', '10 ml']))->get()->sortBy(fn ($p) => $p->producto->nombre.' '.$p->tamano->nombre);
+        $preseleccion = $request->validate([
+            'presentacion_id' => ['nullable', 'integer', Rule::in($presentaciones->modelKeys())],
+            'tipo' => ['nullable', Rule::in(['entrada', 'salida'])],
+        ]);
+
+        return view('admin.inventario.create', compact('presentaciones', 'preseleccion'));
     }
 
     public function store(MovimientoInventarioRequest $request, Inventario $inventario): RedirectResponse

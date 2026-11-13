@@ -22,7 +22,7 @@ class InventarioTest extends TestCase
         $this->get('/admin/inventario')->assertOk()->assertSeeText(['Sistema', 'Paz', 'Reposición de prueba', 'Ajuste de prueba', '13', '12', $p->producto->nombre, $p->tamano->nombre]);
     }
 
-    public function test_filtros_entradas_salidas_criticos_y_perfume(): void
+    public function test_filtros_entradas_salidas_y_perfume(): void
     {
         $a = ProductoPresentacion::factory()->create(['stock' => 1]);
         $b = ProductoPresentacion::factory()->create();
@@ -32,8 +32,68 @@ class InventarioTest extends TestCase
         $this->admin();
         $this->get('/admin/inventario?filtro=entrada')->assertOk()->assertSeeText('Entrada crítica')->assertDontSeeText('Salida normal');
         $this->get('/admin/inventario?filtro=salida')->assertOk()->assertSeeText('Salida normal')->assertDontSeeText('Entrada crítica');
-        $this->get('/admin/inventario?filtro=critico')->assertOk()->assertSeeText('Entrada crítica')->assertDontSeeText('Salida normal');
         $this->get('/admin/inventario?producto_id='.$b->producto_id)->assertOk()->assertSeeText('Salida normal')->assertDontSeeText('Entrada crítica');
+    }
+
+    public function test_stock_critico_muestra_presentaciones_sin_movimientos(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 0]);
+        $this->admin();
+
+        $this->get('/admin/inventario?filtro=critico')->assertOk()
+            ->assertSeeText([$p->producto->nombre, $p->tamano->nombre, 'Stock actual', 'Registrar entrada'])
+            ->assertSee('<td class="admin-low">0</td>', false)
+            ->assertDontSeeText('No hay movimientos');
+        $this->assertDatabaseCount('movimientos_inventario', 0);
+    }
+
+    public function test_stock_critico_excluye_stock_mayor_a_tres_e_inactivas(): void
+    {
+        ProductoPresentacion::factory()->create(['stock' => 4]);
+        ProductoPresentacion::factory()->create(['stock' => 0, 'activo' => false]);
+        $this->admin();
+
+        $this->get('/admin/inventario?filtro=critico')->assertOk()
+            ->assertSeeText('No hay presentaciones con stock crítico.')
+            ->assertDontSeeText('Registrar entrada');
+    }
+
+    public function test_stock_critico_respeta_el_filtro_de_perfume(): void
+    {
+        $a = ProductoPresentacion::factory()->create(['stock' => 3]);
+        $b = ProductoPresentacion::factory()->create(['stock' => 0]);
+        $this->admin();
+
+        $this->get('/admin/inventario?filtro=critico&producto_id='.$a->producto_id)->assertOk()
+            ->assertSeeText('Registrar entrada')
+            ->assertSee(route('admin.inventario.create', ['presentacion_id' => $a->id, 'tipo' => 'entrada']))
+            ->assertDontSee(route('admin.inventario.create', ['presentacion_id' => $b->id, 'tipo' => 'entrada']));
+    }
+
+    public function test_registrar_entrada_desde_stock_critico_preselecciona_presentacion_y_tipo(): void
+    {
+        ProductoPresentacion::factory()->create();
+        $p = ProductoPresentacion::factory()->create(['stock' => 0]);
+        $this->admin();
+        $url = route('admin.inventario.create', ['presentacion_id' => $p->id, 'tipo' => 'entrada']);
+
+        $this->get('/admin/inventario?filtro=critico')->assertOk()->assertSee($url);
+        $respuesta = $this->get($url)->assertOk();
+        $this->assertMatchesRegularExpression('/<option value="'.$p->id.'"\s+selected[^>]*>/', $respuesta->getContent());
+        $this->assertMatchesRegularExpression('/<option value="entrada"\s+selected[^>]*>/', $respuesta->getContent());
+    }
+
+    #[TestWith(['presentacion_id', 'inexistente'])]
+    #[TestWith(['presentacion_id', 999999])]
+    #[TestWith(['presentacion_id', ['1']])]
+    #[TestWith(['tipo', 'otro'])]
+    #[TestWith(['tipo', ['entrada']])]
+    public function test_preseleccion_invalida_se_rechaza(string $campo, mixed $valor): void
+    {
+        $this->admin();
+
+        $this->get('/admin/inventario/create?'.http_build_query([$campo => $valor]))
+            ->assertSessionHasErrors($campo);
     }
 
     public function test_registrar_movimiento_manual(): void
