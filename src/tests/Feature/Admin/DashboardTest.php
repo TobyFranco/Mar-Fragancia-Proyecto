@@ -27,7 +27,7 @@ class DashboardTest extends TestCase
         $admin = $this->usuario();
 
         $this->actingAs($admin)->get('/admin/dashboard')->assertOk()
-            ->assertSeeText('Hola, admin')
+            ->assertSeeText('Hola, Admin')
             ->assertDontSeeText('Hola, '.$admin->nombre);
     }
 
