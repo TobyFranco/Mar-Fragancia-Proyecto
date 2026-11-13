@@ -19,6 +19,17 @@ class PortainerTest extends TestCase
         $this->assertStringContainsString('./src:/var/www', file_get_contents(base_path('../compose.override.yaml')));
     }
 
+    public function test_override_local_conserva_comando_y_clave_del_env_en_ambos_nodos_php(): void
+    {
+        $override = file_get_contents(base_path('../compose.override.yaml'));
+
+        // Al redefinir entrypoint, Compose descarta el CMD de la imagen: hay que repetirlo.
+        $this->assertStringContainsString('command: [php-fpm]', $override);
+        $this->assertStringContainsString('command: [apache2-foreground]', $override);
+        // Sin APP_KEY: null, el nodo recibe una clave vacía que pisa la de src/.env.
+        $this->assertSame(2, substr_count($override, 'APP_KEY: null'));
+    }
+
     public function test_comandos_cli_no_requieren_clave_del_stack(): void
     {
         $dir = sys_get_temp_dir().'/mar-portainer-'.bin2hex(random_bytes(8));
