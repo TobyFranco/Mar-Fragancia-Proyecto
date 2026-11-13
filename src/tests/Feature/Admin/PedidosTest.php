@@ -118,9 +118,9 @@ class PedidosTest extends TestCase
     public function test_rutas_exigen_admin(): void
     {
         $p = $this->pedido();
-        $this->get('/admin/pedidos')->assertRedirect('/login');
-        $this->get('/admin/pedidos/'.$p->id)->assertRedirect('/login');
-        $this->post('/admin/pedidos/'.$p->id.'/estado', ['estado' => 'confirmado'])->assertRedirect('/login');
+        $this->get('/admin/pedidos')->assertRedirect('/admin/login');
+        $this->get('/admin/pedidos/'.$p->id)->assertRedirect('/admin/login');
+        $this->post('/admin/pedidos/'.$p->id.'/estado', ['estado' => 'confirmado'])->assertRedirect('/admin/login');
         $this->actingAs($this->admin('cliente'));
         $this->get('/admin/pedidos')->assertForbidden();
         $this->get('/admin/pedidos/'.$p->id)->assertForbidden();

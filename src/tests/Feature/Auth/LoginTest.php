@@ -40,7 +40,7 @@ class LoginTest extends TestCase
         $usuario = $this->usuario('cliente');
         $this->actingAs($usuario)->withSession(['dato_privado' => 'valor'])->post('/logout')->assertRedirect('/login')->assertSessionMissing('dato_privado');
         $this->assertGuest();
-        $this->get('/admin/dashboard')->assertRedirect('/login');
+        $this->get('/admin/dashboard')->assertRedirect('/admin/login');
     }
 
     #[TestWith(['/login'])]

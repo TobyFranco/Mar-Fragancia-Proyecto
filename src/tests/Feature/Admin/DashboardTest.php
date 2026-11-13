@@ -18,7 +18,7 @@ class DashboardTest extends TestCase
 
     public function test_dashboard_requiere_admin(): void
     {
-        $this->get('/admin/dashboard')->assertRedirect('/login');
+        $this->get('/admin/dashboard')->assertRedirect('/admin/login');
         $this->actingAs($this->usuario('cliente'))->get('/admin/dashboard')->assertForbidden();
     }
 

@@ -74,9 +74,9 @@ class InventarioTest extends TestCase
 
     public function test_exige_admin_y_conserva_auditoria_historica_nullable(): void
     {
-        $this->get('/admin/inventario')->assertRedirect('/login');
-        $this->get('/admin/inventario/create')->assertRedirect('/login');
-        $this->post('/admin/inventario', [])->assertRedirect('/login');
+        $this->get('/admin/inventario')->assertRedirect('/admin/login');
+        $this->get('/admin/inventario/create')->assertRedirect('/admin/login');
+        $this->post('/admin/inventario', [])->assertRedirect('/admin/login');
         $this->admin('cliente');
         $this->get('/admin/inventario')->assertForbidden();
         $this->post('/admin/inventario', [])->assertForbidden();
