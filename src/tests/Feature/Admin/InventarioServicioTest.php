@@ -10,6 +10,7 @@ use App\Models\Usuario;
 use App\Services\Inventario;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
@@ -150,6 +151,52 @@ class InventarioServicioTest extends TestCase
 
         $this->assertSame(3, $presentacion->fresh()->stock);
         $this->assertDatabaseHas('movimientos_inventario', ['stock_resultante' => 3]);
+    }
+
+    public function test_ajustar_relee_stock_y_registra_solo_la_diferencia(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 10]);
+        $p->fresh()->update(['stock' => 2]);
+
+        $movimiento = app(Inventario::class)->ajustar($p, 5, null, null);
+
+        $this->assertSame(5, $p->fresh()->stock);
+        $this->assertDatabaseCount('movimientos_inventario', 1);
+        $this->assertDatabaseHas('movimientos_inventario', [
+            'id' => $movimiento->id, 'presentacion_id' => $p->id, 'tipo' => 'entrada',
+            'cantidad' => 3, 'stock_resultante' => 5, 'motivo' => 'Ajuste manual de stock', 'usuario_id' => null,
+        ]);
+    }
+
+    public function test_ajustar_sin_cambio_relee_stock_y_no_registra_movimiento(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 10]);
+        $p->fresh()->update(['stock' => 2]);
+
+        try {
+            app(Inventario::class)->ajustar($p, 2, null, null);
+            $this->fail('Debe rechazar un ajuste sin diferencia.');
+        } catch (ValidationException $e) {
+            $this->assertSame(['stock_nuevo' => ['El stock ya es 2.']], $e->errors());
+        }
+
+        $this->assertSame(2, $p->fresh()->stock);
+        $this->assertDatabaseCount('movimientos_inventario', 0);
+    }
+
+    public function test_error_de_auditoria_revierte_el_ajuste(): void
+    {
+        $p = ProductoPresentacion::factory()->create(['stock' => 2]);
+        $usuario = new Usuario;
+        $usuario->id = 999;
+
+        try {
+            app(Inventario::class)->ajustar($p, 5, 'Recuento', $usuario);
+            $this->fail('Debe fallar la FK de usuario.');
+        } catch (QueryException) {
+            $this->assertSame(2, $p->fresh()->stock);
+            $this->assertDatabaseCount('movimientos_inventario', 0);
+        }
     }
 
     public function test_error_al_guardar_movimiento_revierte_el_stock(): void

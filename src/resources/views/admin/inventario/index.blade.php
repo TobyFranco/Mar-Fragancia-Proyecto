@@ -3,8 +3,22 @@
     <div class="admin-top"><nav class="admin-filters" aria-label="Filtrar movimientos">
         @foreach([''=>'Todos','entrada'=>'Entradas','salida'=>'Salidas','critico'=>'Stock crítico'] as $filtro=>$etiqueta)<a href="{{ route('admin.inventario.index',array_filter(['filtro'=>$filtro,'producto_id'=>request('producto_id')])) }}" @if((request('filtro')??'')===$filtro) aria-current="page" @endif>{{ $etiqueta }}</a>@endforeach
     </nav><form method="GET" action="{{ route('admin.inventario.index') }}" class="admin-field"><label for="producto_id">Perfume</label><select name="producto_id" id="producto_id"><option value="">Todos los perfumes</option>@foreach($productos as $p)<option value="{{ $p->id }}" @selected(request('producto_id')==$p->id)>{{ $p->nombre }}</option>@endforeach</select>@if(request('filtro'))<input type="hidden" name="filtro" value="{{ request('filtro') }}">@endif<button class="text-link" type="submit">Filtrar</button></form></div>
+    @if(request('filtro')==='critico')
+    <div class="admin-table-wrap"><table class="admin-orders-table"><thead><tr><th>Perfume</th><th>Tamaño</th><th>Stock actual</th><th>Acciones</th></tr></thead><tbody>
+        @forelse($criticas as $p)<tr><td>{{ $p->producto->nombre }}</td><td>{{ $p->tamano->nombre }}</td><td class="admin-low">{{ $p->stock }}</td><td><a class="text-link" href="{{ route('admin.inventario.create',['presentacion_id'=>$p->id,'tipo'=>'entrada']) }}">Registrar entrada</a>
+            <form method="POST" action="{{ route('admin.inventario.ajustar',$p) }}" class="flex flex-wrap items-end gap-2">@csrf
+                @if(request('producto_id'))<input type="hidden" name="producto_id" value="{{ request('producto_id') }}">@endif
+                <div class="admin-field"><label for="stock-nuevo-{{ $p->id }}">Stock nuevo</label><input id="stock-nuevo-{{ $p->id }}" type="number" name="stock_nuevo" min="0" max="100000" step="1" required value="{{ $p->stock }}"></div>
+                <div class="admin-field"><label for="motivo-{{ $p->id }}">Motivo (opcional)</label><input id="motivo-{{ $p->id }}" name="motivo" maxlength="255" placeholder="Ajuste manual"></div>
+                <button class="button" type="submit">Guardar</button>
+            </form>
+        </td></tr>
+        @empty<tr><td colspan="4">No hay presentaciones con stock crítico.</td></tr>@endforelse
+    </tbody></table></div>
+    @else
     <div class="admin-table-wrap"><table class="admin-orders-table"><thead><tr><th>Fecha</th><th>Perfume · tamaño</th><th>Movimiento</th><th>Cantidad</th><th>Stock después</th><th>Motivo</th><th>Usuario</th></tr></thead><tbody>
         @forelse($movimientos as $m)<tr><td><time datetime="{{ $m->fecha->toIso8601String() }}">{{ $m->fecha->copy()->setTimezone('America/Asuncion')->format('d/m/Y H:i') }}</time></td><td>{{ $m->presentacion->producto->nombre }} · {{ $m->presentacion->tamano->nombre }}</td><td class="{{ $m->tipo==='entrada'?'admin-in':'admin-low' }}">{{ ucfirst($m->tipo) }}</td><td>{{ $m->tipo==='entrada'?'+':'−' }}{{ $m->cantidad }}</td><td>{{ $m->stock_resultante ?? 'Sin registro' }}</td><td>{{ $m->motivo }}</td><td>{{ $m->usuario?->nombre ?? 'Sistema' }}</td></tr>
         @empty<tr><td colspan="7">No hay movimientos que coincidan con estos filtros.</td></tr>@endforelse
     </tbody></table></div><div class="admin-pagination">{{ $movimientos->links('admin.paginacion') }}</div>
+    @endif
 </x-admin.layout>
